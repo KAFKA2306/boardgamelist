@@ -1,0 +1,118 @@
+site_name: BoardGameList - Rule Book Documentation
+site_description: Comprehensive board game rule book documentation system
+site_author: BoardGameList Contributors
+site_url: https://boardgamelist.github.io/boardgamelist
+
+repo_name: boardgamelist
+repo_url: https://github.com/boardgamelist/boardgamelist
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.highlight
+    - search.share
+    - toc.integrate
+    - content.tabs.link
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  icon:
+    logo: material/view-grid-plus
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - Games:
+    - BOHNANZA: games/bohnanza.md
+    - HackClad: games/hackclad.md
+    - イスタンブール選択と集中: games/istanbul-choose-write.md
+    - FORT: games/fort.md
+    - FIXER: games/fixer.md
+    - National Economy Mesena: games/national-economy-mesena.md
+  - Categories:
+    - Card Games: categories/card-games.md
+    - Deck Building: categories/deck-building.md
+    - Strategy Games: categories/strategy.md
+    - Family Games: categories/family.md
+  - Resources:
+    - Game Glossary: resources/glossary.md
+    - BGG Integration: resources/bgg-integration.md
+    - Quick Reference: resources/quick-reference.md
+
+# Plugins
+plugins:
+  - search:
+      lang:
+        - en
+        - ja
+  - git-revision-date-localized:
+      type: date
+      timezone: Asia/Tokyo
+  - minify:
+      minify_html: true
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/boardgamelist/boardgamelist
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+  version:
+    provider: mike
+
+# Custom CSS and JS
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
+  - javascripts/bgg-integration.js
+
+# Watch additional directories during development
+watch:
+  - docs/

@@ -1,0 +1,287 @@
+/**
+ * BoardGameList Custom Styles
+ * Beautiful, board game focused design
+ */
+
+/* ===== BGG Integration Styles ===== */
+.bgg-rating, .bgg-rank, .bgg-players, .bgg-weight {
+    display: inline-block;
+    padding: 2px 6px;
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 4px;
+    font-family: var(--md-code-font);
+    font-size: 0.85em;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.bgg-rating.loaded, .bgg-rank.loaded, .bgg-players.loaded, .bgg-weight.loaded {
+    opacity: 1;
+    background: var(--md-accent-fg-color--transparent);
+    border-color: var(--md-accent-fg-color);
+}
+
+.bgg-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: #ff6600;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.bgg-link:hover {
+    background: #e55a00;
+    color: white !important;
+}
+
+.bgg-link::after {
+    content: "↗";
+    font-size: 0.7em;
+    opacity: 0.8;
+}
+
+/* ===== Game Card Styles ===== */
+.game-card {
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: var(--md-default-bg-color);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.game-card:hover {
+    box-shadow: 0 4px 12px var(--md-shadow-z2);
+    border-color: var(--md-accent-fg-color);
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+
+.game-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--md-primary-fg-color);
+    margin: 0;
+}
+
+.game-japanese {
+    font-size: 0.9em;
+    color: var(--md-default-fg-color--light);
+    font-style: italic;
+    margin: 0.2rem 0;
+}
+
+.game-stats {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+}
+
+.game-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    background: var(--md-default-fg-color--lightest);
+    border-radius: 12px;
+    font-size: 0.8em;
+    white-space: nowrap;
+}
+
+.game-description {
+    margin: 0.75rem 0;
+    line-height: 1.6;
+    color: var(--md-default-fg-color--light);
+}
+
+/* ===== Complexity Indicators ===== */
+.complexity-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.complexity-dots {
+    display: flex;
+    gap: 2px;
+}
+
+.complexity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--md-default-fg-color--lightest);
+    border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.complexity-dot.filled {
+    background: var(--md-accent-fg-color);
+    border-color: var(--md-accent-fg-color);
+}
+
+/* ===== Tag Styles ===== */
+.game-tags {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+}
+
+.game-tag {
+    padding: 0.1rem 0.4rem;
+    background: var(--md-primary-fg-color--transparent);
+    color: var(--md-primary-fg-color);
+    border-radius: 8px;
+    font-size: 0.7em;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.game-tag.card-game { background: #e3f2fd; color: #1976d2; }
+.game-tag.deck-building { background: #f3e5f5; color: #7b1fa2; }
+.game-tag.strategy { background: #e8f5e8; color: #2e7d32; }
+.game-tag.family { background: #fff3e0; color: #f57c00; }
+.game-tag.negotiation { background: #fce4ec; color: #c2185b; }
+
+/* ===== Quick Reference Styles ===== */
+.quick-ref {
+    background: var(--md-code-bg-color);
+    border-left: 4px solid var(--md-accent-fg-color);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.quick-ref-header {
+    font-weight: 600;
+    color: var(--md-accent-fg-color);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.quick-ref-header::before {
+    content: "⚡";
+    font-size: 1.1em;
+}
+
+.quick-ref-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.quick-ref-item {
+    text-align: center;
+    padding: 0.5rem;
+    background: var(--md-default-bg-color);
+    border-radius: 4px;
+    border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.quick-ref-label {
+    font-size: 0.7em;
+    text-transform: uppercase;
+    color: var(--md-default-fg-color--light);
+    letter-spacing: 0.5px;
+    margin-bottom: 0.2rem;
+}
+
+.quick-ref-value {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: var(--md-primary-fg-color);
+}
+
+/* ===== Responsive Design ===== */
+@media screen and (max-width: 768px) {
+    .game-header {
+        flex-direction: column;
+        align-items: start;
+    }
+    
+    .game-stats {
+        justify-content: space-between;
+    }
+    
+    .quick-ref-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ===== Table Enhancements ===== */
+.md-typeset table:not([class]) th {
+    background: var(--md-primary-fg-color--transparent);
+    font-weight: 600;
+}
+
+.md-typeset table:not([class]) tr:hover {
+    background: var(--md-accent-fg-color--transparent);
+}
+
+/* ===== Admonition Customizations ===== */
+.md-typeset .admonition.info {
+    border-color: #2196f3;
+}
+
+.md-typeset .admonition.tip {
+    border-color: #4caf50;
+}
+
+.md-typeset .admonition.warning {
+    border-color: #ff9800;
+}
+
+/* ===== Status Indicators ===== */
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.8em;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-complete { background: #4caf50; }
+.status-progress { background: #ff9800; }
+.status-planned { background: #9e9e9e; }
+
+/* ===== Print Styles ===== */
+@media print {
+    .bgg-link, .md-header, .md-sidebar, .md-footer {
+        display: none !important;
+    }
+    
+    .game-card {
+        break-inside: avoid;
+        border: 2px solid #000;
+        margin: 1rem 0;
+        padding: 1rem;
+    }
+    
+    .quick-ref {
+        break-inside: avoid;
+        border: 1px solid #000;
+    }
+}
