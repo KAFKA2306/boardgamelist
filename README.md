@@ -29,3 +29,6 @@ do not make a lots of junk files like test_gwrw ,test_frwekagjraji, no data file
 
 make agents for artchtect, writer, 片付けする人, 探す人, manager and needed agents. 
 And Each agents Must Call and Use Another Agent in clear with concrete system prompt to call another agent XXX must be called in YYY time situation.
+
+
+what is your idea on requirements, designs, tasks? ultrathink
