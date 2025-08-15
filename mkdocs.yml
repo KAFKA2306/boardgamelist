@@ -10,7 +10,6 @@ repo_url: https://github.com/KAFKA2306/boardgamelist
 theme:
   name: material
   language: ja
-  custom_dir: overrides
   features:
     - navigation.tabs
     - navigation.sections
