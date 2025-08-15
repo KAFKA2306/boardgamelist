@@ -1,27 +1,179 @@
-/**
- * BoardGameList Custom Styles
- * Beautiful, board game focused design
- */
-
-/* ===== BGG Integration Styles ===== */
-.bgg-rating, .bgg-rank, .bgg-players, .bgg-weight {
-    display: inline-block;
-    padding: 2px 6px;
-    background: var(--md-default-bg-color);
-    border: 1px solid var(--md-default-fg-color--lightest);
-    border-radius: 4px;
-    font-family: var(--md-code-font);
-    font-size: 0.85em;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
+/* 日本語フォント最適化 */
+:root {
+  --md-text-font: "Noto Sans JP", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  --md-primary-color: #e91e63;
+  --md-accent-color: #e91e63;
 }
 
-.bgg-rating.loaded, .bgg-rank.loaded, .bgg-players.loaded, .bgg-weight.loaded {
-    opacity: 1;
-    background: var(--md-accent-fg-color--transparent);
-    border-color: var(--md-accent-fg-color);
+/* 日本語テキストの行間調整 */
+.md-content {
+  line-height: 1.8;
 }
 
+/* 見出しの調整 */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* 警告・情報ボックスのスタイル */
+.md-typeset .admonition.warning {
+  border-color: #ff9800;
+}
+
+.md-typeset .admonition.info {
+  border-color: #2196f3;
+}
+
+.md-typeset .admonition.tip {
+  border-color: #4caf50;
+}
+
+/* ゲーム情報ボックス用のスタイル */
+.game-info-container {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-left: 4px solid #e91e63;
+  background-color: rgba(233, 30, 99, 0.05);
+  border-radius: 0 8px 8px 0;
+}
+
+.game-title-header {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #e91e63;
+  margin-bottom: 0.5rem;
+}
+
+/* 難易度レベル表示 */
+.difficulty-beginner {
+  background-color: #4caf50;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.difficulty-intermediate {
+  background-color: #ff9800;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.difficulty-advanced {
+  background-color: #f44336;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* プレイ時間表示 */
+.playtime-estimate {
+  background-color: #2196f3;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+
+/* BGG評価表示 */
+.bgg-rating {
+  background-color: #ff6600;
+  color: white;
+  padding: 0.1rem 0.4rem;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* ゲームカードスタイル */
+.game-card {
+    border: 1px solid rgba(233, 30, 99, 0.2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1rem 0;
+    background: rgba(233, 30, 99, 0.02);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.game-card:hover {
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.15);
+    border-color: #e91e63;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 0.5rem;
+}
+
+.game-title {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #e91e63;
+    margin: 0;
+}
+
+.game-japanese {
+    font-size: 0.9em;
+    color: #666;
+    font-style: italic;
+    margin: 0.2rem 0;
+}
+
+.game-stats {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+}
+
+.game-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(233, 30, 99, 0.1);
+    border-radius: 12px;
+    font-size: 0.8em;
+    white-space: nowrap;
+}
+
+.game-description {
+    margin: 0.75rem 0;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* 進捗チェックリスト */
+.progress-checklist {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border-left: 4px solid #e91e63;
+}
+
+.progress-checklist h4 {
+  margin-top: 0;
+  color: #e91e63;
+  font-weight: 600;
+}
+
+/* BGGリンク */
 .bgg-link {
     display: inline-flex;
     align-items: center;
@@ -47,67 +199,39 @@
     opacity: 0.8;
 }
 
-/* ===== Game Card Styles ===== */
-.game-card {
-    border: 1px solid var(--md-default-fg-color--lightest);
-    border-radius: 8px;
-    padding: 1rem;
+/* レスポンシブ調整 */
+@media screen and (max-width: 768px) {
+  .md-content {
+    line-height: 1.7;
+  }
+  
+  .game-info-container {
     margin: 1rem 0;
-    background: var(--md-default-bg-color);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.game-card:hover {
-    box-shadow: 0 4px 12px var(--md-shadow-z2);
-    border-color: var(--md-accent-fg-color);
-}
-
-.game-header {
-    display: flex;
-    justify-content: space-between;
+    padding: 0.8rem;
+  }
+  
+  .game-header {
+    flex-direction: column;
     align-items: start;
-    margin-bottom: 0.5rem;
+  }
+  
+  .game-stats {
+    justify-content: space-between;
+  }
 }
 
-.game-title {
-    font-size: 1.2em;
+/* テーブル拡張 */
+.md-typeset table:not([class]) th {
+    background: rgba(233, 30, 99, 0.1);
     font-weight: 600;
-    color: var(--md-primary-fg-color);
-    margin: 0;
+    color: #e91e63;
 }
 
-.game-japanese {
-    font-size: 0.9em;
-    color: var(--md-default-fg-color--light);
-    font-style: italic;
-    margin: 0.2rem 0;
+.md-typeset table:not([class]) tr:hover {
+    background: rgba(233, 30, 99, 0.05);
 }
 
-.game-stats {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin: 0.5rem 0;
-}
-
-.game-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-    padding: 0.2rem 0.5rem;
-    background: var(--md-default-fg-color--lightest);
-    border-radius: 12px;
-    font-size: 0.8em;
-    white-space: nowrap;
-}
-
-.game-description {
-    margin: 0.75rem 0;
-    line-height: 1.6;
-    color: var(--md-default-fg-color--light);
-}
-
-/* ===== Complexity Indicators ===== */
+/* 複雑度インジケーター */
 .complexity-indicator {
     display: inline-flex;
     align-items: center;
@@ -123,16 +247,16 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--md-default-fg-color--lightest);
-    border: 1px solid var(--md-default-fg-color--lighter);
+    background: #ddd;
+    border: 1px solid #ccc;
 }
 
 .complexity-dot.filled {
-    background: var(--md-accent-fg-color);
-    border-color: var(--md-accent-fg-color);
+    background: #e91e63;
+    border-color: #e91e63;
 }
 
-/* ===== Tag Styles ===== */
+/* ゲームタグ */
 .game-tags {
     display: flex;
     gap: 0.25rem;
@@ -142,8 +266,8 @@
 
 .game-tag {
     padding: 0.1rem 0.4rem;
-    background: var(--md-primary-fg-color--transparent);
-    color: var(--md-primary-fg-color);
+    background: rgba(233, 30, 99, 0.1);
+    color: #e91e63;
     border-radius: 8px;
     font-size: 0.7em;
     font-weight: 500;
@@ -157,10 +281,10 @@
 .game-tag.family { background: #fff3e0; color: #f57c00; }
 .game-tag.negotiation { background: #fce4ec; color: #c2185b; }
 
-/* ===== Quick Reference Styles ===== */
+/* クイックリファレンス */
 .quick-ref {
-    background: var(--md-code-bg-color);
-    border-left: 4px solid var(--md-accent-fg-color);
+    background: rgba(233, 30, 99, 0.05);
+    border-left: 4px solid #e91e63;
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 0 4px 4px 0;
@@ -168,7 +292,7 @@
 
 .quick-ref-header {
     font-weight: 600;
-    color: var(--md-accent-fg-color);
+    color: #e91e63;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
@@ -176,79 +300,11 @@
 }
 
 .quick-ref-header::before {
-    content: "⚡";
+    content: "🎲";
     font-size: 1.1em;
 }
 
-.quick-ref-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.quick-ref-item {
-    text-align: center;
-    padding: 0.5rem;
-    background: var(--md-default-bg-color);
-    border-radius: 4px;
-    border: 1px solid var(--md-default-fg-color--lightest);
-}
-
-.quick-ref-label {
-    font-size: 0.7em;
-    text-transform: uppercase;
-    color: var(--md-default-fg-color--light);
-    letter-spacing: 0.5px;
-    margin-bottom: 0.2rem;
-}
-
-.quick-ref-value {
-    font-weight: 600;
-    font-size: 0.9em;
-    color: var(--md-primary-fg-color);
-}
-
-/* ===== Responsive Design ===== */
-@media screen and (max-width: 768px) {
-    .game-header {
-        flex-direction: column;
-        align-items: start;
-    }
-    
-    .game-stats {
-        justify-content: space-between;
-    }
-    
-    .quick-ref-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* ===== Table Enhancements ===== */
-.md-typeset table:not([class]) th {
-    background: var(--md-primary-fg-color--transparent);
-    font-weight: 600;
-}
-
-.md-typeset table:not([class]) tr:hover {
-    background: var(--md-accent-fg-color--transparent);
-}
-
-/* ===== Admonition Customizations ===== */
-.md-typeset .admonition.info {
-    border-color: #2196f3;
-}
-
-.md-typeset .admonition.tip {
-    border-color: #4caf50;
-}
-
-.md-typeset .admonition.warning {
-    border-color: #ff9800;
-}
-
-/* ===== Status Indicators ===== */
+/* ステータスインジケーター */
 .status-indicator {
     display: inline-flex;
     align-items: center;
@@ -266,22 +322,3 @@
 .status-complete { background: #4caf50; }
 .status-progress { background: #ff9800; }
 .status-planned { background: #9e9e9e; }
-
-/* ===== Print Styles ===== */
-@media print {
-    .bgg-link, .md-header, .md-sidebar, .md-footer {
-        display: none !important;
-    }
-    
-    .game-card {
-        break-inside: avoid;
-        border: 2px solid #000;
-        margin: 1rem 0;
-        padding: 1rem;
-    }
-    
-    .quick-ref {
-        break-inside: avoid;
-        border: 1px solid #000;
-    }
-}
