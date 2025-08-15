@@ -25,14 +25,14 @@ mkdocs get-deps
 
 ### Content Validation
 ```bash
-# Validate BGG integration and metadata
-python scripts/bgg_updater.py
+# Note: Python validation scripts referenced here are not currently present in the repository
+# The project currently relies on MkDocs built-in validation and GitHub Actions CI/CD
 
-# Validate content completeness and format
-python scripts/content_validator.py
+# Validate MkDocs configuration and build
+mkdocs build --strict
 
-# Build and validate search index
-python scripts/build_search_index.py
+# Test local development server
+mkdocs serve --dev-addr=127.0.0.1:8000
 ```
 
 ## Project Architecture
@@ -77,9 +77,15 @@ Located in `.claude/agents/`, this project uses a sophisticated multi-agent arch
 - **All cleanup calls**: Within 15 minutes of file accumulation
 
 #### Agent Configuration
-- **`agent_config.yaml`**: Complete agent definitions and communication matrix
-- **`orchestrator.md`**: Detailed workflow orchestration patterns
-- **`communication_protocols.md`**: Exact timing requirements and system prompts
+- **`.claude/agents/README.md`**: Complete agent system overview and communication matrix
+- **`.claude/agents/communication_protocols.md`**: Exact timing requirements and system prompts
+- **Individual agent files**: Specific agent definitions and responsibilities
+  - `project-manager.md` - Project coordination and task management
+  - `architecture-designer.md` - System architecture and design
+  - `board-game-writer.md` - Content creation and documentation
+  - `cleaner.md` - File organization and cleanup
+  - `researcher.md` - Information research and data collection
+  - `workflow-orchestrator.md` - Complex workflow coordination
 
 ### Game Documentation Template
 Each game follows standardized structure with YAML frontmatter:
@@ -130,9 +136,11 @@ Required sections: Quick Reference, Game Overview, Setup, How to Play, Component
 - **Extensions**: Admonition, tabbed content, task lists for interactive checklists
 
 ### BGG Integration
-- Automated pulling of game ratings, player counts, complexity scores
-- Daily cache updates to respect API limits
-- Fallback system for manual data entry when API unavailable
+- **JavaScript Integration**: `docs/javascripts/bgg-integration.js` provides real-time BGG data fetching
+- **Client-side Caching**: 24-hour cache duration for API rate limiting
+- **Game Data Elements**: Use `data-bgg-id` attributes to enable automatic data updates
+- **Supported Data**: ratings, ranks, player counts, complexity scores, game metadata
+- **Manual Fallback**: YAML frontmatter provides backup data when API unavailable
 
 ### Content Management
 This is a **documentation-only project** with no executable code. Changes to `.md` files in `docs/` are immediately reflected via `mkdocs serve`. The agent architecture ensures coordinated content creation and maintenance while preserving beautiful architecture standards.
@@ -142,3 +150,24 @@ This is a **documentation-only project** with no executable code. Changes to `.m
 - **Directory names**: `kebab-case` format
 - **Asset files**: Organized in `docs/images/`, `docs/javascripts/`, `docs/stylesheets/`
 - **Agent files**: Located in `.claude/agents/` with complete communication protocols
+
+## Deployment and CI/CD
+
+### GitHub Actions Workflow
+- **Deployment**: `.github/workflows/gh-pages.yml` handles automatic deployment to GitHub Pages
+- **Trigger**: Deploys on every push to `main` branch
+- **Process**: Installs dependencies from `requirements.txt`, builds with MkDocs, deploys via `mkdocs gh-deploy`
+- **Caching**: Dependencies cached for faster builds
+
+### Requirements Management
+```bash
+# Install all dependencies
+pip install -r requirements.txt
+
+# Core dependencies:
+# - mkdocs>=1.4.0
+# - mkdocs-material>=9.0.0  
+# - mkdocs-git-revision-date-localized-plugin>=1.2.0
+# - mkdocs-minify-plugin>=0.6.0
+# - pymdown-extensions>=9.0
+```
