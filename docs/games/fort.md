@@ -13,72 +13,72 @@ bga_available: true
 
 # FORT (フォート)
 
-!!! info "Quick Reference"
-    **Players:** 2-4 | **Time:** 40 minutes | **Complexity:** 2.1/5  
-    **BGG Rating:** 7.4/10 | **Available on BGA:** Yes
+!!! info "ゲーム概要"
+    **プレイ人数:** 2-4人 | **時間:** 40分 | **複雑度:** 2.1/5  
+    **BGG評価:** 7.4/10 | **BGA対応:** あり
 
-## Game Overview
+## ゲーム概要
 
-FORT is a charming deck-building game about childhood friendships and fort-building. Players recruit kids from the neighborhood to help build the ultimate fort, but friendships are fickle - unused friends might abandon you for other players!
+FORTは子ども時代の友情と秘密基地作りをテーマにした魅力的なデッキ構築ゲームです。プレイヤーは近所の子どもたちを募集して究極の秘密基地を作りますが、友情はもろいものです - 使われない友達は他のプレイヤーに密ってしまうかもしれません！
 
-The game features a unique "follow" mechanic where other players can benefit from your actions, and a friendship system where neglected cards can be stolen by opponents, creating constant tension between card efficiency and relationship maintenance.
+このゲームは、他のプレイヤーがあなたのアクションから恩恵を受ける独特の「フォロー」メカニクスと、無視されたカードが相手に盗まれる可能性がある友情システムを特徴とし、カードの効率性と人間関係の維持の間で絶えず緊張感を生み出します。
 
-## Components
+## コンポーネント
 
-### Friend Cards (120+ cards)
-Each representing a neighborhood kid with:
-- **Name and artwork**: Unique character design
-- **Suit color**: Public (white) or Private (colored) 
-- **Pizza/Toy values**: Resources the friend provides
-- **Special abilities**: Unique effects when played
+### 友達カード（120+枚）
+近所の子どもたちを表現し、以下が含まれます：
+- **名前とアートワーク**: 独特なキャラクターデザイン
+- **スーツの色**: パブリック（白）またはプライベート（色付き） 
+- **ピザ/おもちゃの値**: 友達が提供するリソース
+- **特殊能力**: プレイ時の独特な効果
 
-### Starting Decks (4 identical sets)
-- **5 Maiko cards**: Your best friend (2 Pizza, 1 Toy)
-- **2 Interesting Kid cards**: Basic friends
-- **3 Shy Kid cards**: Minimal resources but reliable
+### スターターデッキ（4セット同一）
+- **マイコカード5枚**: あなたの親友（ピザ2、おもちゃ1）
+- **興味深い子カード2枚**: 基本的な友達
+- **内気な子カード3枚**: 最小限のリソースだが信頼できる
 
-### Fort Boards (4 player boards)
-Track your fort's development and special abilities.
+### 秘密基地ボード（4枚のプレイヤーボード）
+あなたの秘密基地の発展と特殊能力を追跡します。
 
-### Resource Tokens
-- **Pizza tokens**: Primary currency
-- **Toy tokens**: Secondary currency  
+### リソーストークン
+- **ピザトークン**: 主要通貨
+- **おもちゃトークン**: 第二の通貨  
 
-### Lookout Tokens
-Mark friends that can't be stolen this round.
+### 見張りトークン
+このラウンドに盗まれない友達をマークします。
 
-## How to Play
+## ゲームの進行
 
-### Turn Structure
+### ターン構成
 
-#### 1. **Play a Friend (Mandatory)**
-- Choose one friend card from your hand
-- Gain Pizza and/or Toys shown on the card
-- Activate any special abilities
-- Place played card in your discard pile
+#### 1. **友達をプレイ（必須）**
+- 手札から友達カード1枚を選択
+- カードに表示されたピザやおもちゃを獲得
+- 特殊能力を発動
+- プレイしたカードを捨て札に置く
 
-#### 2. **Follow Opportunities (All Players)**
-- Other players may "follow" your action
-- To follow: discard a card matching the suit of the played friend
-- Following players gain reduced benefits
-- Only the active player gets full benefits and abilities
+#### 2. **フォローの機会（すべてのプレイヤー）**
+- 他のプレイヤーはあなたのアクションを「フォロー」可能
+- フォローする方法：プレイされた友達のスーツと一致するカードを捨てる
+- フォローしたプレイヤーは減少した恩恵を獲得
+- アクティブプレイヤーのみが完全な恩恵と能力を獲得
 
-#### 3. **Make Best Friends (Optional)**
-- Spend resources to recruit new friends from the Park (market)
-- Best Friend cards go directly to your hand
-- Regular friends go to your discard pile
-- Some friends have recruitment requirements
+#### 3. **親友を作る（任意）**
+- リソースを使って公園（マーケット）から新しい友達を募集
+- 親友カードは直接手札に加わる
+- 通常の友達は捨て札に行く
+- 一部の友達は募集条件あり
 
-#### 4. **Fort Building (Optional)**
-- Spend resources to advance your Fort track
-- Gain permanent abilities and victory points
-- Some Fort levels provide end-game scoring bonuses
+#### 4. **秘密基地を建設（任意）**
+- リソースを使って秘密基地トラックを進歩させる
+- 永続的な能力と勝利ポイントを獲得
+- 一部の秘密基地レベルはゲーム終了時スコアボーナスを提供
 
-#### 5. **Clean Up**
-- Friends you didn't use can be "stolen"
-- Other players can recruit unused friends from your yard
-- Draw back up to your hand size
-- Refresh the Park if needed
+#### 5. **クリーンアップ**
+- 使わなかった友達は「盗まれる」可能性あり
+- 他のプレイヤーはあなたの庭から未使用の友達を募集可能
+- 手札サイズまでカードを引く
+- 必要に応じて公園を補充
 
 ### Friendship Mechanics
 
@@ -106,36 +106,36 @@ Your fort grows stronger throughout the game:
 - **Level 5**: Major abilities and victory points
 - **Level 6**: End-game bonus scoring
 
-## Winning
+## 勝利
 
-The game ends when:
-- Any player reaches Fort Level 5, OR
-- The Park deck runs out of friends
+ゲームは以下の条件で終了します：
+- いずれかのプレイヤーが秘密基地レベル5に達する、または
+- 公園のデッキから友達がいなくなる
 
-### Final Scoring
-- **Fort Level**: Points for fort development
-- **Friends in Yard**: 1 point per unused friend
-- **Pizza/Toys**: Remaining resources worth points
-- **Bonus Cards**: Special scoring conditions
-- **Best Friend Bonuses**: Extra points for maintained friendships
+### 最終スコア
+- **秘密基地レベル**: 秘密基地の発展によるポイント
+- **庭の友達**: 未使用の友達あ1ポイント
+- **ピザ/おもちゃ**: 残ったリソースのポイント価値
+- **ボーナスカード**: 特別なスコア条件
+- **親友ボーナス**: 維持された友情の追加ポイント
 
-## Quick Reference Sheet
+## クイックリファレンスシート
 
-### Turn Summary
-1. **Play Friend**: Choose and play one friend card
-2. **Others Follow**: Other players may follow with matching suits  
-3. **Recruit**: Spend Pizza/Toys to recruit new friends
-4. **Build Fort**: Advance fort level with resources
-5. **Clean Up**: Vulnerable friends can be stolen, draw to hand size
+### ターン概要
+1. **友達をプレイ**: 友達カード1枚を選んでプレイ
+2. **他のプレイヤーのフォロー**: 他のプレイヤーはマッチするスーツでフォロー可能  
+3. **募集**: ピザ/おもちゃを使って新しい友達を募集
+4. **秘密基地建設**: リソースで秘密基地レベルを進歩
+5. **クリーンアップ**: 脆弱な友達は盗まれる可能性、手札サイズまでカードを引く
 
-### Resource Costs (Typical)
-| Action | Cost | Effect |
+### リソースコスト（一般的）
+| アクション | コスト | 効果 |
 |--------|------|--------|
-| Recruit Basic Friend | 1-2 Pizza | Add to discard pile |
-| Recruit Best Friend | 3-4 Pizza | Add directly to hand |
-| Fort Level 1 | 1 Pizza + 1 Toy | Basic abilities |
-| Fort Level 2 | 2 Pizza + 1 Toy | Improved abilities |
-| Fort Level 3+ | Higher costs | Major powers |
+| 基本友達の募集 | 1-2ピザ | 捨て札に追加 |
+| 親友の募集 | 3-4ピザ | 直接手札に追加 |
+| 秘密基地レベル1 | 1ピザ + 1おもちゃ | 基本能力 |
+| 秘密基地レベル2 | 2ピザ + 1おもちゃ | 改善された能力 |
+| 秘密基地レベル3+ | より高いコスト | 主要な力 |
 
 ### Key Mechanics
 - ✅ **Following**: Benefit from others' actions with matching cards
@@ -144,35 +144,35 @@ The game ends when:
 - ✅ **Fort Building**: Permanent upgrades and scoring
 - ✅ **Suit Matching**: Required for following and some abilities
 
-## Strategy Tips
+## 戦略のコツ
 
-### **Friend Management**
-- Balance using friends vs. keeping them safe from stealing
-- Lookout tokens are limited - use them strategically
-- Sometimes letting friends go leads to better recruits
+### **友達の管理**
+- 友達を使うことと盗まれから安全に保つことのバランス
+- 見張りトークンは限られている - 戦略的に使用
+- 時には友達を手放すことでより良い募集につながる
 
-### **Following Strategy**  
-- Follow aggressively early game for extra resources
-- Save matching cards for powerful friends
-- Consider what you're giving opponents when you play
+### **フォロー戦略**  
+- 序盤は積極的にフォローして追加リソースを獲得
+- 強力な友達のためにマッチするカードを保存
+- プレイ時に相手に何を与えているかを考慮
 
-### **Fort Development**
-- Don't neglect fort building for friend recruitment
-- Higher fort levels provide significant advantages
-- Some abilities become crucial in late game
+### **秘密基地の発展**
+- 友達の募集のために秘密基地建設を無視しない
+- 高い秘密基地レベルは大きなアドバンテージを提供
+- 一部の能力は終盤で決定的になる
 
-### **Resource Balance**
-- Pizza is generally more versatile than Toys
-- Plan ahead for expensive fort upgrades
-- Some friends provide resources over time
+### **リソースのバランス**
+- ピザは一般的におもちゃよりも汎用性が高い
+- 高価な秘密基地アップグレードのために事前に計画
+- 一部の友達は時間をかけてリソースを提供
 
-## External Links
+## 外部リンク
 
-- **[BoardGameGeek](https://boardgamegeek.com/boardgame/296912/fort)** - Reviews, ratings, and community discussion  
-- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=fort)** - Play online
-- **[How to Play Video](https://www.youtube.com/watch?v=example)** - Learn the game
-- **[Designer Interview](https://example.com/fort-interview)** - Insights from Grant Rodiek
+- **[BoardGameGeek](https://boardgamegeek.com/boardgame/296912/fort)** - レビュー、評価、コミュニティ討論  
+- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=fort)** - オンラインでプレイ
+- **[プレイ方法動画](https://www.youtube.com/results?search_query=fort+board+game+how+to+play)** - ゲームを学ぶ
+- **[デザイナーインタビュー](https://boardgamegeek.com/thread/2374180/designer-diary-fort-or-how-i-learned-stop-worryin)** - Grant Rodiek氏からの洞察
 
 ---
 
-*FORT is a game by Grant Rodiek, published by Leder Games. This documentation is for educational purposes.*
+*FORTはGrant Rodiek氏によるゲームで、Leder Gamesから出版されています。このドキュメントは教育目的のためのものです。*

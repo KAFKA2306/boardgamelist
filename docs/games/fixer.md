@@ -13,53 +13,53 @@ bga_available: false
 
 # FIXER (フィクサー)
 
-!!! info "Quick Reference"
-    **Players:** 3-4 | **Time:** 30 minutes | **Complexity:** 2.0/5  
-    **BGG Rating:** 6.8/10 | **Available on BGA:** No
+!!! info "ゲーム概要"
+    **プレイ人数:** 3-4人 | **時間:** 30分 | **複雑度:** 2.0/5  
+    **BGG評価:** 6.8/10 | **BGA対応:** なし
 
-## Game Overview
+## ゲーム概要
 
-FIXER is a political trick-taking game where players are shadowy power brokers manipulating elections behind the scenes. You'll play cards to win tricks, but the real challenge is managing your political influence and timing your interventions for maximum impact.
+FIXERは、プレイヤーが陰の権力ブローカーとなって舞台裏で選挙を操作する政治的なトリックテイキングゲームです。カードをプレイしてトリックを勝ち取りますが、真の挑戦は政治的影響力を管理し、最大のインパクトをもたらすタイミングで介入することです。
 
-Unlike traditional trick-taking games, FIXER combines classic card play with area control elements, where winning tricks in specific regions gives you political influence that translates into victory points.
+伝統的なトリックテイキングゲームとは異なり、FIXERは古典的なカードプレイとエリアコントロール要素を組み合わせ、特定の地域でトリックを勝ち取ることで政治的影響力を獲得し、それが勝利ポイントに変換されます。
 
-## Components
+## コンポーネント
 
-### Playing Cards (60 cards total)
-The deck consists of 4 suits representing different political regions:
-- **Urban (Blue) - 15 cards**: Values 1-15, representing city districts
-- **Suburban (Green) - 15 cards**: Values 1-15, representing suburban areas  
-- **Rural (Red) - 15 cards**: Values 1-15, representing rural constituencies
-- **Industrial (Yellow) - 15 cards**: Values 1-15, representing industrial zones
+### プレイングカード（計60枚）
+デッキは異なる政治地域を表す４つのスーツから構成されます：
+- **都市部（青）- 15枚**: 値 1-15、都市地区を表現
+- **郊外（緑）- 15枚**: 値 1-15、郊外地域を表現  
+- **農村（赤）- 15枚**: 値 1-15、農村選挙区を表現
+- **工業（黄）- 15枚**: 値 1-15、工業地帯を表現
 
-### Special Action Cards (12 cards)
-- **Media Manipulation**: Change trump suit mid-trick
-- **Scandal Cards**: Force opponents to discard high cards
-- **Endorsement**: Boost your card values in specific suits
-- **Investigation**: Reveal opponent hands for information
+### 特殊アクションカード（12枚）
+- **メディア操作**: トリックの途中で切り札スーツを変更
+- **スキャンダルカード**: 相手に高いカードの捨てることを強制
+- **支持**: 特定のスーツでカードの値を強化
+- **調査**: 情報のために相手の手札を公開
 
-### Influence Tokens (48 tokens)
-- **4 colors matching the suits**: Track regional political control
-- **12 tokens per region**: Maximum influence per area
+### 影響力トークン（48個）
+- **スーツと一致する4色**: 地域の政治コントロールを追跡
+- **地域あたり12個**: エリアあたりの最大影響力
 
-### Victory Point Cards
-Cards showing various scoring conditions and political achievements.
+### 勝利ポイントカード
+様々なスコア条件と政治的成果を示すカード。
 
-### Player Boards (4 boards)
-Track influence in each region and special abilities.
+### プレイヤーボード（4枚）
+各地域の影響力と特殊能力を追跡します。
 
-## Setup
+## セットアップ
 
-1. **Deal cards** based on player count:
-   - **3 players**: 15 cards each, remove 15 cards from game
-   - **4 players**: 12 cards each, remove 12 cards from game
-2. **Place influence tokens** organized by color near player boards
-3. **Shuffle special action cards**, deal 2 to each player face down
-4. **Place victory point cards** face up where all can see
-5. **Determine starting player** (youngest goes first)
+1. **プレイヤー人数に応じてカードを配る**：
+   - **3人**: 各プレイヤー15枚、ゲームから15枚を除外
+   - **4人**: 各プレイヤー12枚、ゲームから12枚を除外
+2. **影響力トークンを配置**し、プレイヤーボードの近くに色別で整理
+3. **特殊アクションカードをシャッフル**し、各プレイヤーに2枚を裏向きで配る
+4. **勝利ポイントカードを**すべてが見えるように表向きで置く
+5. **スタートプレイヤーを決める**（最年少が先攻）
 
-!!! tip "Setup Variation"
-    For more strategic play, deal action cards face up so all players can see who has which special abilities.
+!!! tip "セットアップのバリエーション"
+    より戦略的なプレイのため、アクションカードを表向きで配り、すべてのプレイヤーが誰がどの特殊能力を持っているかを見えるようにします。
 
 ## How to Play
 

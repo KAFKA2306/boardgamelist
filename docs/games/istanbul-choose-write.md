@@ -13,89 +13,89 @@ bga_available: true
 
 # イスタンブール選択と集中 (Istanbul: Choose & Write)
 
-!!! info "Quick Reference"
-    **Players:** 2-5 | **Time:** 60 minutes | **Complexity:** 2.8/5  
-    **BGG Rating:** 7.3/10 | **Available on BGA:** Yes
+!!! info "ゲーム概要"
+    **プレイ人数:** 2-5人 | **時間:** 60分 | **複雑度:** 2.8/5  
+    **BGG評価:** 7.3/10 | **BGA対応:** あり
 
-## Game Overview
+## ゲーム概要
 
-Istanbul: Choose & Write is a strategic roll-and-write game that captures the essence of the original Istanbul board game in a streamlined dice-based format. Players are merchants navigating the Grand Bazaar of Istanbul, using dice to collect goods, trade with customers, and earn precious rubies.
+イスタンブール選択と集中は、オリジナルのイスタンブールボードゲームのエッセンスをストリームライン化されたダイスベースのフォーマットで再現した戦略的ロール＆ライトゲームです。プレイヤーはイスタンブールのグランドバザールを行き交う商人となり、ダイスを使って商品を集め、顧客と取引し、貴重なルビーを稼ぎます。
 
-This game combines the tactical decision-making of the Istanbul series with the accessibility and simultaneous play of roll-and-write mechanics, creating an engaging experience where every die matters and timing is crucial.
+このゲームはイスタンブールシリーズの戦術的意思決定と、ロール＆ライトメカニクスのアクセシビリティや同時プレイを組み合わせ、すべてのダイスが重要でタイミングが決定的な魅力的な体験を作り出します。
 
-## Components
+## コンポーネント
 
-### Player Sheets (5 copies each)
-Each player receives identical sheets containing:
-- **Goods Track**: Spaces for collecting Fabric, Spices, Fruit, Fish, and Jewelry
-- **Caravan Track**: Movement and bonus spaces
-- **Mosque Bonus Track**: Spiritual rewards path  
-- **Customer Cards**: Available trading opportunities
-- **Ruby Storage**: Victory point tracking
-- **Special Action Areas**: Guild, Police, Smuggler locations
+### プレイヤーシート（各種類5枚）
+各プレイヤーは同じシートを受け取り、以下が含まれます：
+- **商品トラック**: 織物、香辛料、果物、魚、宝石を集めるスペース
+- **隣商トラック**: 移動とボーナススペース
+- **モスクボーナストラック**: 精神的報酬の道  
+- **顧客カード**: 利用可能な取引機会
+- **ルビーストレージ**: 勝利ポイント追跡
+- **特殊アクションエリア**: ギルド、警察、密輸業者の場所
 
-### Dice (15 dice total)
-- **5 Red dice**: Represent different merchant actions
-- **5 Blue dice**: Alternative action options
-- **5 Yellow dice**: Special bonus opportunities
+### ダイス（計15個）
+- **赤5個**: 異なる商人アクションを表現
+- **青ダイス5個**: 代替アクションオプション
+- **黄ダイス5個**: 特別ボーナス機会
 
-### Action Cards (20 cards)
-Cards showing different combinations of symbols that correspond to dice faces.
+### アクションカード（20枚）
+ダイスの目に対応するシンボルの異なる組み合わせを示すカード。
 
-### Ruby Tokens
-Physical tokens for tracking victory points.
+### ルビートークン
+勝利ポイント追跡用の物理トークン。
 
-### Starting Goods Markers
-Small markers to track initial resources.
+### 初期商品マーカー
+初期リソースを追跡する小さなマーカー。
 
-## Setup
+## セットアップ
 
-1. **Give each player** a player sheet and a pencil/pen
-2. **Each player marks** their starting position on all tracks:
-   - Start with 2 goods of different types (player chooses)
-   - Place starting marker on space 0 of the Caravan track
-   - Begin with 0 rubies
-3. **Shuffle action cards** and place 4 face up in the center
-4. **Set all 15 dice** within reach of all players
-5. **Place ruby tokens** in a general supply
+1. **各プレイヤーに**プレイヤーシートと鉛筆/ペンを渡す
+2. **各プレイヤーは**すべてのトラックで開始位置をマーク：
+   - 異なる種類の商品2個から開始（プレイヤーが選択）
+   - 隣商トラックのスペース0に開始マーカーを配置
+   - ルビー0個から開始
+3. **アクションカードをシャッフル**し、4枚を中央に表向きで置く
+4. **15個すべてのダイスを**すべてのプレイヤーの手の届く範囲に置く
+5. **ルビートークンを**共通サプライに置く
 
-!!! warning "Setup Note"
-    Players should use pencils as some decisions may need to be erased during the game.
+!!! warning "セットアップの注意"
+    ゲーム中に一部の決定を消す必要がある可能性があるため、プレイヤーは鉛筆を使用してください。
 
-## How to Play
+## ゲームの進行
 
-### Game Round Structure
+### ゲームラウンドの構成
 
-Istanbul: Choose & Write is played over exactly 15 rounds. Each round follows this sequence:
+イスタンブール選択と集中は正確に15ラウンドでプレイされます。各ラウンドは以下の順序で進行します：
 
-#### Phase 1: Roll Dice
-- **One player rolls all 15 dice** (rotate this role each round)
-- **All players simultaneously** choose which dice to use for their turn
+#### フェーズ1: ダイスを振る
+- **1人のプレイヤーが15個すべてのダイスを振る**（この役割は各ラウンドでローテーション）
+- **すべてのプレイヤーは同時に**自分のターンで使用するダイスを選択
 
-#### Phase 2: Choose Actions
-Each player selects exactly **4 dice** from the 15 rolled dice to perform actions:
+#### フェーズ2: アクションを選択
+各プレイヤーは振られた15個のダイスから正確に**4個のダイス**を選んでアクションを実行：
 
-1. **Analyze available dice** and their corresponding symbols
-2. **Match dice symbols** to action cards for bonuses
-3. **Consider timing** - once a die is claimed, others cannot use it
-4. **Select 4 dice** and announce your choices
+1. **利用可能なダイスを分析**し、対応するシンボルを確認
+2. **ダイスのシンボルをアクションカードとマッチ**させてボーナスを得る
+3. **タイミングを考慮** - 一度ダイスが取られると他のプレイヤーは使用不可
+4. **4個のダイスを選択**し、選択を発表
 
-#### Phase 3: Resolve Actions
-Players simultaneously resolve their chosen dice:
+#### フェーズ3: アクションを解決
+プレイヤーは同時に選択したダイスを解決します：
 
-### **Good Collection Actions**
-- **Fabric Die**: Gain fabric goods and advance on fabric track
-- **Spices Die**: Collect spices and progress spice bonuses
-- **Fruit Die**: Gather fruit and unlock fruit chain rewards
-- **Fish Die**: Obtain fish and advance fishing opportunities
-- **Jewelry Die**: Acquire jewelry and progress luxury goods track
+### **商品収集アクション**
+- **織物ダイス**: 織物商品を獲得し織物トラックで進歩
+- **香辛料ダイス**: 香辛料を集め香辛料ボーナスを進歩
+- **果物ダイス**: 果物を集め果物チェーン報酬をアンロック
+- **魚ダイス**: 魚を獲得し漁業の機会を進歩
+- **宝石ダイス**: 宝石を獲得し贅沢品トラックで進歩
 
-### **Movement and Special Actions**
-- **Caravan Die**: Move your merchant around the bazaar for position bonuses
-- **Mosque Die**: Advance on the spiritual path for end-game bonuses
-- **Guild Hall Die**: Access guild member benefits
-- **Police Station Die**: Gain official permits and protection
-- **Smuggler Den Die**: Risky but potentially rewarding illegal trades
+### **移動と特殊アクション**
+- **隣商ダイス**: 商人をバザール内で移動させ位置ボーナスを得る
+- **モスクダイス**: 精神的な道で進歩しゲーム終了時ボーナスを得る
+- **ギルドホールダイス**: ギルドメンバーの恩恵にアクセス
+- **警察署ダイス**: 公式許可と保護を獲得
+- **密輸業者の巣ダイス**: リスキーだが潜在的に報酬の高い違法取引
 
 #### Phase 4: Customer Trading
 After resolving dice actions:
@@ -110,34 +110,34 @@ After resolving dice actions:
 - **Track Bonuses**: Some advancement on tracks provides immediate rewards
 - **Combination Bonuses**: Specific goods combinations may provide extra rubies
 
-## Winning
+## 勝利
 
-After 15 rounds, the game ends immediately. Players calculate final scores:
+15ラウンド後、ゲームは即座に終了します。プレイヤーは最終スコアを計算します：
 
-### **Ruby Calculation**
-- **Customer Rubies**: Points earned from completed customer trades
-- **Track Bonuses**: End-game points from various track positions
-- **Set Collection**: Bonuses for having complete sets of goods
-- **Mosque Bonuses**: Spiritual advancement rewards
-- **Action Card Sets**: Bonuses for matching multiple action cards during the game
+### **ルビーの計算**
+- **顧客ルビー**: 完了した顧客取引から獲得したポイント
+- **トラックボーナス**: 様々なトラック位置からのゲーム終了時ポイント
+- **セットコレクション**: 商品の完全セットを持つことによるボーナス
+- **モスクボーナス**: 精神的な進歩の報酬
+- **アクションカードセット**: ゲーム中に複数のアクションカードをマッチさせたことによるボーナス
 
-The player with the most rubies wins!
+最も多くのルビーを持つプレイヤーの勝利！
 
-## Quick Reference Sheet
+## クイックリファレンスシート
 
-### Dice Symbol Guide
-| Symbol | Action | Effect |
+### ダイスシンボルガイド
+| シンボル | アクション | 効果 |
 |--------|--------|--------|
-| 🧵 | Fabric | Gain 1 Fabric, advance Fabric track |
-| 🌶️ | Spices | Gain 1 Spices, advance Spice track |
-| 🍎 | Fruit | Gain 1 Fruit, advance Fruit track |
-| 🐟 | Fish | Gain 1 Fish, advance Fish track |
-| 💎 | Jewelry | Gain 1 Jewelry, advance Jewelry track |
-| 🚶 | Caravan | Move 1-3 spaces on Caravan track |
-| 🕌 | Mosque | Advance 1 space on Mosque track |
-| 🏛️ | Guild | Access Guild Hall benefits |
-| 👮 | Police | Gain permits and protection |
-| 🗡️ | Smuggler | Risk/reward illegal trading |
+| 🧵 | 織物 | 織牱1獲得、織物トラックで進歩 |
+| 🌶️ | 香辛料 | 香辛料1獲得、香辛料トラックで進歩 |
+| 🍎 | 果物 | 果物1獲得、果物トラックで進歩 |
+| 🐟 | 魚 | 魚1獲得、魚トラックで進歩 |
+| 💎 | 宝石 | 宝石1獲得、宝石トラックで進歩 |
+| 🚶 | 隣商 | 隣商トラックで1-3スペース移動 |
+| 🕌 | モスク | モスクトラックで1スペース進歩 |
+| 🏛️ | ギルド | ギルドホールの恩恵にアクセス |
+| 👮 | 警察 | 許可と保護を獲得 |
+| 🗡️ | 密輸業者 | リスク/リターンの違法取引 |
 
 ### Track Benefits Summary
 - **Goods Tracks**: Provide immediate goods and end-game bonuses
@@ -150,37 +150,37 @@ The player with the most rubies wins!
 - **Luxury Trades**: Demand rare combinations for 5+ rubies
 - **Chain Customers**: Link together for bonus rewards
 
-## Strategy Tips
+## 戦略のコツ
 
-### **Early Game (Rounds 1-5)**
-- Focus on building basic goods collection
-- Establish position on multiple tracks
-- Don't ignore the Mosque track early
+### **序盤（ラウンド1-5）**
+- 基本的な商品収集の構築に集中
+- 複数のトラックでポジションを確立
+- モスクトラックを早い段階で無視しない
 
-### **Mid Game (Rounds 6-10)**
-- Start targeting specific customer requirements
-- Look for action card pattern opportunities
-- Balance goods collection with customer completion
+### **中盤（ラウンド6-10）**
+- 特定の顧客要件を狙い始める
+- アクションカードパターンの機会を探す
+- 商品収集と顧客完了のバランスを取る
 
-### **Late Game (Rounds 11-15)**
-- Prioritize high-value customers
-- Maximize end-game track positioning
-- Consider risk/reward of Smuggler actions
+### **終盤（ラウンド11-15）**
+- 高価値の顧客を優先する
+- ゲーム終了時のトラックポジションを最大化
+- 密輸業者アクションのリスク/リターンを検討
 
-### **General Tips**
-- **Flexibility**: Don't commit to one strategy too early
-- **Timing**: Sometimes waiting for better dice is worth it
-- **Efficiency**: Try to accomplish multiple goals with each die selection
-- **Observation**: Watch other players' sheets to anticipate die competition
+### **一般的なコツ**
+- **柔軟性**: 一つの戦略に早すぎるコミットしない
+- **タイミング**: 時にはより良いダイスを待つのも価値あり
+- **効率性**: 各ダイス選択で複数の目標を達成するよう試みる
+- **観察**: 他のプレイヤーのシートを見てダイス競争を予測
 
-## External Links
+## 外部リンク
 
-- **[BoardGameGeek](https://boardgamegeek.com/boardgame/304188/istanbul-choose-write)** - Reviews, ratings, and community discussion
-- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=istanbulchoosewrite)** - Play online
-- **[How to Play Video](https://www.youtube.com/watch?v=example)** - Tutorial and gameplay example
-- **[Strategy Guide](https://boardgamegeek.com/thread/example)** - Advanced tactics discussion
-- **[Original Istanbul](https://boardgamegeek.com/boardgame/148949/istanbul)** - The original board game this is based on
+- **[BoardGameGeek](https://boardgamegeek.com/boardgame/304188/istanbul-choose-write)** - レビュー、評価、コミュニティ討論
+- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=istanbulchoosewrite)** - オンラインでプレイ
+- **[プレイ方法動画](https://www.youtube.com/results?search_query=istanbul+choose+write+how+to+play)** - チュートリアルとゲームプレイ例
+- **[戦略ガイド](https://boardgamegeek.com/boardgame/304188/istanbul-choose-write/forums/67)** - 高度な戦術討論
+- **[オリジナルイスタンブール](https://boardgamegeek.com/boardgame/148949/istanbul)** - このゲームのベースとなったオリジナルボードゲーム
 
 ---
 
-*Istanbul: Choose & Write is a game by Rüdiger Dorn, published by AEG and Pegasus Spiele. This documentation is for educational purposes.*
+*イスタンブール選択と集中は、Rüdiger Dorn氏によるゲームで、AEGおよびPegasus Spieleから出版されています。このドキュメントは教育目的のためのものです。*

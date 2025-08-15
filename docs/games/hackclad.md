@@ -13,196 +13,196 @@ bga_available: false
 
 # HackClad (ハッククラッド)
 
-!!! info "Quick Reference"
-    **Players:** 2-4 | **Time:** 45 minutes | **Complexity:** 2.3/5  
-    **BGG Rating:** 7.5/10 | **Available on BGA:** No
+!!! info "ゲーム概要"
+    **プレイ人数:** 2-4人 | **時間:** 45分 | **複雑度:** 2.3/5  
+    **BGG評価:** 7.5/10 | **BGA対応:** なし
 
-## Game Overview
+## ゲーム概要
 
-HackClad is a witch-themed deck-building game where players take on the roles of witches competing to become the most accomplished spellcaster. You'll craft magical items, brew potions, cast spells, and gather mystical ingredients to build the most powerful deck of magical abilities.
+HackCladは魔女をテーマにしたデッキ構築ゲームで、プレイヤーは最も優秀な魔法使いになることを目指して競い合います。魔法のアイテムを作成し、ポーションを調合し、呪文を唱え、神秘的な材料を集めて最強の魔法能力のデッキを構築します。
 
-The game combines traditional deck-building mechanics with unique witch-craft elements, creating a rich thematic experience where every card represents a step in your magical journey.
+このゲームは伝統的なデッキ構築メカニクスと独特な魔女術の要素を組み合わせ、すべてのカードが魔法の旅路における一歩を表現する豊かなテーマ性を提供します。
 
-## Components
+## コンポーネント
 
-### Starting Decks (4 sets)
-Each player begins with an identical 10-card starting deck:
-- **7 Candle cards**: Basic magic source (1 Magic each)
-- **3 Ritual cards**: Basic spells for deck improvement
+### スターターデッキ（4セット）
+各プレイヤーは同じ10枚のスターターデッキから始めます：
+- **ろうそくカード7枚**: 基本的な魔力源（各1魔力）
+- **儀式カード3枚**: デッキ改善のための基本呪文
 
-### Market Cards (120+ cards)
-Available for purchase during the game:
+### マーケットカード（120+枚）
+ゲーム中に購入可能：
 
-#### **Spell Cards**
-- **Offensive Spells**: Deal damage to opponents
-- **Defensive Spells**: Protect against attacks
-- **Utility Spells**: Provide various magical effects
-- **Ritual Spells**: Ongoing magical benefits
+#### **呪文カード**
+- **攻撃呪文**: 相手にダメージを与える
+- **防御呪文**: 攻撃から身を守る
+- **実用呪文**: 様々な魔法効果を提供
+- **儀式呪文**: 継続的な魔法的恩恵
 
-#### **Ingredient Cards**
-- **Herbs**: Common magical components
-- **Crystals**: Rare and powerful materials  
-- **Essences**: Mystical substances for advanced magic
-- **Artifacts**: Powerful magical items
+#### **材料カード**
+- **ハーブ**: 一般的な魔法材料
+- **クリスタル**: 希少で強力な素材  
+- **エッセンス**: 高度な魔法のための神秘的物質
+- **アーティファクト**: 強力な魔法のアイテム
 
-#### **Familiar Cards**
-- **Animal Companions**: Provide ongoing abilities
-- **Magical Creatures**: Powerful allies with unique effects
-- **Spirits**: Ethereal helpers with mystical powers
+#### **使い魔カード**
+- **動物の相相**: 継続的な能力を提供
+- **魔法のクリーチャー**: 独特な効果を持つ強力な仮間
+- **精霊**: 神秘的な力を持つ幽還の助手
 
-### Magic Tokens
-Wooden tokens representing magical energy used to purchase cards.
+### 魔力トークン
+カード購入に使用する魔法エネルギーを表す木製トークン。
 
-### Curse Cards
-Negative cards that clutter opponents' decks when attacked.
+### 呪いカード
+攻撃されたときに相手のデッキを散らかすネガティブカード。
 
-### Player Boards
-Individual boards for tracking health, magic production, and special abilities.
+### プレイヤーボード
+ライフ、魔力生産、特殊能力を追跡する個人ボード。
 
-## Setup
+## セットアップ
 
-1. **Give each player** a starting deck of 10 cards (7 Candles, 3 Rituals)
-2. **Shuffle starting decks** individually and place face down as personal draw piles
-3. **Draw opening hands** of 5 cards each
-4. **Create market** by shuffling all market cards and revealing 6 face up
-5. **Place magic tokens** in a general supply
-6. **Set up curse cards** in a separate pile
-7. **Each player starts** with 10 Health points on their player board
+1. **各プレイヤーに**10枚のスターターデッキを渡す（ろうそく7枚、儀式3枚）
+2. **スターターデッキを個別にシャッフル**し、裏向きで個人の山札として置く
+3. **初期手札を引く**（各プレイヤー5枚）
+4. **マーケットを作成**：すべてのマーケットカードをシャッフルし、6枚を表向きで公開
+5. **魔力トークンを共通サプライに置く**
+6. **呪いカードを別の山に置く**
+7. **各プレイヤーは**プレイヤーボードのライフ10ポイントから開始
 
-!!! tip "Setup Tip"
-    Organize market cards by type (Spells, Ingredients, Familiars) to make browsing easier during play.
+!!! tip "セットアップのコツ"
+    プレイ中の閲覧を簡単にするため、マーケットカードを種類別（呪文、材料、使い魔）に整理しておきましょう。
 
-## How to Play
+## ゲームの進行
 
-### Game Round Structure
+### ゲームラウンドの構成
 
-Players take turns until someone reaches 0 Health or a victory condition is met.
+誰かのライフが0になるか、勝利条件が満たされるまでプレイヤーは交代でターンを実行します。
 
-#### Your Turn Phase
+#### あなたのターンフェーズ
 
-1. **Play Action Phase**
-   - Play any number of cards from your hand
-   - Generate Magic from Candle cards and other sources
-   - Cast spells for their effects
-   - Use ingredient and familiar abilities
+1. **アクションフェーズ**
+   - 手札から任意の枚数のカードをプレイ
+   - ろうそくカードや他の源から魔力を生成
+   - 呪文を唱えて効果を発動
+   - 材料や使い魔の能力を使用
 
-2. **Buy Phase**
-   - Spend accumulated Magic to buy cards from the market
-   - Purchased cards go to your discard pile
-   - You may buy multiple cards if you have enough Magic
+2. **購入フェーズ**
+   - 蓄積した魔力でマーケットからカードを購入
+   - 購入したカードは捨て札に置く
+   - 魔力が足りれば複数のカードを購入可能
 
-3. **Cleanup Phase**
-   - Discard all played cards and remaining hand cards
-   - Draw a new hand of 5 cards
-   - If your deck is empty, shuffle your discard pile to form a new deck
-   - Refill market to 6 cards if needed
+3. **クリーンアップフェーズ**
+   - プレイしたカードと残りの手札をすべて捨てる
+   - 新しい手札5枚を引く
+   - 山札が空の場合、捨て札をシャッフルして新しい山札を作成
+   - 必要に応じてマーケットを6枚に補充
 
-### Card Types and Effects
+### カードの種類と効果
 
-#### **Magic Generation**
-- **Candle Cards**: Provide 1 Magic each when played
-- **Advanced Magic Sources**: Provide more Magic or conditional bonuses
-- **Rituals**: Often provide Magic plus additional effects
+#### **魔力生成**
+- **ろうそくカード**: プレイ時に各1魔力を提供
+- **高度な魔力源**: より多くの魔力や条件付きボーナスを提供
+- **儀式**: 通常魔力と追加効果を提供
 
-#### **Spell Casting**
-- **Instant Spells**: Take effect immediately when played
-- **Ongoing Spells**: Remain in play for continued effects
-- **Attack Spells**: Force opponents to gain Curse cards or lose Health
-- **Combination Spells**: Gain bonuses when played with specific other cards
+#### **呪文詠唱**
+- **インスタント呪文**: プレイ時に即座に効果を発揮
+- **継続呪文**: 継続効果のためプレイ中に残る
+- **攻撃呪文**: 相手に呪いカードの獲得やライフの失いを強制
+- **組み合わせ呪文**: 特定の他のカードと一緒にプレイするとボーナスを獲得
 
-#### **Ingredients and Crafting**
-- **Ingredient Cards**: Provide Magic and may have special brewing effects
-- **Crafting Combinations**: Some ingredients work better when played together
-- **Potion Effects**: Create powerful one-time or ongoing magical effects
+#### **材料と調合**
+- **材料カード**: 魔力を提供し、特別な調合効果を持つ場合あり
+- **調合の組み合わせ**: 一部の材料は一緒にプレイするとより効果的
+- **ポーション効果**: 強力な一回限りまたは継続的な魔法効果を作成
 
-#### **Familiars**
-- **Companion Effects**: Provide ongoing benefits while in play
-- **Summoning Costs**: May require specific Magic types to play
-- **Familiar Synergies**: Some familiars boost the effects of spells or other familiars
+#### **使い魔**
+- **伴伴効果**: プレイ中に継続的な恩恵を提供
+- **召喚コスト**: プレイに特定の魔力タイプが必要な場合あり
+- **使い魔のシナジー**: 一部の使い魔は呪文や他の使い魔の効果を強化
 
-### Combat and Interaction
+### 戦闘と相互作用
 
-#### **Attacking Opponents**
-- Play Attack spells to target other players
-- Attacked players must gain Curse cards or lose Health
-- Some spells affect all opponents simultaneously
-- Defensive spells can prevent or reduce attack effects
+#### **相手への攻撃**
+- 攻撃呪文をプレイして他のプレイヤーを狙う
+- 攻撃されたプレイヤーは呪いカードを獲得するかライフを失う
+- 一部の呪文はすべての相手に同時に影響
+- 防御呪文で攻撃効果を防いだり軽減可能
 
-#### **Curse Cards**
-- **Gained when attacked**: Go directly into your discard pile
-- **Clog your deck**: Provide no beneficial effects when drawn
-- **Removal methods**: Some spells can remove Curses from your deck
-- **Victory impact**: Too many Curses slow your magical development
+#### **呪いカード**
+- **攻撃時に獲得**: 直接捨て札に置かれる
+- **デッキを散らかす**: 引いたときに有益な効果を提供しない
+- **除去方法**: 一部の呪文でデッキから呪いを除去可能
+- **勝利への影響**: 呪いが多すぎると魔法の発展が遅れる
 
-## Winning
+## 勝利
 
-The game can end in several ways:
+ゲームはいくつかの方法で終了します：
 
-### **Victory Conditions**
-1. **Last Witch Standing**: Be the only player with Health remaining
-2. **Magical Mastery**: First player to acquire 3 Master-level spell cards
-3. **Deck Perfection**: Build a deck worth 50+ Magic value points
-4. **Familiar Bond**: Control 5+ different Familiar types simultaneously
+### **勝利条件**
+1. **最後の魔女**: ライフが残っている唯一のプレイヤーになる
+2. **魔法の精通**: マスターレベルの呪文カードを3枚獲得した最初のプレイヤー
+3. **デッキの完璧**: 50+魔力価値ポイントのデッキを構築
+4. **使い魔の絆**: 5種類以上の異なる使い魔タイプを同時にコントロール
 
-### **End Game Scoring** (if using point victory)
-- Count total Magic value of all cards in deck, hand, and discard pile
-- Subtract 2 points per Curse card
-- Add bonus points for complete Familiar sets or spell combinations
-- Highest total wins
+### **ゲーム終了時のスコア計算**（ポイント勝利を使用する場合）
+- デッキ、手札、捨て札のすべてのカードの総魔力価値を数える
+- 呪いカード1枚あたり2ポイントを減算
+- 完全な使い魔セットや呪文の組み合わせにボーナスポイントを加算
+- 最高合計のプレイヤーが勝利
 
-## Quick Reference Sheet
+## クイックリファレンスシート
 
-### Turn Summary
-1. **Action Phase**: Play cards, generate Magic, cast spells
-2. **Buy Phase**: Purchase new cards with accumulated Magic
-3. **Cleanup**: Discard all, draw 5 new cards, refill market
+### ターン概要
+1. **アクションフェーズ**: カードをプレイ、魔力を生成、呪文を唱える
+2. **購入フェーズ**: 蓄積した魔力で新しいカードを購入
+3. **クリーンアップ**: すべて捨て、新しいカード5枚を引き、マーケットを補充
 
-### Starting Resources
-- **Starting Health**: 10 points
-- **Starting Hand**: 5 cards
-- **Starting Deck**: 7 Candles (1 Magic each) + 3 Rituals
+### 開始時のリソース
+- **開始時ライフ**: 10ポイント
+- **開始時手札**: 5枚
+- **開始時デッキ**: ろうそく7枚（各1魔力）+ 儀式3枚
 
-### Card Costs (Typical)
-| Type | Cost Range | Examples |
+### カードコスト（一般的）
+| タイプ | コスト範囲 | 例 |
 |------|------------|----------|
-| Basic Spells | 2-4 Magic | Simple attack/defense |
-| Advanced Spells | 5-8 Magic | Powerful effects |
-| Master Spells | 9+ Magic | Game-changing abilities |
-| Basic Ingredients | 1-3 Magic | Common herbs, simple crystals |
-| Rare Ingredients | 4-7 Magic | Precious gems, essences |
-| Familiars | 3-6 Magic | Animal companions, spirits |
+| 基本呪文 | 2-4魔力 | 単純な攻撃/防御 |
+| 高度呪文 | 5-8魔力 | 強力な効果 |
+| マスター呪文 | 9+魔力 | ゲームを変える能力 |
+| 基本材料 | 1-3魔力 | 一般的なハーブ、単純なクリスタル |
+| 希少材料 | 4-7魔力 | 貴重な宝石、エッセンス |
+| 使い魔 | 3-6魔力 | 動物の伴伴、精霊 |
 
-### Key Mechanics
-- ✅ **Deck Building**: Buy cards to improve your deck over time
-- ✅ **Magic Generation**: Play cards to generate Magic for purchases
-- ✅ **Spell Combinations**: Some cards work better together
-- ✅ **Attack/Defense**: Direct player interaction through combat spells
-- ✅ **Curse Management**: Avoid accumulating too many negative cards
+### 主要メカニクス
+- ✅ **デッキ構築**: 時間をかけてカードを購入しデッキを改善
+- ✅ **魔力生成**: カードをプレイして購入用の魔力を生成
+- ✅ **呪文の組み合わせ**: 一部のカードは一緒に使うとより効果的
+- ✅ **攻撃/防御**: 戦闘呪文を通した直接的なプレイヤー間の相互作用
+- ✅ **呪いの管理**: ネガティブカードの蓄積しすぎを避ける
 
-## Strategy Tips
+## 戦略のコツ
 
-### **Early Game**
-- Focus on increasing Magic generation
-- Buy versatile cards that provide both Magic and utility
-- Don't neglect some defensive capabilities
+### **序盤**
+- 魔力生成の増強に集中
+- 魔力と実用性の両方を提供するバーサタイルカードを購入
+- 防御能力をある程度は無視しない
 
-### **Mid Game**  
-- Specialize in specific magical schools or familiar types
-- Start acquiring more powerful spells
-- Consider your victory condition path
+### **中盤**  
+- 特定の魔法学派や使い魔タイプに特化
+- より強力な呪文の獲得を開始
+- 自分の勝利条件ルートを検討
 
-### **Late Game**
-- Pursue your chosen victory condition aggressively
-- Use attack spells to slow down opponents
-- Optimize your deck by removing weaker starting cards
+### **終盤**
+- 選択した勝利条件を積極的に追求
+- 攻撃呪文で相手の進行を遅らせる
+- 弱いスターターカードを除去してデッキを最適化
 
-## External Links
+## 外部リンク
 
-- **[BoardGameGeek](https://boardgamegeek.com/boardgame/372896/hackclad)** - Reviews, ratings, and community discussion
-- **[Publisher Website](https://example.com/hackclad)** - Official game information
-- **[Rules Video](https://www.youtube.com/watch?v=example)** - Learn to play tutorial
-- **[Strategy Guide](https://example.com/hackclad-strategy)** - Advanced gameplay tips
+- **[BoardGameGeek](https://boardgamegeek.com/boardgame/372896/hackclad)** - レビュー、評価、コミュニティ討論
+- **[公式サイト](https://boardgamegeek.com/boardgame/372896/hackclad)** - 公式ゲーム情報
+- **[ルール動画](https://www.youtube.com/results?search_query=hackclad+how+to+play)** - プレイ方法チュートリアル
+- **[戦略ガイド](https://boardgamegeek.com/boardgame/372896/hackclad/forums/67)** - 高度なゲームプレイのコツ
 
 ---
 
-*HackClad is a game by [Designer Name], published by [Publisher Name]. This documentation is for educational purposes.*
+*HackCladは[デザイナー名]によるゲームで、[出版社名]から出版されています。このドキュメントは教育目的のためのものです。*
