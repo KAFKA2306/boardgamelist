@@ -4,7 +4,7 @@ japanese_title: "イスタンブール選択と集中"
 players: "2-5"
 playtime: "60 min"
 complexity: 2.8
-bgg_id: 304188
+bgg_id: 379037
 bgg_rating: 7.3
 tags: [roll-and-write, dice, strategy, merchant, resource-management]
 ownership: true
@@ -175,10 +175,10 @@ After resolving dice actions:
 
 ## 外部リンク
 
-- **[BoardGameGeek](https://boardgamegeek.com/boardgame/304188/istanbul-choose-write)** - レビュー、評価、コミュニティ討論
-- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=istanbulchoosewrite)** - オンラインでプレイ
+- **[BoardGameGeek](https://boardgamegeek.com/boardgame/379037/istanbul-choose-and-write)** - レビュー、評価、コミュニティ討論
+- **[Board Game Arena](https://en.boardgamearena.com/gamepanel?game=istanbulchoosewrite)** - オンラインでプレイ
 - **[プレイ方法動画](https://www.youtube.com/results?search_query=istanbul+choose+write+how+to+play)** - チュートリアルとゲームプレイ例
-- **[戦略ガイド](https://boardgamegeek.com/boardgame/304188/istanbul-choose-write/forums/67)** - 高度な戦術討論
+- **[戦略ガイド](https://boardgamegeek.com/boardgame/379037/istanbul-choose-and-write/forums/67)** - 高度な戦術討論
 - **[オリジナルイスタンブール](https://boardgamegeek.com/boardgame/148949/istanbul)** - このゲームのベースとなったオリジナルボードゲーム
 
 ---

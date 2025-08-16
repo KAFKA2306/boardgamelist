@@ -210,8 +210,8 @@ National Economy Mesena includes a sophisticated solo mode:
 
 - **[BoardGameGeek](https://boardgamegeek.com/boardgame/351608/national-economy-mesena)** - Reviews, ratings, and community discussion
 - **[Original National Economy](https://boardgamegeek.com/boardgame/183084/national-economy)** - The base game
-- **[Designer's Blog](https://example.com/mesena-design)** - Insights into cultural game design
-- **[Strategy Guide](https://example.com/mesena-strategy)** - Advanced tactics and cultural planning
+- **[Designer Profile](https://boardgamegeek.com/boardgamedesigner/71197/tomoki-motohashi)** - Tomoki Motohashi's other games
+- **[Game Review](https://www.gameosity.com/2024/01/23/game-in-a-minute-istanbul-choose-write/)** - Detailed game analysis
 
 ---
 

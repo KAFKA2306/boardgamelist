@@ -4,7 +4,7 @@ japanese_title: "ハッククラッド"
 players: "2-4"
 playtime: "45 min"
 complexity: 2.3
-bgg_id: 372896
+bgg_id: 352228
 bgg_rating: 7.5
 tags: [deck-building, witch, fantasy, hand-management, set-collection]
 ownership: true
@@ -198,10 +198,10 @@ HackCladは魔女をテーマにしたデッキ構築ゲームで、プレイヤ
 
 ## 外部リンク
 
-- **[BoardGameGeek](https://boardgamegeek.com/boardgame/372896/hackclad)** - レビュー、評価、コミュニティ討論
-- **[公式サイト](https://boardgamegeek.com/boardgame/372896/hackclad)** - 公式ゲーム情報
+- **[BoardGameGeek](https://boardgamegeek.com/boardgame/352228/hackclad)** - レビュー、評価、コミュニティ討論
+- **[拡張版情報](https://boardgamegeek.com/boardgame/381803/hackclad-cross-fate)** - HacKClaD: CROSS FATE拡張
 - **[ルール動画](https://www.youtube.com/results?search_query=hackclad+how+to+play)** - プレイ方法チュートリアル
-- **[戦略ガイド](https://boardgamegeek.com/boardgame/372896/hackclad/forums/67)** - 高度なゲームプレイのコツ
+- **[戦略ガイド](https://boardgamegeek.com/boardgame/352228/hackclad/forums/67)** - 高度なゲームプレイのコツ
 
 ---
 

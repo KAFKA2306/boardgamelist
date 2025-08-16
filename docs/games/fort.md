@@ -169,7 +169,7 @@ Your fort grows stronger throughout the game:
 ## 外部リンク
 
 - **[BoardGameGeek](https://boardgamegeek.com/boardgame/296912/fort)** - レビュー、評価、コミュニティ討論  
-- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=fort)** - オンラインでプレイ
+- **[Board Game Arena](https://en.boardgamearena.com/gamepanel?game=fort)** - オンラインでプレイ
 - **[プレイ方法動画](https://www.youtube.com/results?search_query=fort+board+game+how+to+play)** - ゲームを学ぶ
 - **[デザイナーインタビュー](https://boardgamegeek.com/thread/2374180/designer-diary-fort-or-how-i-learned-stop-worryin)** - Grant Rodiek氏からの洞察
 

@@ -42,24 +42,75 @@ theme:
     repo: fontawesome/brands/github
     logo: material/dice-multiple
 
-# ナビゲーション構造
+# ナビゲーション構造 (41ゲーム対応)
 nav:
   - ホーム: index.md
   - ゲーム詳細:
     - カードゲーム:
-      - BOHNANZA (ボーナンザ): games/bohnanza.md
-      - FIXER (フィクサー): games/fixer.md
+      - ファミリー向け:
+        - BOHNANZA (ボーナンザ): games/bohnanza.md
+        - スシゴー (Sushi Go!): games/sushi-go.md
+        - スシゴーパーティー (Sushi Go Party!): games/sushi-go-party.md
+        - コンセプト (Concept): games/concept.md
+        - バンディド (Bandido): games/bandido.md
+      - 戦略カードゲーム:
+        - デクリプト (Decrypto): games/decrypto.md
+        - スパイジョブ (Inside Job): games/inside-job.md
+        - フロマージュ (Fromage): games/fromage.md
     - デッキ構築:
-      - HackClad (ハッククラッド): games/hackclad.md
-      - FORT (フォート): games/fort.md
+      - ライト級:
+        - HackClad (ハッククラッド): games/hackclad.md
+        - FORT (フォート): games/fort.md
+      - 重厚級:
+        - ハードバック (Hardback): games/hardback.md
     - 戦略・経済:
-      - イスタンブール選択と集中: games/istanbul-choose-write.md
-      - National Economy Mesena: games/national-economy-mesena.md
+      - 中量級:
+        - イスタンブール選択と集中: games/istanbul-choose-write.md
+        - タルギ (Targi): games/targi.md
+        - ニダヴェリア (Nidavellir): games/nidavellir.md
+      - 重量級:
+        - ラ・グランハ (La Granja): games/la-granja.md
+        - ケイラス (Caylus): games/caylus.md
+        - National Economy Mesena: games/national-economy-mesena.md
+        - バラージ (Barrage): games/barrage.md
+    - 協力・チーム戦:
+      - FIXER (フィクサー): games/fixer.md
+      - パンデミック (Pandemic): games/pandemic.md
+    - エリア制圧・冒険:
+      - ブラッド・レイジ (Blood Rage): games/blood-rage.md
+      - ルート (Looot): games/looot.md
+      - 西フランク王国の建築家 (Architects of the West Kingdom): games/architects-west-kingdom.md
+      - マラケシュ (Marrakech): games/marrakech.md
+      - ルクソール (Luxor): games/luxor.md
+      - 黄金の川 (River of Gold): games/river-of-gold.md
+      - ボタニクス (Botanicus): games/botanicus.md
+    - 鉄道・交通:
+      - レイルウェイズ・オブ・ザ・ワールド (Railways of the World): games/railways-of-the-world.md
+      - 搭乗開始 (Now Boarding): games/now-boarding.md
+    - 特殊メカニクス:
+      - 紙ペン系:
+        - ハドリアヌスの長城 (Hadrian's Wall): games/hadrians-wall.md
+        - ウェルカム・トゥ・ザ・ムーン (Welcome To The Moon): games/welcome-to-the-moon.md
+      - ダイス・パズル:
+        - ダイスフォージ (Dice Forge): games/dice-forge.md
+        - サガニ (Sagani): games/sagani.md
+      - その他ユニーク:
+        - アイル・オブ・キャッツ (The Isle of Cats): games/isle-of-cats.md
+        - コスモクトパス (Cosmoctopus): games/cosmoctopus.md
+        - オブセッション (Obsession): games/obsession.md
+        - エタニチウム (Eternitium): games/eternitium.md
+        - 蒸留 (Distilled): games/distilled.md
+        - ソルスティス (Solstis): games/solstis.md
+        - パックス・パミール (Pax Pamir: Second Edition): games/pax-pamir.md
+  - ゲーム一覧（アルファベット順）: games/index.md
   - ゲーム分類:
     - カードゲーム: categories/card-games.md
     - デッキビルディング: categories/deck-building.md
     - 戦略ゲーム: categories/strategy.md
     - ファミリーゲーム: categories/family.md
+    - 協力ゲーム: categories/cooperative.md
+    - エリア制圧: categories/area-control.md
+    - 特殊メカニクス: categories/special-mechanics.md
   - 参考資料・リソース:
     - ゲーム用語集: resources/glossary.md
     - BGG統合機能: resources/bgg-integration.md

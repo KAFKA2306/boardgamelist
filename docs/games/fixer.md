@@ -4,7 +4,7 @@ japanese_title: "フィクサー"
 players: "3-4"
 playtime: "30 min"
 complexity: 2.0
-bgg_id: 254432
+bgg_id: 425604
 bgg_rating: 6.8
 tags: [trick-taking, political, negotiation, hidden-information]
 ownership: true
@@ -171,9 +171,9 @@ Game ends when the deck is exhausted:
 
 ## External Links
 
-- **[BoardGameGeek](https://boardgamegeek.com/boardgame/254432/fixer)** - Reviews, ratings, and community discussion
-- **[Publisher Website](https://example.com/fixer)** - Official rules and variants
-- **[Strategy Guide](https://example.com/fixer-strategy)** - Advanced tactics
+- **[BoardGameGeek](https://boardgamegeek.com/boardgame/425604/fixer)** - Reviews, ratings, and community discussion
+- **[Designer Diary](https://boardgamegeek.com/blog/1/blogpost/164780/designer-diary-fixer)** - Insights from designer Takaaki Iida
+- **[Game Review](https://opinionatedgamers.com/2025/03/29/dale-yu-review-of-fixer/)** - Detailed game analysis
 - **[Trick-Taking Games](https://boardgamegeek.com/boardgamefamily/62/trick-taking)** - Similar games
 
 ---

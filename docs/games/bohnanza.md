@@ -274,7 +274,7 @@ BOHNANZAは豆の栽培と取引をテーマにした優秀なカードゲーム
 ## 外部リンク
 
 - **[BoardGameGeek](https://boardgamegeek.com/boardgame/11/bohnanza)** - レビュー、評価、コミュニティ討論
-- **[Board Game Arena](https://boardgamearena.com/gamepanel?game=bohnanza)** - オンラインでプレイ
+- **[Board Game Arena](https://en.boardgamearena.com/gamepanel?game=bohnanza)** - オンラインでプレイ
 - **[プレイ方法動画](https://www.youtube.com/watch?v=oAaUfp4YzW4)** - Watch It Played チュートリアル
 - **[ルールPDF](https://www.riograndegames.com/wp-content/uploads/2013/02/Bohnanza-Rules.pdf)** - 公式ルールダウンロード
 
