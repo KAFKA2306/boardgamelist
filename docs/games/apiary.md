@@ -24,40 +24,40 @@ publisher: ["stonemaier_games"]
 
 # Apiary (エイピアリー)
 
-!!! info "Quick Reference"
-    **Players:** 1-5 (excellent solo and 5-player support) | **Time:** 60-90 minutes | **Complexity:** 3.0/5  
-    **BGG Rating:** 7.73/10 | **Available on BGA:** No | **Stonemaier Games 2023**
+!!! info "クイックリファレンス"
+    **プレイヤー数:** 1-5人（ソロプレイと5人プレイに優れた対応） | **プレイ時間:** 60-90分 | **複雑さ:** 3.0/5  
+    **BGG評価:** 7.73/10 | **BGA対応:** なし | **Stonemaier Games 2023年**
 
-## Game Overview
+## ゲーム概要
 
-Apiary is a worker placement and engine-building game featuring hyper-intelligent bees exploring space to build hives, discover new worlds, and advance their civilization. Designed by Connie Vogelmann and published by Stonemaier Games, it combines familiar worker placement mechanics with innovative bee-themed space exploration in a beautifully produced package.
+エイピアリーは、超知能を持つ蜂が宇宙を探索し、巣を建設し、新世界を発見し、文明を発展させるワーカープレイスメント＆エンジンビルディングゲームです。Connie Vogelmannがデザインし、Stonemaier Gamesが出版した本作は、馴染みのあるワーカープレイスメント機構と革新的な蜂をテーマにした宇宙探索を美しく制作されたパッケージで組み合わせています。
 
-**What makes it special:**
-- **Unique theme combination** - Bees in space with thoughtful thematic integration
-- **Innovative worker advancement** - Workers grow stronger as they're used
-- **20 distinct factions** - Asymmetric bee factions with unique abilities and characteristics
-- **Excellent scaling** - Plays exceptionally well from 1-5 players with dual-sided board
-- **Stonemaier quality** - Premium components and production values
-- **Strategic depth** - Multiple paths to victory through exploration, development, and specialization
+**特別な魅力：**
+- **独特なテーマの組み合わせ** - 宇宙の蜂という思慮深いテーマ統合
+- **革新的なワーカー成長システム** - 使用するにつれて強くなるワーカー
+- **20の異なる派閥** - 独特な能力と特徴を持つ非対称な蜂派閥
+- **優秀なスケーリング** - 両面ボードで1-5人プレイが非常に良く機能
+- **Stonemaiersの品質** - プレミアムコンポーネントと制作価値
+- **戦略的深度** - 探索、開発、専門化による複数の勝利への道筋
 
-The game successfully merges the strategic depth of worker placement with the satisfaction of engine building, all wrapped in an unexpectedly compelling space-bee theme that works better than it sounds.
+このゲームは、ワーカープレイスメントの戦略的深さとエンジンビルディングの満足感を見事に融合させ、予想以上に魅力的な宇宙蜂テーマでまとめ上げています。
 
-## Setup
+## セットアップ
 
-### Initial Setup
-1. **Board Selection:** Use 1-3 player side or 4-5 player side based on player count
-2. **Faction Distribution:** Each player selects or randomly receives one of 20 unique bee factions
-3. **Starting Resources:** Distribute initial resources, workers, and faction-specific bonuses
-4. **Planet Discovery:** Set up the planet exploration deck and starting discoveries
-5. **Hive Construction:** Prepare hive tile market for building expansion
-6. **Technology Track:** Initialize research and advancement opportunities
+### 初期セットアップ
+1. **ボード選択:** プレイヤー数に基づいて1-3人用面または4-5人用面を使用
+2. **派閥配布:** 各プレイヤーは20の独特な蜂派閥の中から1つを選択または無作為に受け取る
+3. **初期リソース:** 初期リソース、ワーカー、派閥特有のボーナスを配布
+4. **惑星発見:** 惑星探索デッキと初期発見をセットアップ
+5. **巣箱建設:** 建設拡張用の巣箱タイル市場を準備
+6. **技術トラック:** 研究と発展の機会を初期化
 
-### Faction Asymmetry
-**20 Unique Factions** each provide:
-- **Starting Resources:** Different combinations of materials and workers
-- **Special Abilities:** Unique powers that modify standard game rules
-- **Faction Characteristics:** Thematic abilities that affect strategy and gameplay
-- **Starting Positions:** Varied beginning situations that influence early game choices
+### 派閥の非対称性
+**20の独特な派閥**はそれぞれ以下を提供：
+- **初期リソース:** 材料とワーカーの異なる組み合わせ
+- **特殊能力:** 標準ゲームルールを変更する独特な力
+- **派閥特性:** 戦略とゲームプレイに影響するテーマ的能力
+- **開始位置:** 初期ゲーム選択に影響する多様な開始状況
 
 ### Variable Setup Elements
 - **Planet Randomization:** Different planets available each game for exploration
@@ -71,19 +71,19 @@ The game successfully merges the strategic depth of worker placement with the sa
 - **Modified Scoring:** Adjusted victory conditions optimized for solo play
 - **Streamlined Rules:** Simplified opponent actions while maintaining strategic depth
 
-## How to Play
+## プレイ方法
 
-### Game Structure
-Apiary plays over **8 rounds** representing one year of hive development and space exploration, with each round consisting of worker placement and resolution phases.
+### ゲーム構造
+エイピアリーは巣箱発展と宇宙探索の1年を表す**8ラウンド**でプレイされ、各ラウンドはワーカープレイスメントと解決フェーズで構成されます。
 
-### Worker Placement Mechanics
+### ワーカープレイスメント機構
 
-#### Worker Advancement System
-**Unique Worker Evolution:**
-- **Workers grow stronger** each time they're retrieved from action spaces
-- **Increased benefits** for more experienced workers on later placements
-- **Strategic timing** of worker retrieval becomes crucial decision point
-- **Faction variations** in worker advancement rates and benefits
+#### ワーカー成長システム
+**独特なワーカー進化：**
+- **ワーカーは強くなる** アクションスペースから回収されるたびに
+- **増加する利益** より経験豊富なワーカーの後の配置で
+- **戦略的タイミング** ワーカー回収が重要な決定ポイントとなる
+- **派閥バリエーション** ワーカー成長率と利益における
 
 #### Action Space Categories
 **Exploration Actions:**
@@ -155,15 +155,15 @@ Apiary plays over **8 rounds** representing one year of hive development and spa
 - **Difficulty Modifiers:** Various challenge levels for appropriate solo difficulty
 - **Streamlined Rules:** Simplified opponent actions while maintaining strategic depth
 
-## Winning
+## 勝利
 
-### Victory Conditions
-**Points from Multiple Sources:**
-- **Hive Development:** Building and upgrading specialized hive chambers
-- **Exploration Achievements:** Discovering and colonizing new planets
-- **Technology Advancement:** Research breakthroughs and scientific progress
-- **Resource Accumulation:** Efficient collection and conversion of materials
-- **Faction Objectives:** Unique victory paths based on faction specializations
+### 勝利条件
+**複数の源からのポイント：**
+- **巣箱発展:** 専門的な巣箱部屋の建設とアップグレード
+- **探索達成:** 新惑星の発見と植民地化
+- **技術進歩:** 研究の突破と科学的進歩
+- **リソース蓄積:** 材料の効率的収集と変換
+- **派閥目標:** 派閥専門化に基づく独特な勝利の道筋
 
 ### Scoring Categories
 
@@ -190,89 +190,89 @@ Apiary plays over **8 rounds** representing one year of hive development and spa
 **4-5 Players:** Increased competition, adaptation and blocking become more important
 **Solo Mode:** Modified scoring and AI opponent provide appropriate single-player challenge
 
-## Quick Reference Sheet
+## クイックリファレンスシート
 
-### Worker Placement Priority
-| Action Type | Early Game Value | Late Game Value |
+### ワーカープレイスメント優先度
+| アクションタイプ | 初期ゲーム価値 | 後期ゲーム価値 |
 |-------------|------------------|-----------------|
-| **Exploration** | High (discovery bonuses) | Medium (resource gathering) |
-| **Hive Building** | Medium (engine foundation) | High (scoring multipliers) |
-| **Technology** | Low (long-term investment) | High (breakthrough bonuses) |
-| **Resource Gathering** | High (basic needs) | Medium (specific requirements) |
+| **探索** | 高（発見ボーナス） | 中（リソース収集） |
+| **巣箱建設** | 中（エンジン土台） | 高（スコア乗数） |
+| **技術** | 低（長期投資） | 高（突破ボーナス） |
+| **リソース収集** | 高（基本ニーズ） | 中（特定要件） |
 
-### Faction Strategy Types
-- **Exploration Specialists:** Focus on planet discovery and space travel efficiency
-- **Production Masters:** Emphasize hive development and resource generation
-- **Technology Leaders:** Prioritize research advancement and innovation bonuses
-- **Hybrid Strategists:** Balance multiple approaches for flexible gameplay
+### 派閥戦略タイプ
+- **探索スペシャリスト:** 惑星発見と宇宙旅行効率に焦点
+- **生産マスター:** 巣箱発展とリソース生成を重視
+- **技術リーダー:** 研究進歩と革新ボーナスを優先
+- **ハイブリッド戦略家:** 柔軟なゲームプレイのために複数のアプローチをバランス
 
-### Resource Management
-- **Honey:** Primary currency for most actions and purchases
-- **Pollen:** Specialized resource for hive construction and upgrades
-- **Water:** Essential for worker advancement and space travel
-- **Advanced Materials:** Planet-specific resources for high-value developments
+### リソース管理
+- **ハチミツ:** ほとんどのアクションと購入の主要通貨
+- **花粉:** 巣箱建設とアップグレード用の専門リソース
+- **水:** ワーカー成長と宇宙旅行に不可欠
+- **高級材料:** 高価値開発用の惑星固有リソース
 
-### Common Strategic Mistakes
-- **Worker Timing:** Retrieving workers too early reduces advancement benefits
-- **Faction Ignorance:** Not leveraging unique faction abilities effectively
-- **Over-Specialization:** Focusing too narrowly on single strategy type
-- **Resource Hoarding:** Accumulating materials without converting to points
+### よくある戦略ミス
+- **ワーカータイミング:** ワーカーを早すぎる回収は成長利益を減少させる
+- **派閥無視:** 独特な派閥能力を効果的に活用しない
+- **過度な専門化:** 単一戦略タイプに狭く焦点を当てる
+- **リソース蓄積:** ポイントに変換せずに材料を蓄積する
 
-## Strategy Tips
+## 戦略ティップス
 
-### General Strategy
-- **Leverage Faction Abilities:** Build strategy around unique faction strengths and characteristics
-- **Worker Advancement:** Plan worker retrieval timing to maximize advancement benefits
-- **Engine Building:** Focus on hive development that creates ongoing resource generation
-- **Balanced Development:** Don't neglect any major scoring category completely
+### 一般戦略
+- **派閥能力を活用:** 独特な派閥の強みと特性を中心に戦略を構築
+- **ワーカー成長:** 成長利益を最大化するためのワーカー回収タイミングを計画
+- **エンジン構築:** 継続的なリソース生成を作る巣箱発展に焦点
+- **バランスの取れた発展:** 主要なスコアカテゴリを完全に無視しない
 
-### Player Count Strategies
+### プレイヤー数別戦略
 
-**Solo Play:**
-- **Efficiency Focus:** Optimize every action against sophisticated AI opponent
-- **Faction Mastery:** Learn to play multiple factions for varied strategic approaches
-- **Automa Analysis:** Study AI patterns to develop effective counter-strategies
-- **Personal Best:** Track improvement and challenge yourself with higher difficulty levels
+**ソロプレイ:**
+- **効率重視:** 高度なAI対戦相手に対してすべてのアクションを最適化
+- **派閥マスタリー:** 多様な戦略アプローチのために複数の派閥でプレイすることを学ぶ
+- **オートマ分析:** 効果的なカウンター戦略を開発するためにAIパターンを研究
+- **個人ベスト:** 改善を追跡し、より高い難易度で自分に挑戦
 
-**2-3 Players:**
-- **Resource Abundance:** Take advantage of less competition for action spaces
-- **Long-Term Planning:** More predictable environment allows for complex strategies
-- **Exploration Focus:** Higher rewards for planetary discovery with less competition
-- **Engine Optimization:** More time to build sophisticated production chains
+**2-3人プレイ:**
+- **リソース豊富:** アクションスペースへの競争が少ないことを活用
+- **長期計画:** より予測可能な環境で複雑な戦略が可能
+- **探索重視:** 競争が少ない惑星発見でより高い報酬
+- **エンジン最適化:** 高度な生産チェーンを構築する時間がより多い
 
-**4-5 Players:**
-- **Adaptation Required:** Flexible strategies needed due to action space competition
-- **Blocking Awareness:** Consider opponents' needs when choosing actions
-- **Turn Order Impact:** Position becomes more important with full player count
-- **Efficiency Premium:** Optimized play crucial when competition is highest
+**4-5人プレイ:**
+- **適応が必要:** アクションスペース競争のために柔軟な戦略が必要
+- **ブロッキング意識:** アクション選択時に相手のニーズを考慮
+- **ターン順の影響:** フルプレイヤー数ではポジションがより重要に
+- **効率プレミアム:** 競争が最高時に最適化されたプレイが重要
 
-### Advanced Tactics
-- **Faction Synergy:** Identify combinations of faction abilities with hive tiles and technologies
-- **Exploration Timing:** Plan planetary missions for optimal resource gathering and scoring
-- **Technology Paths:** Choose research directions that complement faction strengths
-- **Opponent Analysis:** Monitor other players' strategies and adapt accordingly
+### 上級戦術
+- **派閥シナジー:** 派閥能力と巣箱タイル、技術の組み合わせを特定
+- **探索タイミング:** 最適なリソース収集とスコアのために惑星任務を計画
+- **技術パス:** 派閥の強みを補完する研究方向を選択
+- **相手分析:** 他プレイヤーの戦略を監視し、それに応じて適応
 
-## External Links
+## 外部リンク
 
-### Official Resources
-- [BoardGameGeek Page](https://boardgamegeek.com/boardgame/400314/apiary) - Community reviews and strategic discussions
-- [Stonemaier Games Official](https://stonemaiergames.com/games/apiary/) - Publisher site with rules, updates, and expansions
-- [Designer Profile](https://boardgamegeek.com/boardgamedesigner/147215/connie-vogelmann) - Connie Vogelmann's game design work
-- [Apiary Expansion](https://stonemaiergames.com/games/apiary/apiary-expanding-the-hive/) - Expanding the Hive expansion information
+### 公式リソース
+- [BoardGameGeekページ](https://boardgamegeek.com/boardgame/400314/apiary) - コミュニティレビューと戦略議論
+- [Stonemaier Games公式](https://stonemaiergames.com/games/apiary/) - ルール、アップデート、拡張を持つ出版社サイト
+- [デザイナープロフィール](https://boardgamegeek.com/boardgamedesigner/147215/connie-vogelmann) - Connie Vogelmannのゲームデザイン作品
+- [エイピアリー拡張](https://stonemaiergames.com/games/apiary/apiary-expanding-the-hive/) - Expanding the Hive拡張情報
 
-### Community Resources
-- [Strategy Guide](https://www.boardgamequest.com/apiary-review/) - Comprehensive strategic analysis and faction overview
-- [Solo Play Discussion](https://boardgamegeek.com/forum/4426/apiary/solo-variant) - Solo mode strategies and Automa tactics
-- [Faction Analysis](https://boardgamegeek.com/forum/4426/apiary/strategy) - Detailed breakdown of asymmetric faction strategies
-- [Component Review](https://www.whatboardgame.com/post/apiary-board-game-review) - Production quality and component analysis
+### コミュニティリソース
+- [戦略ガイド](https://www.boardgamequest.com/apiary-review/) - 包括的な戦略分析と派閥概要
+- [ソロプレイ議論](https://boardgamegeek.com/forum/4426/apiary/solo-variant) - ソロモード戦略とオートマ戦術
+- [派閥分析](https://boardgamegeek.com/forum/4426/apiary/strategy) - 非対称派閥戦略の詳細分析
+- [コンポーネントレビュー](https://www.whatboardgame.com/post/apiary-board-game-review) - 生産品質とコンポーネント分析
 
-### Related Games in Collection
-- **Worker Placement:** *Compare with other worker placement games for different approaches*
-- **Engine Building:** *Different engine building style than resource conversion games*
-- **Solo Mode Options:** *Excellent solo alternative with sophisticated AI opponent*
-- **5-Player Support:** *Unique option for larger gaming groups in the collection*
-- **Space Theme:** *Contrast with other space-themed games like Arcs for different approaches*
+### コレクション内関連ゲーム
+- **ワーカープレイスメント:** *異なるアプローチのために他のワーカープレイスメントゲームと比較*
+- **エンジン構築:** *リソース変換ゲームとは異なるエンジン構築スタイル*
+- **ソロモードオプション:** *高度なAI対戦相手との優秀なソロオルタナティブ*
+- **5人プレイサポート:** *コレクション内の大きなゲームグループ用の独特オプション*
+- **宇宙テーマ:** *異なるアプローチのためにArcsなど他の宇宙テーマゲームと対照*
 
 ---
 
-*Apiary documentation last updated: August 2025 | BGG data verified within 48 hours*
+*エイピアリードキュメント最終更新: 2025年8月 | BGGデータは48時間以内に検証済み*

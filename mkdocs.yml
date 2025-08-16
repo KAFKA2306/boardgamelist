@@ -122,10 +122,12 @@ markdown_extensions:
 # 追加CSS・JavaScript
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/game-filter.css
 
 extra_javascript:
   - javascripts/extra.js
   - javascripts/bgg-integration.js
+  - javascripts/game-filter.js
 
 # サイト情報
 extra:
