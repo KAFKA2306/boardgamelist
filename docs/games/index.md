@@ -5,14 +5,14 @@ description: "BoardGameListで利用可能な全てのボードゲーム一覧�
 layout: "games-index"
 tags: ["index", "games-list", "navigation"]
 last_updated: "2025-08-16"
-total_games: 11
-planned_games: 30
+total_games: 16
+planned_games: 25
 ---
 
 # ゲーム一覧（アルファベット順）
 
 !!! info "ゲームコレクション概要"
-    現在6つのボードゲームが完全な日本語ルールブックとして利用可能です。各ゲームページには完全なルール説明、セットアップガイド、戦略のコツが含まれています。
+    現在16つのボードゲームが完全なルールブックとして利用可能です。各ゲームページには完全なルール説明、セットアップガイド、戦略のコツが含まれています。
 
 !!! tip "クイックナビゲーション"
     - [**:material-cards: カードゲーム**](/categories/card-games/) - 軽快な取引と戦略
@@ -21,11 +21,15 @@ planned_games: 30
     - [**:material-help-circle: BGG統合**](/resources/bgg-integration/) - BoardGameGeek データとの連携
     - [**:material-book: 用語集**](/resources/glossary/) - ボードゲーム用語の理解
 
-## 現在のゲーム (11ゲーム)
+## 現在のゲーム (16ゲーム)
 
 === "アルファベット順"
 
     ### A
+    - **[Apiary (エイピアリー)](/games/apiary/)** <span class="bgg-rating" data-bgg-id="400314"></span>  
+      宇宙ミツバチの探検ゲーム | 1-5人 | 60-90分
+    - **[Arcs (アークス)](/games/arcs/)** <span class="bgg-rating" data-bgg-id="359871"></span>  
+      宇宙帝国建設戦略ゲーム | 2-4人 | 60-120分
     - **[アイル・オブ・キャッツ (The Isle of Cats)](/games/isle-of-cats/)** <span class="bgg-rating" data-bgg-id="281259"></span>  
       猫の救出パズルゲーム | 1-4人 | 60-90分
 
@@ -63,6 +67,14 @@ planned_games: 30
     - **[National Economy Mesena](/games/national-economy-mesena/)** <span class="bgg-rating" data-bgg-id="226976"></span>  
       文化経済ワーカープレイスメント | 1-4人 | 45-60分
 
+    ### S
+    - **[Sky Team (スカイチーム)](/games/sky-team/)** <span class="bgg-rating" data-bgg-id="373106"></span>  
+      協力パイロットゲーム | 2人 | 20分
+
+    ### W
+    - **[Windmill Valley (ウィンドミル・バレー)](/games/windmill-valley/)** <span class="bgg-rating" data-bgg-id="403441"></span>  
+      風車建設エンジンビルディング | 1-4人 | 45-90分
+
 === "カテゴリー別"
 
     ### :material-cards: カードゲーム
@@ -74,10 +86,16 @@ planned_games: 30
     - **[HackClad (ハッククラッド)](/games/hackclad/)** - 魔女の呪文とパワー
 
     ### :material-chart-line: 戦略・経済
+    - **[Apiary (エイピアリー)](/games/apiary/)** - 宇宙ミツバチのワーカープレイスメント
+    - **[Arcs (アークス)](/games/arcs/)** - 宇宙帝国建設とトリックテイキング
     - **[ブラッド・レイジ (Blood Rage)](/games/blood-rage/)** - バイキングの栄光戦略
     - **[ケイラス (Caylus)](/games/caylus/)** - 中世城建設ワーカープレイスメント
     - **[イスタンブール選択と集中](/games/istanbul-choose-write/)** - 商人の取引戦略
     - **[National Economy Mesena](/games/national-economy-mesena/)** - 文化と経済の発展
+    - **[Windmill Valley (ウィンドミル・バレー)](/games/windmill-valley/)** - 風車建設エンジンビルディング
+
+    ### :material-handshake: 協力ゲーム
+    - **[Sky Team (スカイチーム)](/games/sky-team/)** - 協力パイロットゲーム
 
     ### :material-help-circle: コミュニケーション・パーティー
     - **[コンセプト (Concept)](/games/concept/)** - アイコンコミュニケーション
@@ -191,20 +209,20 @@ planned_games: 30
     
         | 指標 | 数値 |
         |------|------|
-        | **現在利用可能** | 11 ゲーム |
-        | **追加予定** | 30 ゲーム |
+        | **現在利用可能** | 16 ゲーム |
+        | **追加予定** | 25 ゲーム |
         | **合計予定** | 41 ゲーム |
-        | **完成度** | 26.8% |
+        | **完成度** | 39.0% |
     
     === "カテゴリー分布"
     
         | カテゴリー | 現在 | 予定 | 合計 |
         |------------|------|------|------|
-        | **:material-cards: カードゲーム** | 2 | 6 | 8 |
+        | **:material-cards: カードゲーム** | 3 | 5 | 8 |
         | **:material-castle: デッキ構築** | 2 | 1 | 3 |
-        | **:material-chart-line: 戦略・経済** | 4 | 3 | 7 |
+        | **:material-chart-line: 戦略・経済** | 7 | 0 | 7 |
         | **:material-help-circle: コミュニケーション・パーティー** | 1 | 1 | 2 |
-        | **:material-account-group: 協力・チーム戦** | 0 | 2 | 2 |
+        | **:material-handshake: 協力ゲーム** | 1 | 1 | 2 |
         | **:material-sword-cross: エリア制圧・冒険** | 1 | 6 | 7 |
         | **:material-train: 鉄道・交通** | 0 | 2 | 2 |
         | **:material-puzzle: 特殊メカニクス** | 2 | 10 | 12 |
