@@ -1,0 +1,437 @@
+/**
+ * Game Filter System Styles
+ * Advanced filtering interface for BoardGameList
+ */
+
+.game-filter-container {
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 8px;
+    margin: 1rem 0 2rem 0;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--md-primary-fg-color--light);
+    color: var(--md-primary-bg-color);
+    cursor: pointer;
+}
+
+.filter-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.filter-toggle {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.filter-toggle:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.filter-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 1.5rem;
+}
+
+.filter-panel.expanded {
+    max-height: 1000px;
+    padding: 1.5rem;
+}
+
+.filter-group {
+    margin-bottom: 1.5rem;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--md-default-fg-color);
+    font-size: 0.9rem;
+}
+
+.filter-group input[type="text"],
+.filter-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 4px;
+    background: var(--md-default-bg-color);
+    color: var(--md-default-fg-color);
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
+}
+
+.filter-group input[type="text"]:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--md-primary-fg-color);
+    box-shadow: 0 0 0 2px rgba(var(--md-primary-fg-color-rgb), 0.1);
+}
+
+/* Range Sliders */
+.range-slider {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.range-slider input[type="range"] {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--md-default-fg-color--lightest);
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.range-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--md-primary-fg-color);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.range-slider input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--md-primary-fg-color);
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Checkbox Group */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-group label:hover {
+    background: var(--md-default-fg-color--lightest);
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+    width: auto;
+}
+
+/* Filter Actions */
+.filter-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+}
+
+.btn-primary:hover {
+    background: var(--md-primary-fg-color--dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--md-default-fg-color);
+    border: 1px solid var(--md-default-fg-color--light);
+}
+
+.btn-secondary:hover {
+    background: var(--md-default-fg-color--lightest);
+}
+
+/* Results Section */
+.filter-results {
+    border-top: 1px solid var(--md-default-fg-color--lightest);
+    background: var(--md-default-bg-color--light);
+}
+
+.results-summary {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    color: var(--md-default-fg-color--light);
+    font-size: 0.9rem;
+    background: var(--md-default-fg-color--lightest);
+}
+
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.game-card {
+    background: var(--md-default-bg-color);
+    border: 1px solid var(--md-default-fg-color--lightest);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-color: var(--md-primary-fg-color--light);
+}
+
+.game-header h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.1rem;
+}
+
+.game-header h4 a {
+    color: var(--md-primary-fg-color);
+    text-decoration: none;
+}
+
+.game-header h4 a:hover {
+    text-decoration: underline;
+}
+
+.japanese-title {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.85rem;
+    color: var(--md-default-fg-color--light);
+    font-style: italic;
+}
+
+.game-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+}
+
+.game-meta span {
+    background: var(--md-default-fg-color--lightest);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+}
+
+.tag {
+    background: var(--md-primary-fg-color--light);
+    color: var(--md-primary-bg-color);
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.game-status {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+}
+
+.owned,
+.bga {
+    background: var(--md-accent-fg-color--transparent);
+    color: var(--md-accent-fg-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--md-default-fg-color--light);
+    font-size: 1.1rem;
+    grid-column: 1 / -1;
+}
+
+/* Notification */
+.filter-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--md-primary-fg-color);
+    color: var(--md-primary-bg-color);
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.filter-notification.show {
+    transform: translateX(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .filter-panel.expanded {
+        padding: 1rem;
+    }
+    
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-actions {
+        flex-direction: column;
+    }
+    
+    .game-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .game-meta {
+        font-size: 0.8rem;
+    }
+    
+    .range-slider {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .range-slider input[type="range"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-header {
+        padding: 0.75rem 1rem;
+    }
+    
+    .filter-header h3 {
+        font-size: 1rem;
+    }
+    
+    .filter-panel.expanded {
+        padding: 0.75rem;
+    }
+    
+    .filter-group {
+        margin-bottom: 1rem;
+    }
+    
+    .game-card {
+        padding: 0.75rem;
+    }
+    
+    .game-meta {
+        gap: 0.5rem;
+    }
+    
+    .game-meta span {
+        padding: 0.2rem 0.4rem;
+    }
+}
+
+/* Dark Theme Support */
+[data-md-color-scheme="slate"] .game-filter-container {
+    border-color: var(--md-default-fg-color--lightest);
+}
+
+[data-md-color-scheme="slate"] .filter-header {
+    background: var(--md-primary-fg-color);
+}
+
+[data-md-color-scheme="slate"] .game-card {
+    background: var(--md-code-bg-color);
+}
+
+[data-md-color-scheme="slate"] .game-meta span {
+    background: var(--md-default-fg-color--lightest);
+    color: var(--md-default-fg-color);
+}
+
+/* High Contrast Support */
+@media (prefers-contrast: high) {
+    .game-card {
+        border-width: 2px;
+    }
+    
+    .btn-primary,
+    .btn-secondary {
+        border-width: 2px;
+    }
+    
+    .tag {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .filter-panel,
+    .game-card,
+    .btn-primary,
+    .btn-secondary,
+    .filter-notification {
+        transition: none;
+    }
+}

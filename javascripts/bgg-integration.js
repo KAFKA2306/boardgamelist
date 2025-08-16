@@ -8,6 +8,11 @@ class BGGIntegration {
         this.baseURL = 'https://boardgamegeek.com/xmlapi2';
         this.cache = new Map();
         this.cacheDuration = 24 * 60 * 60 * 1000; // 24 hours
+        this.batchSize = 10; // Process games in batches
+        this.requestQueue = [];
+        this.processing = false;
+        this.rateLimitDelay = 1000; // 1 second between requests
+        this.initServiceWorker();
     }
 
     /**
@@ -84,24 +89,107 @@ class BGGIntegration {
     }
 
     /**
-     * Update game rating displays on page
+     * Initialize service worker for offline caching
+     */
+    async initServiceWorker() {
+        if ('serviceWorker' in navigator) {
+            try {
+                const registration = await navigator.serviceWorker.register('/boardgamelist/sw.js');
+                console.log('Service Worker registered:', registration);
+            } catch (error) {
+                console.log('Service Worker registration failed:', error);
+            }
+        }
+    }
+
+    /**
+     * Add request to batch queue
+     */
+    queueRequest(gameId, element) {
+        this.requestQueue.push({ gameId, element });
+        if (!this.processing) {
+            this.processBatch();
+        }
+    }
+
+    /**
+     * Process requests in batches with rate limiting
+     */
+    async processBatch() {
+        if (this.processing || this.requestQueue.length === 0) return;
+        
+        this.processing = true;
+        
+        while (this.requestQueue.length > 0) {
+            const batch = this.requestQueue.splice(0, this.batchSize);
+            const promises = batch.map(async ({ gameId, element }) => {
+                try {
+                    const gameData = await this.fetchGameData(gameId);
+                    if (gameData) {
+                        this.updateGameElement(element, gameData);
+                    }
+                } catch (error) {
+                    console.error(`Error updating game ${gameId}:`, error);
+                    // Fallback to cached data or show error state
+                    this.handleError(element, gameId, error);
+                }
+            });
+
+            await Promise.all(promises);
+            
+            // Rate limiting delay between batches
+            if (this.requestQueue.length > 0) {
+                await new Promise(resolve => setTimeout(resolve, this.rateLimitDelay));
+            }
+        }
+        
+        this.processing = false;
+    }
+
+    /**
+     * Handle API errors gracefully
+     */
+    handleError(element, gameId, error) {
+        // Try to get cached data from localStorage as fallback
+        const fallbackData = this.getFallbackData(gameId);
+        if (fallbackData) {
+            this.updateGameElement(element, fallbackData);
+            return;
+        }
+
+        // Show error state
+        element.classList.add('bgg-error');
+        const errorElement = element.querySelector('.bgg-error-message');
+        if (errorElement) {
+            errorElement.textContent = 'BGG data unavailable';
+        }
+    }
+
+    /**
+     * Get fallback data from localStorage or YAML frontmatter
+     */
+    getFallbackData(gameId) {
+        try {
+            const fallback = localStorage.getItem(`bgg_fallback_${gameId}`);
+            return fallback ? JSON.parse(fallback) : null;
+        } catch (error) {
+            return null;
+        }
+    }
+
+    /**
+     * Update game rating displays on page with batch processing
      */
     async updateGameRatings() {
         const gameElements = document.querySelectorAll('[data-bgg-id]');
         
-        for (const element of gameElements) {
+        // Add all elements to batch queue
+        gameElements.forEach(element => {
             const gameId = element.getAttribute('data-bgg-id');
-            if (!gameId) continue;
-
-            try {
-                const gameData = await this.fetchGameData(gameId);
-                if (gameData) {
-                    this.updateGameElement(element, gameData);
-                }
-            } catch (error) {
-                console.error(`Error updating game ${gameId}:`, error);
+            if (gameId) {
+                this.queueRequest(gameId, element);
             }
-        }
+        });
     }
 
     /**
