@@ -2,70 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/designs/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/requirements/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/tasks/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/categories/area-control/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/categories/card-games/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/categories/cooperative/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/categories/deck-building/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/categories/family/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/categories/special-mechanics/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/categories/strategy/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/</loc>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/apiary/</loc>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/arcs/</loc>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/blood-rage/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/games/bohnanza/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/caylus/</loc>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/concept/</loc>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/dice-forge/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/games/fixer/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/games/fort/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/games/hackclad/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/isle-of-cats/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/games/istanbul-choose-write/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/games/national-economy-mesena/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/sky-team/</loc>
+         <lastmod>2025-08-16</lastmod>
+    </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/games/windmill-valley/</loc>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/resources/bgg-integration/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/resources/glossary/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
     <url>
          <loc>https://kafka2306.github.io/boardgamelist/resources/quick-reference/</loc>
-         <lastmod>2025-08-15</lastmod>
+         <lastmod>2025-08-16</lastmod>
     </url>
 </urlset>
