@@ -47,29 +47,32 @@ nav:
   - ホーム: index.md
   - ゲーム詳細:
     - カードゲーム:
-      - BOHNANZA (ボーナンザ): games/bohnanza.md
-      - FIXER (フィクサー): games/fixer.md
-      - コンセプト (Concept): games/concept.md
+      - BOHNANZA (ボーナンザ): games/ja/bohnanza.md
+      - FIXER (フィクサー): games/ja/fixer.md
+      - コンセプト (Concept): games/ja/concept.md
     - デッキ構築:
-      - FORT (フォート): games/fort.md
-      - HackClad (ハッククラッド): games/hackclad.md
+      - FORT (フォート): games/ja/fort.md
+      - HackClad (ハッククラッド): games/ja/hackclad.md
     - 戦略・経済:
       - 中量級:
-        - イスタンブール選択と集中: games/istanbul-choose-write.md
-        - Windmill Valley: games/windmill-valley.md
-        - Apiary: games/apiary.md
+        - イスタンブール選択と集中: games/ja/istanbul-choose-write.md
+        - Windmill Valley: games/ja/windmill-valley.md
+        - Apiary: games/ja/apiary.md
       - 重量級:
-        - ケイラス (Caylus): games/caylus.md
-        - National Economy Mesena: games/national-economy-mesena.md
-        - Arcs: games/arcs.md
+        - ケイラス (Caylus): games/ja/caylus.md
+        - National Economy Mesena: games/ja/national-economy-mesena.md
+        - Arcs: games/ja/arcs.md
+        - Wingspan (ウイングスパン): games/ja/wingspan.md
     - 協力ゲーム:
-      - Sky Team: games/sky-team.md
+      - Sky Team: games/ja/sky-team.md
     - エリア制圧・冒険:
-      - ブラッド・レイジ (Blood Rage): games/blood-rage.md
+      - ブラッド・レイジ (Blood Rage): games/ja/blood-rage.md
     - 特殊メカニクス:
-      - ダイスフォージ (Dice Forge): games/dice-forge.md
-      - アイル・オブ・キャッツ (The Isle of Cats): games/isle-of-cats.md
-  - ゲーム一覧（アルファベット順）: games/index.md
+      - ダイスフォージ (Dice Forge): games/ja/dice-forge.md
+      - アイル・オブ・キャッツ (The Isle of Cats): games/ja/isle-of-cats.md
+    - ロスト・ルインズ・オブ・アーナック: games/ja/lost-ruins-of-arnak.md
+    - デューン・インペリウム: games/ja/dune-imperium.md
+  - ゲーム一覧（アルファベット順）: games/ja/index.md
   - ゲーム分類:
     - カードゲーム: categories/card-games.md
     - デッキビルディング: categories/deck-building.md
