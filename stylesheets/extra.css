@@ -1,21 +1,21 @@
 /* 日本語フォント最適化 */
 :root {
-  --md-text-font: "Noto Sans JP", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-  --md-primary-color: #e91e63;
-  --md-accent-color: #e91e63;
-  --game-primary: #e91e63;
-  --game-primary-light: rgba(233, 30, 99, 0.1);
-  --game-primary-dark: #c2185b;
-  --game-secondary: #2196f3;
-  --game-success: #4caf50;
-  --game-warning: #ff9800;
-  --game-danger: #f44336;
-  --game-info: #607d8b;
-  --game-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --game-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
-  --game-border-radius: 8px;
-  --game-border-radius-large: 12px;
-  --game-transition: all 0.2s ease;
+  --md-text-font: "Noto Sans JP", sans-serif;
+  --md-primary-color: #005CB9;
+  --md-accent-color: #00A3AF;
+  --game-primary: #00A3AF;
+  --game-primary-light: rgba(0, 163, 175, 0.1);
+  --game-primary-dark: #008080;
+  --game-secondary: #005CB9;
+  --game-success: #00A3AF;
+  --game-warning: #FF9800;
+  --game-danger: #F44336;
+  --game-info: #607D8B;
+  --game-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --game-shadow-hover: 0 8px 24px rgba(0, 163, 175, 0.15);
+  --game-border-radius: 4px;
+  --game-border-radius-large: 8px;
+  --game-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 日本語テキストの行間調整 */
