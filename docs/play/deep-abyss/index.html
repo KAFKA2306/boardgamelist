@@ -6,13 +6,13 @@
   <meta name="theme-color" content="#090b16">
   <meta name="description" content="4人専用・短時間・ドラフト型領域支配ゲーム『深淵侵蝕』オンライン試遊版">
   <title>深淵侵蝕 — オンライン試遊版</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=0.2.0">
 </head>
 <body>
   <div id="app">
     <header class="topbar">
       <div>
-        <p class="eyebrow">PROTOTYPE v0.1 · 4 PLAYERS · P2P</p>
+        <p class="eyebrow">PROTOTYPE v0.2 · 4 PLAYERS · P2P / CPU</p>
         <h1>深淵侵蝕</h1>
       </div>
       <div class="top-actions">
@@ -27,7 +27,7 @@
           <div class="sigil" aria-hidden="true">◉</div>
           <p class="kicker">四つの教団による、世界の版図をめぐる抗争</p>
           <h2>15分で世界を侵蝕せよ</h2>
-          <p class="lead">ホストが部屋を作り、参加者は共有された6文字の部屋コードから接続します。4人揃うとドラフトを開始できます。</p>
+          <p class="lead">オンラインではホストが部屋を作り、参加者は6文字の参加コードから接続します。1人で確認するときはCPU検証モードを使用できます。</p>
 
           <label class="field">
             <span>表示名</span>
@@ -35,20 +35,22 @@
           </label>
 
           <div class="lobby-actions">
-            <button id="createRoomButton" class="primary">部屋を作る</button>
+            <button id="createRoomButton" class="primary">オンライン部屋を作る</button>
             <div class="join-row">
-              <input id="roomInput" maxlength="6" inputmode="latin" placeholder="部屋コード">
+              <input id="roomInput" maxlength="6" inputmode="latin" placeholder="6文字の参加コード">
               <button id="joinRoomButton">参加する</button>
             </div>
+            <button id="cpuModeButton" class="ghost wide" style="grid-column:1/-1">CPU 3人と1人で検証する</button>
           </div>
-          <p class="fineprint">通信はPeerJS Cloudで接続を仲介し、ゲーム状態はホストブラウザが管理します。ホストが閉じると部屋も終了します。</p>
+          <p class="fineprint">オンライン通信はPeerJS Cloudで接続を仲介します。接続不能時もCPU検証モードは通信サーバーを使わず動作します。</p>
         </div>
 
         <aside id="roomPanel" class="room-panel hidden">
           <div class="room-code-wrap">
-            <span>ROOM</span>
+            <span>参加コード</span>
             <strong id="roomCode">------</strong>
-            <button id="copyRoomButton" class="ghost compact">コピー</button>
+            <button id="copyRoomButton" class="ghost compact">コードをコピー</button>
+            <button id="copyInviteButton" class="ghost compact">招待URL</button>
           </div>
           <div id="lobbyPlayers" class="lobby-players"></div>
           <button id="startGameButton" class="primary wide hidden">4人でドラフト開始</button>
@@ -152,9 +154,10 @@
         <article><h3>遠隔潜伏</h3><p>自領に隣接しない未支配区域を1つ獲得。次の自分の手番から起点にできる。</p></article>
         <article><h3>教団抗争</h3><p>隣接敵領を対象に双方1D6。攻撃側だけが大きければ奪取。同値は防御成功。</p></article>
         <article><h3>能力</h3><p>公開情報。各カードは1ゲームに1回。同じプレイヤーは1手番中に最大1枚。</p></article>
+        <article><h3>CPU検証</h3><p>3人のCPUが通常行動、防御、反応を自動実行する。通信サーバーを使わず1人で試遊できる。</p></article>
         <article><h3>同点</h3><p>最大の連結領域群を比較。それも同じなら共同勝利。</p></article>
       </div>
-      <p class="fineprint">オンライン版は試遊用です。ホストがゲーム状態を判定し、PeerJS経由で同期します。</p>
+      <p class="fineprint">オンライン版ではホストが状態を判定しPeerJS経由で同期します。CPU検証モードは完全にローカルで動作します。</p>
     </form>
   </dialog>
 
@@ -171,6 +174,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <script src="./cards.js"></script>
-  <script src="./app.js"></script>
+  <script src="./app.js?v=0.2.0"></script>
 </body>
 </html>

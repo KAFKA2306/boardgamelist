@@ -1,0 +1,18 @@
+  if (new URL(location.href).searchParams.has('test')) {
+    window.__deepAbyssTest = {
+      createCpuGame,
+      startDraft: () => startDraft(),
+      pickFirstDraft: () => {
+        const player = myPlayer();
+        const first = state?.draft?.packs?.[player?.seat]?.[0];
+        if (!player || !first) throw new Error('draft pick unavailable');
+        handleDraftPick(player, first);
+      },
+      getState: () => deepClone(state),
+      setCurrentSeat: (seat) => { state.currentSeat = Number(seat); },
+      runCpuStep,
+      copyText,
+      peerOptions,
+      peerErrorMessage,
+    };
+  }

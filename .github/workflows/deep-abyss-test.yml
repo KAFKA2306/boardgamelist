@@ -1,0 +1,60 @@
+name: Test Deep Abyss
+
+on:
+  pull_request:
+    paths:
+      - 'docs/play/deep-abyss/**'
+      - 'scripts/test-deep-abyss.mjs'
+      - 'scripts/e2e-deep-abyss.mjs'
+      - '.github/workflows/deep-abyss-test.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'docs/play/deep-abyss/**'
+      - 'scripts/test-deep-abyss.mjs'
+      - 'scripts/e2e-deep-abyss.mjs'
+      - '.github/workflows/deep-abyss-test.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  engine-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run engine regression test
+        run: node scripts/test-deep-abyss.mjs
+
+  online-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Run two-browser PeerJS test
+        run: |
+          python3 -m http.server 8000 > /tmp/deep-abyss-server.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/docs/play/deep-abyss/ > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          node scripts/e2e-deep-abyss.mjs
