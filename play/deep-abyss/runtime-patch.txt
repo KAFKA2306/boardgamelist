@@ -1,0 +1,331 @@
+  local.cpuMode = false;
+  local.cpuTimer = null;
+  local.networkGeneration = 0;
+
+  function peerOptions() {
+    return {
+      host: '0.peerjs.com',
+      port: 443,
+      path: '/',
+      secure: true,
+      key: 'peerjs',
+      debug: 1,
+      config: {
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+        ],
+        sdpSemantics: 'unified-plan',
+      },
+    };
+  }
+
+  function peerErrorMessage(error) {
+    const type = error?.type || 'unknown';
+    const messages = {
+      'peer-unavailable': '参加先が見つかりません。参加コード、ホスト画面が開いていること、ホストの接続完了表示を確認してください。',
+      'server-error': 'PeerJSのシグナリングサーバーへ接続できませんでした。自動再試行後も失敗しています。CPU検証モードは利用できます。',
+      network: 'ネットワークまたはPeerJSサーバーへ接続できませんでした。通信環境を確認してください。',
+      'socket-error': 'PeerJSとの通信ソケットでエラーが発生しました。',
+      'socket-closed': 'PeerJSとの通信ソケットが閉じました。',
+      'browser-incompatible': 'このブラウザはWebRTC接続に対応していません。Chrome、Edge、Firefox、Safariの最新版を使用してください。',
+      'unavailable-id': '同じ参加コードが既に使用されています。新しいコードで再作成します。',
+      webrtc: 'WebRTC接続に失敗しました。NATやファイアウォールにより直接接続できない可能性があります。',
+    };
+    return messages[type] || `接続エラー: ${type}${error?.message ? ` (${error.message})` : ''}`;
+  }
+
+  function destroyCurrentPeer() {
+    if (local.conn?.open) local.conn.close();
+    if (local.peer && !local.peer.destroyed) local.peer.destroy();
+    local.conn = null;
+    local.peer = null;
+  }
+
+  function createRoomResilient() {
+    if (!window.Peer) {
+      toast('通信ライブラリを読み込めませんでした。CPU検証モードは利用できます。');
+      return;
+    }
+    const name = normalizedName();
+    if (!name) return;
+    teardownNetwork();
+    local.cpuMode = false;
+    local.isHost = true;
+    local.roomCode = randomRoomCode();
+    local.networkGeneration += 1;
+    openHostPeer(name, 0, local.networkGeneration);
+  }
+
+  function openHostPeer(name, attempt, generation) {
+    if (generation !== local.networkGeneration) return;
+    destroyCurrentPeer();
+    const id = roomPeerId(local.roomCode);
+    setNetwork(attempt ? `部屋を再接続中 ${attempt}/2` : '部屋を作成中', 'muted');
+    const peer = new Peer(id, peerOptions());
+    local.peer = peer;
+    let settled = false;
+    const timer = setTimeout(() => fail(new Error('接続タイムアウト')), 12000);
+
+    function fail(error) {
+      if (settled || generation !== local.networkGeneration) return;
+      settled = true;
+      clearTimeout(timer);
+      const type = error?.type || '';
+      if (type === 'unavailable-id') {
+        local.roomCode = randomRoomCode();
+        openHostPeer(name, 0, generation);
+        return;
+      }
+      if (attempt < 2 && ['server-error','network','socket-error','socket-closed',''].includes(type)) {
+        setNetwork('接続を再試行します', 'warn');
+        setTimeout(() => openHostPeer(name, attempt + 1, generation), 800 * (attempt + 1));
+        return;
+      }
+      setNetwork('接続エラー', 'warn');
+      toast(peerErrorMessage(error));
+    }
+
+    peer.on('open', (peerId) => {
+      if (settled || generation !== local.networkGeneration) return;
+      settled = true;
+      clearTimeout(timer);
+      local.playerId = peerId;
+      state = initHostState(name, peerId);
+      bindHostPeer();
+      render();
+      updateRoomUrl();
+      setNetwork('ホスト接続済み', 'ok');
+    });
+    peer.on('error', fail);
+  }
+
+  function joinRoomResilient() {
+    if (!window.Peer) {
+      toast('通信ライブラリを読み込めませんでした。CPU検証モードは利用できます。');
+      return;
+    }
+    const name = normalizedName();
+    if (!name) return;
+    const code = el.roomInput.value.trim().toUpperCase().replace(/[^A-Z2-9]/g, '').slice(0, 6);
+    if (code.length !== 6) {
+      toast('6文字の参加コードを入力してください');
+      return;
+    }
+    teardownNetwork();
+    local.cpuMode = false;
+    local.isHost = false;
+    local.roomCode = code;
+    local.networkGeneration += 1;
+    openGuestPeer(name, code, 0, local.networkGeneration);
+  }
+
+  function openGuestPeer(name, code, attempt, generation) {
+    if (generation !== local.networkGeneration) return;
+    destroyCurrentPeer();
+    setNetwork(attempt ? `再接続中 ${attempt}/2` : '接続中', 'muted');
+    const peer = new Peer(peerOptions());
+    local.peer = peer;
+    let settled = false;
+    let connectionTimer = null;
+    const peerTimer = setTimeout(() => fail(new Error('サーバー接続タイムアウト')), 12000);
+
+    function fail(error) {
+      if (settled || generation !== local.networkGeneration) return;
+      settled = true;
+      clearTimeout(peerTimer);
+      clearTimeout(connectionTimer);
+      const type = error?.type || '';
+      if (attempt < 2 && ['server-error','network','socket-error','socket-closed',''].includes(type)) {
+        setNetwork('接続を再試行します', 'warn');
+        setTimeout(() => openGuestPeer(name, code, attempt + 1, generation), 800 * (attempt + 1));
+        return;
+      }
+      setNetwork('接続エラー', 'warn');
+      toast(peerErrorMessage(error));
+    }
+
+    peer.on('open', (peerId) => {
+      clearTimeout(peerTimer);
+      if (settled || generation !== local.networkGeneration) return;
+      local.playerId = peerId;
+      const conn = peer.connect(roomPeerId(code), { reliable: true, serialization: 'json' });
+      local.conn = conn;
+      connectionTimer = setTimeout(() => fail({type:'peer-unavailable'}), 12000);
+      conn.on('open', () => {
+        if (settled || generation !== local.networkGeneration) return;
+        settled = true;
+        clearTimeout(connectionTimer);
+        conn.send({type:'join', name, clientKey:local.clientKey, peerId});
+        setNetwork('ホストへ接続済み', 'ok');
+        updateRoomUrl();
+      });
+      conn.on('data', handleClientMessage);
+      conn.on('close', () => {
+        if (generation !== local.networkGeneration) return;
+        setNetwork('ホスト切断', 'warn');
+        toast('ホストとの接続が終了しました');
+      });
+      conn.on('error', fail);
+    });
+    peer.on('error', fail);
+  }
+
+  async function copyText(text) {
+    const value = String(text ?? '');
+    if (!value) return false;
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(value);
+        return true;
+      } catch (error) {
+        console.warn('Clipboard API failed', error);
+      }
+    }
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    textarea.style.pointerEvents = 'none';
+    document.body.appendChild(textarea);
+    textarea.select();
+    textarea.setSelectionRange(0, value.length);
+    let copied = false;
+    try {
+      copied = document.execCommand('copy');
+    } catch (error) {
+      console.warn('execCommand copy failed', error);
+    }
+    textarea.remove();
+    if (!copied) window.prompt('以下をコピーしてください', value);
+    return copied;
+  }
+
+  function createCpuGame() {
+    const name = normalizedName();
+    if (!name) return;
+    teardownNetwork();
+    local.cpuMode = true;
+    local.isHost = true;
+    local.roomCode = 'CPU';
+    local.playerId = 'cpu-human';
+    state = initHostState(name, local.playerId);
+    ['CPU・アトラス','CPU・ノクス','CPU・ミアズマ'].forEach((cpuName, index) => {
+      const seat = index + 1;
+      state.players.push({
+        id:`cpu-${seat}`,
+        clientKey:`cpu-${seat}`,
+        name:cpuName,
+        seat,
+        color:DATA.COLORS[seat],
+        connected:true,
+        isCpu:true,
+        cards:[],
+        used:[],
+      });
+    });
+    const url = new URL(location.href);
+    url.searchParams.delete('room');
+    history.replaceState({}, '', url);
+    log('CPU検証モードを開始した。通信サーバーは使用しない。');
+    setNetwork('CPU検証モード', 'ok');
+    render();
+  }
+
+  const originalBroadcast = broadcast;
+  broadcast = function patchedBroadcast() {
+    originalBroadcast();
+    scheduleCpuStep();
+  };
+
+  const originalHandleDraftPick = handleDraftPick;
+  handleDraftPick = function patchedDraftPick(player, cardId) {
+    originalHandleDraftPick(player, cardId);
+    if (!local.cpuMode || player.seat !== 0 || state?.phase !== 'draft') return;
+    state.players.filter((candidate) => candidate.isCpu).forEach((cpu) => {
+      if (state.phase !== 'draft' || state.draft.chosen[cpu.seat]) return;
+      const pack = state.draft.packs[cpu.seat] || [];
+      if (pack.length) originalHandleDraftPick(cpu, pack[Math.floor(Math.random() * pack.length)]);
+    });
+  };
+
+  function scheduleCpuStep() {
+    clearTimeout(local.cpuTimer);
+    if (!local.cpuMode || !state || state.phase !== 'playing') return;
+    local.cpuTimer = setTimeout(runCpuStep, 420);
+  }
+
+  function runCpuStep() {
+    if (!local.cpuMode || !state || state.phase !== 'playing') return;
+    try {
+    if (state.choice) {
+      const chooser = state.players[state.choice.seat];
+      if (chooser?.isCpu && state.choice.eligible.length) handleChoice(chooser, state.choice.eligible[0]);
+      return;
+    }
+    if (state.reaction) {
+      const reactor = state.players[state.reaction.seat];
+      if (reactor?.isCpu) handleReaction(reactor, null);
+      return;
+    }
+    if (state.combat?.status === 'awaiting-defense') {
+      const combat = currentCombat();
+      const defender = state.players[state.board[combat.target]];
+      if (defender?.isCpu) handleDefense(defender, null);
+      return;
+    }
+    if (state.combat) return;
+    const cpu = activePlayer();
+    if (!cpu?.isCpu) return;
+    executeCpuTurn(cpu);
+    } catch (error) {
+      console.error('CPU turn failed', error);
+      const cpu = activePlayer();
+      if (cpu?.isCpu) {
+        log(`${cpu.name}の自動手番でエラーが発生したためパスした。`);
+        finishTurn();
+        broadcast();
+      }
+    }
+  }
+
+  function executeCpuTurn(cpu) {
+    const seat = cpu.seat;
+    const owners = [...state.board];
+    const picks = [];
+    for (let step = 0; step < 2; step += 1) {
+      const candidates = owners.map((owner, region) => owner === null && hasOwnedNeighbor(region, seat, owners) ? region : -1).filter((region) => region >= 0);
+      if (!candidates.length) break;
+      candidates.sort((a, b) => cpuRegionValue(b, seat, owners) - cpuRegionValue(a, seat, owners));
+      const chosen = candidates[0];
+      picks.push(chosen);
+      owners[chosen] = seat;
+    }
+    if (picks.length) {
+      handleAction(cpu, {action:'expand', cardId:null, copyCardId:null, prelude:{}, picks, combats:[], followTarget:null});
+      return;
+    }
+    const remote = state.board.map((owner, region) => isRemote(region, seat, state.board) ? region : -1).filter((region) => region >= 0);
+    if (remote.length) {
+      remote.sort((a, b) => cpuRegionValue(b, seat, state.board) - cpuRegionValue(a, seat, state.board));
+      handleAction(cpu, {action:'hide', cardId:null, copyCardId:null, prelude:{}, picks:[remote[0]], combats:[], followTarget:null});
+      return;
+    }
+    for (const source of ownedRegions(seat)) {
+      const target = neighbors(source).find((region) => state.board[region] !== null && state.board[region] !== seat);
+      if (target !== undefined) {
+        handleAction(cpu, {action:'combat', cardId:null, copyCardId:null, prelude:{}, picks:[], combats:[{source,target}], followTarget:null});
+        return;
+      }
+    }
+    log(`${cpu.name}は実行可能な行動がなくパスした。`);
+    finishTurn();
+    broadcast();
+  }
+
+  function cpuRegionValue(region, seat, owners) {
+    const open = neighbors(region).filter((neighbor) => owners[neighbor] === null).length;
+    const enemies = neighbors(region).filter((neighbor) => owners[neighbor] !== null && owners[neighbor] !== seat).length;
+    return open * 3 + enemies * 2 + neighbors(region).length;
+  }
