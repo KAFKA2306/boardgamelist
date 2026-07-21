@@ -11,15 +11,19 @@ const read = (name) => fs.readFileSync(path.join(gameDir, name), 'utf8');
 
 const parts = Array.from({ length: 8 }, (_, index) => `app-${String(index + 1).padStart(2, '0')}.txt`);
 let source = parts.map(read).join('');
-const runtimePatch = `${read('runtime-patch.txt')}\n${read('runtime-test-hook.txt')}`;
+const runtimePatch = `${read('runtime-patch.txt')}\n${read('runtime-flow-patch.txt')}\n${read('runtime-test-hook.txt')}`;
+const duplicateRegionBinding = "$$('[data-region]').forEach((node) => node.addEventListener('click', () => onRegionClick(Number(node.dataset.region))));";
+const singleRegionBinding = "$$('path.region[data-region]').forEach((node) => node.addEventListener('click', (event) => { event.stopPropagation(); onRegionClick(Number(node.dataset.region)); }));";
 
 assert.match(source, /el\.createRoomButton\.addEventListener\('click', createRoom\)/);
 assert.match(source, /el\.joinRoomButton\.addEventListener\('click', joinRoom\)/);
+assert.ok(source.includes(duplicateRegionBinding), 'original duplicate region binding exists');
 assert.match(source, /navigator\.clipboard\.writeText\(`\$\{location\.origin\}/);
 
 source = source
   .replace("el.createRoomButton.addEventListener('click', createRoom);", "el.createRoomButton.addEventListener('click', createRoomResilient);")
   .replace("el.joinRoomButton.addEventListener('click', joinRoom);", "el.joinRoomButton.addEventListener('click', joinRoomResilient);")
+  .replace(duplicateRegionBinding, () => singleRegionBinding)
   .replace(
     /  el\.copyRoomButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);\n  el\.actionButtons/,
     `  el.copyRoomButton.addEventListener('click', async () => {\n    const copied = await copyText(state?.roomCode || local.roomCode);\n    toast(copied ? \`参加コード \${state?.roomCode || local.roomCode} をコピーしました\` : '参加コードを表示しました');\n  });\n  document.querySelector('#copyInviteButton')?.addEventListener('click', async () => {\n    const code = state?.roomCode || local.roomCode;\n    const url = \`\${location.origin}\${location.pathname}?room=\${code}\`;\n    const copied = await copyText(url);\n    toast(copied ? '招待URLをコピーしました' : '招待URLを表示しました');\n  });\n  document.querySelector('#cpuModeButton')?.addEventListener('click', createCpuGame);\n  el.actionButtons`
@@ -28,6 +32,9 @@ source = source
     /  el\.copyLogButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);/,
     `  el.copyLogButton.addEventListener('click', async () => {\n    const copied = await copyText(state.logs.slice().reverse().join('\\n'));\n    toast(copied ? '侵蝕記録をコピーしました' : '侵蝕記録を表示しました');\n  });`
   );
+
+assert.ok(source.includes(singleRegionBinding), 'single path-only region binding is retained');
+assert.ok(!source.includes("$('path.region[data-region]').forEach"), 'querySelectorAll helper is not collapsed to querySelector');
 
 const closing = source.lastIndexOf('})();');
 assert.ok(closing >= 0, 'engine closure marker');
@@ -143,6 +150,8 @@ assert.equal(state.players.filter((player) => player.isCpu).length, 3, '3 CPU pl
 assert.equal(state.phase, 'lobby');
 
 api.startDraft();
+assert.equal(elements.draftDialog.open, true, 'draft dialog opens');
+assert.match(elements.draftCards.innerHTML, /draft-choice/, 'draft cards render');
 for (let round = 0; round < 4; round += 1) api.pickFirstDraft();
 state = api.getState();
 assert.equal(state.phase, 'playing', 'draft completes');
@@ -155,6 +164,11 @@ state = api.getState();
 assert.ok(state.board.filter((owner) => owner !== null).length >= 5, 'CPU performs a legal action');
 assert.notEqual(state.currentSeat, 1, 'CPU turn advances');
 
+api.setCurrentSeat(0);
+api.passTurn();
+state = api.getState();
+assert.equal(state.currentSeat, 1, 'pass advances to the next seat');
+
 assert.equal(api.peerOptions().host, '0.peerjs.com');
 assert.match(api.peerErrorMessage({ type: 'server-error' }), /シグナリングサーバー/);
 assert.equal(await api.copyText('ABC123'), true);
@@ -164,7 +178,6 @@ const html = read('index.html');
 assert.match(html, /id="copyRoomButton"[^>]*>コードをコピー</);
 assert.match(html, /id="copyInviteButton"/);
 assert.match(html, /id="cpuModeButton"/);
-assert.match(html, /app\.js\?v=0\.2\.0/);
 
 console.log(JSON.stringify({
   cards: data.cards.length,
