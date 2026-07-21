@@ -69,6 +69,32 @@ async function chooseCombat(page) {
   return true;
 }
 
+async function resolveHumanPendingDecision(page, current) {
+  if (current.choice?.seat === 0) {
+    const choice = page.locator('path.region.highlight').first();
+    await choice.waitFor({ state: 'visible', timeout: 5_000 });
+    await choice.click();
+    return 'choice';
+  }
+  if (current.reaction?.seat === 0) {
+    const pass = page.locator('#defensePassButton');
+    await pass.waitFor({ state: 'visible', timeout: 5_000 });
+    await pass.click();
+    return 'reaction';
+  }
+  if (current.combat?.status === 'awaiting-defense') {
+    const combat = current.combat.queue[current.combat.index];
+    const defenderSeat = current.board[combat.target];
+    if (defenderSeat === 0) {
+      const pass = page.locator('#defensePassButton');
+      await pass.waitFor({ state: 'visible', timeout: 5_000 });
+      await pass.click();
+      return 'defense';
+    }
+  }
+  return null;
+}
+
 try {
   // Online room and participant-code path.
   const hostContext = await browser.newContext();
@@ -120,25 +146,35 @@ try {
   assert.equal(await chooseCombat(scenario), true, 'combat source and target are selectable');
   await scenario.waitForFunction(() => {
     const current = window.__deepAbyssTest.getState();
-    return current.currentSeat !== 0 && !current.combat;
+    return current.currentSeat !== 0 && !current.combat && !current.reaction && !current.choice;
   }, null, { timeout: 10_000 });
   await scenarioContext.close();
 
-  // Full game: lobby -> four draft rounds -> repeated UI actions -> result dialog.
+  // Full game: lobby -> four draft rounds -> every decision class -> result dialog.
   const gameContext = await browser.newContext();
   const game = await gameContext.newPage();
   watch(game, 'full-game');
   await enterCpuGame(game, 'Full Game Tester');
   let humanTurns = 0;
   let passes = 0;
+  const resolved = { defense: 0, reaction: 0, choice: 0 };
   const startedAt = Date.now();
-  while (Date.now() - startedAt < 60_000) {
+  while (Date.now() - startedAt < 75_000) {
     const current = await state(game);
     if (current.phase === 'ended') break;
+
+    const pending = await resolveHumanPendingDecision(game, current);
+    if (pending) {
+      resolved[pending] += 1;
+      await game.waitForTimeout(100);
+      continue;
+    }
+
     if (current.currentSeat !== 0 || current.combat || current.choice || current.reaction) {
       await game.waitForTimeout(100);
       continue;
     }
+
     let acted = false;
     for (const action of ['expand', 'hide']) {
       acted = await chooseOneRegionAction(game, action);
@@ -153,7 +189,7 @@ try {
     await game.waitForTimeout(100);
   }
   const finalState = await state(game);
-  assert.equal(finalState.phase, 'ended', 'a complete game reaches the ended phase');
+  assert.equal(finalState.phase, 'ended', `a complete game reaches ended; current=${JSON.stringify({phase:finalState.phase, round:finalState.round, seat:finalState.currentSeat, combat:finalState.combat?.status, choice:finalState.choice, reaction:finalState.reaction})}`);
   assert.ok(humanTurns >= 1, 'human completed at least one turn');
   assert.match(finalState.endedReason, /第7ラウンド|全40区域/);
   await game.locator('#resultDialog').waitFor({ state: 'visible', timeout: 5_000 });
@@ -161,7 +197,7 @@ try {
   await gameContext.close();
 
   assert.equal(failures.length, 0, failures.join('\n'));
-  console.log(JSON.stringify({ roomCode: code, humanTurns, passes, endedReason: finalState.endedReason }, null, 2));
+  console.log(JSON.stringify({ roomCode: code, humanTurns, passes, resolved, endedReason: finalState.endedReason }, null, 2));
 } finally {
   await browser.close();
 }
