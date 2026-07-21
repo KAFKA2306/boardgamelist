@@ -6,9 +6,17 @@ const browser = await chromium.launch({ headless: true });
 const failures = [];
 
 function watch(page, label) {
-  page.on('pageerror', (error) => failures.push(`${label} pageerror: ${error.message}`));
+  page.on('pageerror', (error) => {
+    const message = `${label} pageerror: ${error.message}`;
+    failures.push(message);
+    console.log(message);
+  });
   page.on('console', (message) => {
-    if (message.type() === 'error') failures.push(`${label} console: ${message.text()}`);
+    if (message.type() === 'error') {
+      const text = `${label} console: ${message.text()}`;
+      failures.push(text);
+      console.log(text);
+    }
   });
 }
 
@@ -44,9 +52,20 @@ async function enterCpuGame(page, name) {
       };
     });
     console.log(`DRAFT ${name} ${expectedRound}: ${JSON.stringify(diagnostic)}`);
+    if (diagnostic.enabledChoiceCount === 0) {
+      const renderAttempt = await page.evaluate(() => {
+        try {
+          window.__deepAbyssTest.render();
+          return { ok: true };
+        } catch (error) {
+          return { ok: false, name: error?.name, message: error?.message, stack: error?.stack };
+        }
+      });
+      console.log(`DRAFT RENDER ${name} ${expectedRound}: ${JSON.stringify(renderAttempt)}`);
+      assert.fail(`draft render failed: ${JSON.stringify({ diagnostic, renderAttempt })}`);
+    }
     assert.equal(diagnostic.phase, 'draft', `draft remains active before pick ${expectedRound}`);
     assert.equal(diagnostic.round, expectedRound, `draft round ${expectedRound}`);
-    assert.ok(diagnostic.enabledChoiceCount > 0, `enabled draft choice exists: ${JSON.stringify(diagnostic)}`);
 
     await page.locator('.draft-choice:not([disabled])').first().click();
     await page.waitForFunction((previous) => {
