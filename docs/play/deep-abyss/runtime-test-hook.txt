@@ -2,6 +2,7 @@
     window.__deepAbyssTest = {
       createCpuGame,
       startDraft: () => startDraft(),
+      render: () => render(),
       pickFirstDraft: () => {
         const player = myPlayer();
         const first = state?.draft?.packs?.[player?.seat]?.[0];
