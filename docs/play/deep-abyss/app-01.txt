@@ -1,0 +1,234 @@
+'use strict';
+
+(() => {
+  const DATA = window.DEEP_ABYSS;
+  const $ = (selector) => document.querySelector(selector);
+  const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+  const el = {
+    lobbyView: $('#lobbyView'), gameView: $('#gameView'), roomPanel: $('#roomPanel'),
+    nameInput: $('#nameInput'), roomInput: $('#roomInput'), createRoomButton: $('#createRoomButton'),
+    joinRoomButton: $('#joinRoomButton'), roomCode: $('#roomCode'), gameRoomCode: $('#gameRoomCode'),
+    copyRoomButton: $('#copyRoomButton'), lobbyPlayers: $('#lobbyPlayers'), startGameButton: $('#startGameButton'),
+    lobbyStatus: $('#lobbyStatus'), networkBadge: $('#networkBadge'), scoreboard: $('#scoreboard'),
+    roundLabel: $('#roundLabel'), turnLabel: $('#turnLabel'), unclaimedLabel: $('#unclaimedLabel'),
+    board: $('#board'), boardHint: $('#boardHint'), actionButtons: $$('.action-button'),
+    selectionSummary: $('#selectionSummary'), cancelSelectionButton: $('#cancelSelectionButton'),
+    commitActionButton: $('#commitActionButton'), cardHand: $('#cardHand'), gameLog: $('#gameLog'),
+    copyLogButton: $('#copyLogButton'), draftDialog: $('#draftDialog'), draftCards: $('#draftCards'),
+    draftStatus: $('#draftStatus'), combatDialog: $('#combatDialog'), combatTitle: $('#combatTitle'),
+    combatBody: $('#combatBody'), defenseCards: $('#defenseCards'), defensePassButton: $('#defensePassButton'),
+    rulesDialog: $('#rulesDialog'), rulesButton: $('#rulesButton'), resultDialog: $('#resultDialog'),
+    resultBody: $('#resultBody'), toast: $('#toast'),
+  };
+
+  const local = {
+    peer: null,
+    conn: null,
+    isHost: false,
+    connections: new Map(),
+    roomCode: '',
+    playerId: null,
+    clientKey: localStorage.getItem('deepAbyssClientKey') || crypto.randomUUID(),
+    selectedCard: null,
+    copyCardId: null,
+    selection: null,
+    lastDraftRound: -1,
+  };
+  localStorage.setItem('deepAbyssClientKey', local.clientKey);
+  el.nameInput.value = localStorage.getItem('deepAbyssName') || '';
+
+  let state = null;
+
+  const deepClone = (value) => JSON.parse(JSON.stringify(value));
+  const shuffled = (items) => {
+    const list = [...items];
+    for (let i = list.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+    return list;
+  };
+  const roll = () => Math.floor(Math.random() * 6) + 1;
+  const playerById = (id) => state?.players.find((player) => player.id === id);
+  const myPlayer = () => state?.players.find((player) => player.clientKey === local.clientKey || player.id === local.playerId);
+  const activePlayer = () => state?.players.find((player) => player.seat === state.currentSeat);
+  const card = (id) => DATA.cardById[id] || null;
+  const score = (seat, owners = state.board) => owners.filter((owner) => owner === seat).length;
+  const unclaimed = (owners = state.board) => owners.filter((owner) => owner === null).length;
+  const neighbors = (region) => DATA.adjacency[region];
+  const ownedRegions = (seat, owners = state.board) => owners.map((owner, i) => owner === seat ? i : -1).filter((i) => i >= 0);
+  const hasOwnedNeighbor = (region, seat, owners = state.board) => neighbors(region).some((n) => owners[n] === seat);
+  const hasEnemyNeighbor = (region, seat, owners = state.board) => neighbors(region).some((n) => owners[n] !== null && owners[n] !== seat);
+  const isRemote = (region, seat, owners = state.board) => owners[region] === null && !hasOwnedNeighbor(region, seat, owners);
+  const categoryColor = (category) => ({I:'#a15d4f',H:'#597ca4',C:'#a74755',R:'#7f68a7'})[category];
+
+  function componentsForSeat(seat, owners = state.board) {
+    const remaining = new Set(ownedRegions(seat, owners));
+    const components = [];
+    while (remaining.size) {
+      const start = remaining.values().next().value;
+      remaining.delete(start);
+      const component = [start];
+      const queue = [start];
+      while (queue.length) {
+        const current = queue.shift();
+        neighbors(current).forEach((n) => {
+          if (remaining.has(n)) {
+            remaining.delete(n);
+            component.push(n);
+            queue.push(n);
+          }
+        });
+      }
+      components.push(component);
+    }
+    return components;
+  }
+
+  function largestComponent(seat, owners = state.board) {
+    return Math.max(0, ...componentsForSeat(seat, owners).map((part) => part.length));
+  }
+
+  function log(message) {
+    state.logs.unshift(message);
+    state.logs = state.logs.slice(0, 80);
+  }
+
+  function toast(message) {
+    el.toast.textContent = message;
+    el.toast.classList.add('show');
+    clearTimeout(toast.timer);
+    toast.timer = setTimeout(() => el.toast.classList.remove('show'), 1800);
+  }
+
+  function setNetwork(label, type = 'muted') {
+    el.networkBadge.textContent = label;
+    el.networkBadge.className = `badge ${type}`;
+  }
+
+  function normalizedName() {
+    const name = el.nameInput.value.trim().slice(0, 16);
+    if (!name) {
+      toast('表示名を入力してください');
+      return null;
+    }
+    localStorage.setItem('deepAbyssName', name);
+    return name;
+  }
+
+  function randomRoomCode() {
+    const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    return Array.from({length:6}, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join('');
+  }
+
+  function roomPeerId(code) {
+    return `deep-abyss-${code.toLowerCase()}`;
+  }
+
+  function initHostState(name, peerId) {
+    return {
+      version: 1,
+      roomCode: local.roomCode,
+      hostId: peerId,
+      phase: 'lobby',
+      players: [{id:peerId, clientKey:local.clientKey, name, seat:0, color:DATA.COLORS[0], connected:true, cards:[], used:[]}],
+      draft: null,
+      board: Array(40).fill(null),
+      round: 1,
+      currentSeat: 0,
+      startingSeat: 0,
+      usedThisTurn: [false,false,false,false],
+      combat: null,
+      choice: null,
+      reaction: null,
+      logs: [],
+      endedReason: null,
+    };
+  }
+
+  function createRoom() {
+    if (!window.Peer) {
+      toast('通信ライブラリを読み込めませんでした');
+      return;
+    }
+    const name = normalizedName();
+    if (!name) return;
+    teardownNetwork();
+    local.isHost = true;
+    local.roomCode = randomRoomCode();
+    const id = roomPeerId(local.roomCode);
+    setNetwork('部屋を作成中', 'muted');
+    local.peer = new Peer(id);
+    local.peer.on('open', (peerId) => {
+      local.playerId = peerId;
+      state = initHostState(name, peerId);
+      bindHostPeer();
+      render();
+      updateRoomUrl();
+      setNetwork('ホスト接続済み', 'ok');
+    });
+    local.peer.on('error', (error) => {
+      if (error.type === 'unavailable-id') {
+        local.peer.destroy();
+        local.roomCode = randomRoomCode();
+        createRoomWithExistingName(name);
+      } else {
+        setNetwork('接続エラー', 'warn');
+        toast(`接続エラー: ${error.type || error.message}`);
+      }
+    });
+  }
+
+  function createRoomWithExistingName(name) {
+    local.isHost = true;
+    const id = roomPeerId(local.roomCode);
+    local.peer = new Peer(id);
+    local.peer.on('open', (peerId) => {
+      local.playerId = peerId;
+      state = initHostState(name, peerId);
+      bindHostPeer();
+      render();
+      updateRoomUrl();
+      setNetwork('ホスト接続済み', 'ok');
+    });
+    local.peer.on('error', (error) => {
+      setNetwork('接続エラー', 'warn');
+      toast(`接続エラー: ${error.type || error.message}`);
+    });
+  }
+
+  function bindHostPeer() {
+    local.peer.on('connection', (conn) => {
+      conn.on('open', () => {
+        local.connections.set(conn.peer, conn);
+        conn.on('data', (message) => handleHostMessage(conn, message));
+        conn.on('close', () => disconnectGuest(conn.peer));
+        conn.on('error', () => disconnectGuest(conn.peer));
+      });
+    });
+    local.peer.on('disconnected', () => setNetwork('仲介サーバー切断', 'warn'));
+  }
+
+  function joinRoom() {
+    if (!window.Peer) {
+      toast('通信ライブラリを読み込めませんでした');
+      return;
+    }
+    const name = normalizedName();
+    if (!name) return;
+    const code = el.roomInput.value.trim().toUpperCase().replace(/[^A-Z2-9]/g, '').slice(0, 6);
+    if (code.length !== 6) {
+      toast('6文字の部屋コードを入力してください');
+      return;
+    }
+    teardownNetwork();
+    local.isHost = false;
+    local.roomCode = code;
+    setNetwork('接続中', 'muted');
+    local.peer = new Peer();
+    local.peer.on('open', (peerId) => {
+      local.playerId = peerId;
+      const conn = local.peer.connect(roomPeerId(code), {reliable:true, serialization:'json'});
+      local.conn = conn;
+      conn.on('open', () => {
