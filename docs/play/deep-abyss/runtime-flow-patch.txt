@@ -1,0 +1,37 @@
+  const passTurnButton = document.querySelector('#passTurnButton');
+
+  function passCurrentTurn(player = myPlayer()) {
+    if (!player) throw new Error('プレイヤー情報を取得できません');
+    if (state.phase !== 'playing' || state.combat || state.choice || state.reaction) throw new Error('現在はパスできません');
+    if (player.seat !== state.currentSeat) throw new Error('あなたの手番ではありません');
+    local.selection = null;
+    local.selectedCard = null;
+    local.copyCardId = null;
+    log(`${player.name}はパスした。`);
+    finishTurn();
+    broadcast();
+  }
+
+  const originalHandleIntentForPass = handleIntent;
+  handleIntent = function patchedHandleIntent(player, intent) {
+    if (intent?.type === 'pass') {
+      try {
+        passCurrentTurn(player);
+      } catch (error) {
+        console.error(error);
+        const conn = local.connections.get(player.id);
+        if (conn?.open) conn.send({type:'error', message:error.message});
+        else toast(error.message);
+      }
+      return;
+    }
+    return originalHandleIntentForPass(player, intent);
+  };
+
+  const originalRenderActionsForPass = renderActions;
+  renderActions = function patchedRenderActions() {
+    originalRenderActionsForPass();
+    if (passTurnButton) passTurnButton.disabled = !isMyActiveTurn();
+  };
+
+  passTurnButton?.addEventListener('click', () => sendIntent({type:'pass'}));
