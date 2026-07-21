@@ -22,7 +22,7 @@
 
 </div>
 
-[オンライン試遊版を起動する :material-open-in-new:](../../play/deep-abyss/index.html){ .md-button .md-button--primary }
+[オンライン試遊版を起動する :material-open-in-new:](https://kafka2306.github.io/boardgamelist/play/deep-abyss/){ .md-button .md-button--primary }
 
 ## 四つの教団による、世界の版図をめぐる抗争
 
