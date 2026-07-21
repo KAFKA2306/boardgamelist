@@ -61,9 +61,11 @@ class StubElement {
   }
   addEventListener(type, callback) { this.listeners.set(type, callback); }
   insertAdjacentHTML() {}
+  querySelector() { return null; }
   setAttribute() {}
   select() {}
   setSelectionRange() {}
+  appendChild() {}
   remove() {}
   showModal() { this.open = true; }
   close() { this.open = false; }
@@ -83,9 +85,11 @@ const actionButtons = ['expand','hide','combat'].map((action) => {
   return element;
 });
 let clipboardValue = '';
+const body = new StubElement('body');
 
 const document = {
-  body: { appendChild() {}, innerHTML: '' },
+  body,
+  activeElement: null,
   querySelector(selector) {
     if (selector.startsWith('#')) return elements[selector.slice(1)] || null;
     return null;
@@ -96,6 +100,7 @@ const document = {
   },
   createElement() { return new StubElement(); },
   execCommand(command) { return command === 'copy'; },
+  addEventListener() {},
 };
 
 const storage = new Map();
@@ -113,6 +118,7 @@ const context = {
     href: 'https://example.test/play/deep-abyss/?test=1',
     origin: 'https://example.test',
     pathname: '/play/deep-abyss/',
+    reload() {},
   },
   URL,
   prompt() {},
@@ -168,6 +174,10 @@ api.setCurrentSeat(0);
 api.passTurn();
 state = api.getState();
 assert.equal(state.currentSeat, 1, 'pass advances to the next seat');
+const report = api.getExperienceReport();
+assert.equal(report.version, '0.4.0');
+assert.equal(report.passes, 1, 'playtest report records passes');
+assert.ok(Array.isArray(report.finalScores) && report.finalScores.length === 4, 'playtest report contains final scores');
 
 assert.equal(api.peerOptions().host, '0.peerjs.com');
 assert.match(api.peerErrorMessage({ type: 'server-error' }), /シグナリングサーバー/);
@@ -177,7 +187,9 @@ assert.equal(clipboardValue, 'ABC123', 'copy helper copies participant code');
 const html = read('index.html');
 assert.match(html, /id="copyRoomButton"[^>]*>コードをコピー</);
 assert.match(html, /id="copyInviteButton"/);
-assert.match(html, /id="cpuModeButton"/);
+assert.match(html, /CPU 3人とすぐ遊ぶ/);
+assert.match(html, /app\.js\?v=0\.4\.0/);
+assert.match(html, /style\.css\?v=0\.4\.0/);
 
 console.log(JSON.stringify({
   cards: data.cards.length,
@@ -185,5 +197,6 @@ console.log(JSON.stringify({
   players: state.players.length,
   cpuPlayers: state.players.filter((player) => player.isCpu).length,
   ownedAfterCpuTurn: state.board.filter((owner) => owner !== null).length,
+  report,
   clipboardValue,
 }, null, 2));
