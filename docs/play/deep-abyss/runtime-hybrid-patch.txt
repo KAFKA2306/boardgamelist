@@ -1,0 +1,92 @@
+  const hybridFillButton = document.querySelector('#fillCpuButton');
+  const hybridCpuNames = ['CPU・アトラス', 'CPU・ノクス', 'CPU・ミアズマ'];
+
+  function connectedHumanPlayers() {
+    return state?.players?.filter((player) => !player.isCpu && player.connected) || [];
+  }
+
+  function canStartHybridCpuDemo() {
+    if (!state || state.phase !== 'lobby' || !local.isHost) return false;
+    const humans = connectedHumanPlayers();
+    return humans.length >= 2 && humans.length < 4 && state.players.length === humans.length;
+  }
+
+  function startHybridCpuDemo() {
+    if (!canStartHybridCpuDemo()) throw new Error('接続済みの人間プレイヤーが2〜3人必要です');
+    const humanCount = connectedHumanPlayers().length;
+    const cpuCount = 4 - humanCount;
+    local.cpuMode = true;
+    state.playMode = 'hybrid-cpu';
+    while (state.players.length < 4) {
+      const seat = state.players.length;
+      state.players.push({
+        id: `cpu-hybrid-${seat}`,
+        clientKey: `cpu-hybrid-${seat}`,
+        name: hybridCpuNames[seat - 1] || `CPU・${seat + 1}`,
+        seat,
+        color: DATA.COLORS[seat],
+        connected: true,
+        isCpu: true,
+        cards: [],
+        used: [],
+      });
+    }
+    log(`${humanCount}人の教団にCPU${cpuCount}人を加え、4教団戦を開始した。`);
+    setNetwork(`${humanCount}人＋CPU${cpuCount}人`, 'ok');
+    startDraft();
+  }
+
+  const renderLobbyBeforeHybridCpu = renderLobby;
+  renderLobby = function renderHybridCpuLobby() {
+    renderLobbyBeforeHybridCpu();
+    const humanCount = connectedHumanPlayers().length;
+    const available = canStartHybridCpuDemo();
+    if (hybridFillButton) {
+      hybridFillButton.classList.toggle('hidden', !available);
+      hybridFillButton.disabled = !available;
+      hybridFillButton.textContent = available ? `${humanCount}人＋CPU${4 - humanCount}人で開始` : '不足席をCPUで補充';
+    }
+    if (available && el.lobbyStatus) {
+      el.lobbyStatus.textContent = `${humanCount} / 4人 接続 · CPU${4 - humanCount}人を追加して開始できます`;
+    }
+  };
+
+  const handleDraftPickBeforeHybridCpu = handleDraftPick;
+  handleDraftPick = function handleHybridCpuDraftPick(player, cardId) {
+    handleDraftPickBeforeHybridCpu(player, cardId);
+    if (!local.cpuMode || player?.isCpu || state?.phase !== 'draft') return;
+    state.players.filter((candidate) => candidate.isCpu).forEach((cpu) => {
+      if (state.phase !== 'draft' || state.draft.chosen[cpu.seat]) return;
+      const pack = state.draft.packs[cpu.seat] || [];
+      if (pack.length) originalHandleDraftPick(cpu, pack[0]);
+    });
+  };
+
+  const coachStageBeforeHybridCpu = coachStage;
+  coachStage = function hybridCpuCoachStage() {
+    const guide = coachStageBeforeHybridCpu();
+    if (!state || state.phase === 'lobby') {
+      guide.body = '2人以上なら不足席をCPUで補充できます。4人接続または1人＋CPU3人でも開始できます。';
+    }
+    return guide;
+  };
+
+  const experienceReportBeforeHybridCpu = experienceReport;
+  experienceReport = function hybridCpuExperienceReport() {
+    const report = experienceReportBeforeHybridCpu();
+    report.appVersion = '0.5.0';
+    report.mode = state?.playMode || (local.cpuMode ? 'cpu-solo' : 'online');
+    report.humanPlayers = state?.players?.filter((player) => !player.isCpu).length || 0;
+    report.cpuPlayers = state?.players?.filter((player) => player.isCpu).length || 0;
+    return report;
+  };
+
+  if (versionLabel) versionLabel.textContent = 'PROTOTYPE v0.5 · 2P + CPU DEMO';
+  hybridFillButton?.addEventListener('click', () => {
+    try {
+      startHybridCpuDemo();
+    } catch (error) {
+      console.error(error);
+      toast(error.message);
+    }
+  });
