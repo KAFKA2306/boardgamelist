@@ -1,4 +1,5 @@
-  document.querySelector('.topbar .eyebrow').textContent = 'PROTOTYPE v0.3 · 4 PLAYERS · P2P / CPU';
+  const versionLabel = document.querySelector('.topbar .eyebrow');
+  if (versionLabel) versionLabel.textContent = 'PROTOTYPE v0.3 · 4 PLAYERS · P2P / CPU';
   let passTurnButton = document.querySelector('#passTurnButton');
   if (!passTurnButton) {
     document.querySelector('.action-grid')?.insertAdjacentHTML('beforeend', '<button id="passTurnButton" class="action-button" disabled>パス<span>行動不能時</span></button>');
