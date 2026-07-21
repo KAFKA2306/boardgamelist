@@ -1,0 +1,157 @@
+    const components = componentsForSeat(seat, owners);
+    let touching = 0;
+    components.forEach((component) => {
+      if (component.some((owned) => neighbors(region).includes(owned))) touching += 1;
+    });
+    return touching >= 2;
+  }
+
+  function handleAction(player, payload) {
+    if (state.phase !== 'playing' || state.combat || state.choice || state.reaction) throw new Error('現在は通常行動を実行できません');
+    if (player.seat !== state.currentSeat) throw new Error('あなたの手番ではありません');
+    const effective = ensureCardUsable(player, payload);
+    validateCardAction(effective, payload.action);
+    const owners = [...state.board];
+    applyPrelude(player, payload, owners);
+    const originalAfterPrelude = [...owners];
+    const outcome = {owners, queue:[], postCombatCard:effective?.id || null};
+
+    if (payload.action === 'expand') resolveExpand(player, payload, effective, originalAfterPrelude, outcome);
+    else if (payload.action === 'hide') resolveHide(player, payload, effective, originalAfterPrelude, outcome);
+    else if (payload.action === 'combat') resolveCombatAction(player, payload, effective, originalAfterPrelude, outcome);
+    else throw new Error('不正な行動です');
+
+    state.board = outcome.owners;
+    if (payload.cardId) {
+      player.used.push(payload.cardId);
+      state.usedThisTurn[player.seat] = true;
+      log(`${player.name}は「${card(payload.cardId).name}」を使用した。`);
+    }
+    if (effective?.id === 'H-06') log(`${player.name}は影の移住で拠点を移した。`);
+    if (effective?.id === 'H-07') log(`${player.name}は領域群を合流させた。`);
+
+    if (outcome.queue.length) {
+      beginCombatQueue(player.seat, outcome.queue, effective?.id || null, payload.cardId || null);
+    } else if (outcome.followCombat) {
+      beginCombatQueue(player.seat, [outcome.followCombat], effective?.id || null, payload.cardId || null);
+    } else {
+      finishTurn();
+    }
+    broadcast();
+  }
+
+  function validateCardAction(effective, action) {
+    if (!effective) return;
+    if (effective.id === 'H-06' || effective.id === 'H-07') return;
+    if (effective.action === 'combat-or-defense' && action === 'combat') return;
+    if (effective.action === 'copy') return;
+    if (effective.action !== action) throw new Error(`「${effective.name}」はこの行動では使用できません`);
+  }
+
+  function maxExpand(effective) {
+    if (!effective) return 2;
+    if (['I-01','I-02','I-03','I-05','I-06','I-08'].includes(effective.id)) return 3;
+    if (effective.id === 'I-04') return 3;
+    return 2;
+  }
+
+  function resolveExpand(player, payload, effective, original, outcome) {
+    const picks = (payload.picks || []).map(Number);
+    if (picks.length < 1 || picks.length > maxExpand(effective)) throw new Error('獲得区域数が不正です');
+    if (new Set(picks).size !== picks.length) throw new Error('同じ区域を複数回選べません');
+    if (effective?.id === 'I-06') {
+      const min = Math.min(...state.players.map((p) => score(p.seat, original)));
+      if (score(player.seat, original) !== min) throw new Error('最少支配数ではありません');
+    }
+    if (effective?.id === 'I-05' && componentsForSeat(player.seat, original).length < 2) throw new Error('自領が複数の領域群に分かれていません');
+    if (effective?.id === 'H-03') validateCrossBorderExpansion(player.seat, picks, original);
+    else if (effective?.id === 'I-01') validateChainExpansion(player.seat, picks, original);
+    else if (effective?.id === 'I-02') validateBranchExpansion(player.seat, picks, original);
+    else if (effective?.id === 'I-04') validateEncirclementExpansion(player.seat, picks, original);
+    else validateNormalExpansion(player.seat, picks, original, effective?.id === 'I-03');
+    if (effective?.id === 'I-05') validateMultiComponentExpansion(player.seat, picks, original);
+    picks.forEach((region) => { outcome.owners[region] = player.seat; });
+    log(`${player.name}が${picks.map((r) => DATA.nodes[r].label).join('・')}を侵蝕した。`);
+    if (effective?.id === 'I-07' && payload.followTarget !== null && payload.followTarget !== undefined) {
+      const target = Number(payload.followTarget);
+      if (outcome.owners[target] === null || outcome.owners[target] === player.seat) throw new Error('侵攻対象が不正です');
+      if (!picks.some((region) => neighbors(region).includes(target))) throw new Error('新規区域に隣接する敵領を選んでください');
+      outcome.followCombat = {source:picks.find((r) => neighbors(r).includes(target)), target, modifier:-1, threshold:1, label:'境界の腐食'};
+    }
+  }
+
+  function validateNormalExpansion(seat, picks, original, forbidEnemyAdjacency = false) {
+    const work = [...original];
+    picks.forEach((region, index) => {
+      if (work[region] !== null) throw new Error('未支配区域ではありません');
+      if (!hasOwnedNeighbor(region, seat, work)) throw new Error(`${index + 1}区域目が自領に隣接していません`);
+      if (forbidEnemyAdjacency && hasEnemyNeighbor(region, seat, work)) throw new Error('敵領に隣接する区域は静かな沃野で獲得できません');
+      work[region] = seat;
+    });
+  }
+
+  function validateChainExpansion(seat, picks, original) {
+    if (original[picks[0]] !== null || !hasOwnedNeighbor(picks[0], seat, original)) throw new Error('連鎖の起点が不正です');
+    for (let i = 1; i < picks.length; i += 1) {
+      if (original[picks[i]] !== null || !neighbors(picks[i - 1]).includes(picks[i])) throw new Error('1本の連鎖になっていません');
+    }
+  }
+
+  function validateBranchExpansion(seat, picks, original) {
+    const candidates = picks.map((region) => {
+      if (original[region] !== null) throw new Error('未支配区域ではありません');
+      return neighbors(region).filter((n) => original[n] === seat);
+    });
+    const assign = (index, used) => {
+      if (index >= candidates.length) return true;
+      return candidates[index].some((source) => !used.has(source) && assign(index + 1, new Set([...used, source])));
+    };
+    if (!assign(0, new Set())) throw new Error('異なる手番開始時自領から枝分かれしていません');
+  }
+
+  function validateEncirclementExpansion(seat, picks, original) {
+    if (picks.length <= 2) return validateNormalExpansion(seat, picks, original);
+    validateNormalExpansion(seat, picks.slice(0,2), original);
+    const third = picks[2];
+    if (original[third] !== null || !neighbors(picks[0]).includes(third) || !neighbors(picks[1]).includes(third)) throw new Error('追加区域は先に得た2区域の両方に隣接する必要があります');
+  }
+
+  function validateCrossBorderExpansion(seat, picks, original) {
+    if (picks.length !== 2) throw new Error('越境布教では2区域を選びます');
+    const adjacent = picks.filter((region) => original[region] === null && hasOwnedNeighbor(region, seat, original));
+    const remote = picks.filter((region) => isRemote(region, seat, original));
+    if (adjacent.length !== 1 || remote.length !== 1) throw new Error('隣接区域1つと遠隔区域1つを選んでください');
+  }
+
+  function validateMultiComponentExpansion(seat, picks, original) {
+    const components = componentsForSeat(seat, original);
+    const touched = new Set();
+    picks.forEach((region) => {
+      components.forEach((component, index) => {
+        if (component.some((owned) => neighbors(region).includes(owned))) touched.add(index);
+      });
+    });
+    if (touched.size < 2) throw new Error('少なくとも2つの領域群から広げてください');
+  }
+
+  function resolveHide(player, payload, effective, original, outcome) {
+    const picks = (payload.picks || []).map(Number);
+    const required = ['H-01','H-02'].includes(effective?.id) ? 2 : 1;
+    if (picks.length !== required || new Set(picks).size !== picks.length) throw new Error(`遠隔潜伏では${required}区域を選びます`);
+    picks.forEach((region) => {
+      if (!isRemote(region, player.seat, original)) throw new Error('遠隔潜伏条件を満たさない区域です');
+    });
+    if (effective?.id === 'H-01' && !neighbors(picks[0]).includes(picks[1])) throw new Error('地下礼拝堂の2区域は互いに隣接する必要があります');
+    if (effective?.id === 'H-02' && neighbors(picks[0]).includes(picks[1])) throw new Error('双子の密議の2区域は互いに隣接できません');
+    picks.forEach((region) => { outcome.owners[region] = player.seat; });
+    log(`${player.name}が${picks.map((r) => DATA.nodes[r].label).join('・')}へ潜伏した。`);
+    if (effective?.id === 'H-04' && payload.followTarget !== null && payload.followTarget !== undefined) {
+      const target = Number(payload.followTarget);
+      if (outcome.owners[target] === null || outcome.owners[target] === player.seat || !neighbors(picks[0]).includes(target)) throw new Error('内通者の侵攻対象が不正です');
+      outcome.followCombat = {source:picks[0], target, modifier:-1, threshold:1, label:'内通者'};
+    }
+  }
+
+  function resolveCombatAction(player, payload, effective, original, outcome) {
+    const pairs = Array.isArray(payload.combats) ? payload.combats : [];
+    if (effective?.id === 'H-05') {
