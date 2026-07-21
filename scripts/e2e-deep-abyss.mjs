@@ -26,12 +26,33 @@ async function enterCpuGame(page, name) {
   await page.locator('#nameInput').fill(name);
   await page.locator('#cpuModeButton').click();
   await page.locator('#startGameButton').click();
-  for (let round = 0; round < 4; round += 1) {
+  await page.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'draft', null, { timeout: 5_000 });
+
+  for (let expectedRound = 0; expectedRound < 4; expectedRound += 1) {
+    const diagnostic = await page.evaluate(() => {
+      const current = window.__deepAbyssTest.getState();
+      const player = current.players[0];
+      return {
+        phase: current.phase,
+        round: current.draft?.round,
+        chosen: current.draft?.chosen,
+        humanPack: current.draft?.packs?.[player.seat],
+        dialogOpen: document.querySelector('#draftDialog')?.open,
+        choiceCount: document.querySelectorAll('.draft-choice').length,
+        enabledChoiceCount: document.querySelectorAll('.draft-choice:not([disabled])').length,
+        draftHtml: document.querySelector('#draftCards')?.innerHTML?.slice(0, 300),
+      };
+    });
+    console.log(`DRAFT ${name} ${expectedRound}: ${JSON.stringify(diagnostic)}`);
+    assert.equal(diagnostic.phase, 'draft', `draft remains active before pick ${expectedRound}`);
+    assert.equal(diagnostic.round, expectedRound, `draft round ${expectedRound}`);
+    assert.ok(diagnostic.enabledChoiceCount > 0, `enabled draft choice exists: ${JSON.stringify(diagnostic)}`);
+
     await page.locator('.draft-choice:not([disabled])').first().click();
     await page.waitForFunction((previous) => {
       const current = window.__deepAbyssTest.getState();
       return current.phase !== 'draft' || current.draft.round > previous;
-    }, round);
+    }, expectedRound, { timeout: 5_000 });
   }
   await waitForState(page, () => window.__deepAbyssTest.getState().phase === 'playing');
 }
@@ -96,7 +117,6 @@ async function resolveHumanPendingDecision(page, current) {
 }
 
 try {
-  // Online room and participant-code path.
   const hostContext = await browser.newContext();
   const guestContext = await browser.newContext();
   await hostContext.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseUrl).origin });
@@ -121,7 +141,6 @@ try {
   await hostContext.close();
   await guestContext.close();
 
-  // Deterministic UI scenarios for all three actions.
   const scenarioContext = await browser.newContext();
   const scenario = await scenarioContext.newPage();
   watch(scenario, 'scenario');
@@ -150,7 +169,6 @@ try {
   }, null, { timeout: 10_000 });
   await scenarioContext.close();
 
-  // Full game: lobby -> four draft rounds -> every decision class -> result dialog.
   const gameContext = await browser.newContext();
   const game = await gameContext.newPage();
   watch(game, 'full-game');
@@ -162,19 +180,16 @@ try {
   while (Date.now() - startedAt < 75_000) {
     const current = await state(game);
     if (current.phase === 'ended') break;
-
     const pending = await resolveHumanPendingDecision(game, current);
     if (pending) {
       resolved[pending] += 1;
       await game.waitForTimeout(100);
       continue;
     }
-
     if (current.currentSeat !== 0 || current.combat || current.choice || current.reaction) {
       await game.waitForTimeout(100);
       continue;
     }
-
     let acted = false;
     for (const action of ['expand', 'hide']) {
       acted = await chooseOneRegionAction(game, action);
