@@ -1,18 +1,32 @@
+  let lastHumanActionMetricKey = null;
+
+  function recordHumanActionMetric(payload = local.selection) {
+    if (!payload) return;
+    const key = `${state?.round}:${state?.currentSeat}:${JSON.stringify(payload)}`;
+    if (key === lastHumanActionMetricKey) return;
+    lastHumanActionMetricKey = key;
+    experience.humanActions += 1;
+    if (!experience.firstActionAt) experience.firstActionAt = Date.now();
+  }
+
   const commitSelectionWithLegacyMetric = commitSelection;
   commitSelection = function normalizedCommitSelection() {
-    const before = experience.humanActions;
+    const payload = local.selection && selectionComplete() ? deepClone(local.selection) : null;
+    if (payload) recordHumanActionMetric(payload);
+    const countedBeforeLegacyCall = experience.humanActions;
     commitSelectionWithLegacyMetric();
-    if (experience.humanActions > before) experience.humanActions = before;
+    if (experience.humanActions > countedBeforeLegacyCall) experience.humanActions = countedBeforeLegacyCall;
   };
 
-  const handleActionWithExperienceMetric = handleAction;
-  handleAction = function countedHumanAction(player, payload) {
-    const result = handleActionWithExperienceMetric(player, payload);
-    if (!player?.isCpu) {
-      experience.humanActions += 1;
-      if (!experience.firstActionAt) experience.firstActionAt = Date.now();
-    }
-    return result;
+  el.commitActionButton?.addEventListener('click', () => {
+    if (local.selection && selectionComplete()) recordHumanActionMetric(deepClone(local.selection));
+  }, true);
+
+  const experienceReportWithNormalizedTotal = experienceReport;
+  experienceReport = function normalizedExperienceReport() {
+    const report = experienceReportWithNormalizedTotal();
+    report.totalActions = Math.max(report.totalActions, report.humanActions);
+    return report;
   };
 
   if (new URL(location.href).searchParams.has('test')) {
