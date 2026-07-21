@@ -6,7 +6,6 @@ site_url: https://kafka2306.github.io/boardgamelist
 repo_name: boardgamelist
 repo_url: https://github.com/KAFKA2306/boardgamelist
 
-# 日本語対応テーマ設定
 theme:
   name: material
   language: ja
@@ -21,14 +20,12 @@ theme:
     - content.code.copy
     - content.tabs.link
   palette:
-    # ライトモード
     - scheme: default
       primary: pink
       accent: pink
       toggle:
         icon: material/brightness-7
         name: ダークモードに切り替え
-    # ダークモード
     - scheme: slate
       primary: pink
       accent: pink
@@ -42,7 +39,6 @@ theme:
     repo: fontawesome/brands/github
     logo: material/dice-multiple
 
-# ナビゲーション構造 (16ゲーム対応 - Beautiful Architecture Compliant)
 nav:
   - ホーム: index.md
   - ゲーム詳細:
@@ -66,6 +62,7 @@ nav:
     - 協力ゲーム:
       - Sky Team: games/ja/sky-team.md
     - エリア制圧・冒険:
+      - 深淵侵蝕（オンライン試遊）: games/ja/deep-abyss.md
       - ブラッド・レイジ (Blood Rage): games/ja/blood-rage.md
     - 特殊メカニクス:
       - ダイスフォージ (Dice Forge): games/ja/dice-forge.md
@@ -86,7 +83,6 @@ nav:
     - BGG統合機能: resources/bgg-integration.md
     - クイックリファレンス: resources/quick-reference.md
 
-# プラグイン設定
 plugins:
   - search:
       lang: ja
@@ -95,7 +91,6 @@ plugins:
       locale: ja
       timezone: Asia/Tokyo
 
-# Markdown拡張機能
 markdown_extensions:
   - admonition
   - pymdownx.details
@@ -122,7 +117,6 @@ markdown_extensions:
   - pymdownx.tilde
   - pymdownx.emoji
 
-# 追加CSS・JavaScript
 extra_css:
   - stylesheets/extra.css
   - stylesheets/game-filter.css
@@ -132,7 +126,6 @@ extra_javascript:
   - javascripts/bgg-integration.js
   - javascripts/game-filter.js
 
-# サイト情報
 extra:
   generator: false
   social:
@@ -146,10 +139,8 @@ extra:
     provider: google
     property: G-XXXXXXXXXX
 
-# 著作権情報
 copyright: Copyright &copy; 2024-2025 BoardGameList - ボードゲーム完全ガイド
 
-# リポジトリ情報（GitHub Pages用）
 repo_url: https://github.com/KAFKA2306/boardgamelist
 repo_name: boardgamelist
 edit_uri: edit/main/docs/
