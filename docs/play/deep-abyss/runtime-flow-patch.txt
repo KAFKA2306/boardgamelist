@@ -1,4 +1,9 @@
-  const passTurnButton = document.querySelector('#passTurnButton');
+  document.querySelector('.topbar .eyebrow').textContent = 'PROTOTYPE v0.3 · 4 PLAYERS · P2P / CPU';
+  let passTurnButton = document.querySelector('#passTurnButton');
+  if (!passTurnButton) {
+    document.querySelector('.action-grid')?.insertAdjacentHTML('beforeend', '<button id="passTurnButton" class="action-button" disabled>パス<span>行動不能時</span></button>');
+    passTurnButton = document.querySelector('#passTurnButton');
+  }
 
   function passCurrentTurn(player = myPlayer()) {
     if (!player) throw new Error('プレイヤー情報を取得できません');
