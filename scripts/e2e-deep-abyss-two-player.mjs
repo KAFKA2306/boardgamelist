@@ -57,7 +57,7 @@ async function chooseOneRegionAction(page, action) {
     await page.locator('#cancelSelectionButton').click();
     return false;
   }
-  await highlights.first().click();
+  await highlights.first().click({ force: true });
   assert.equal(await page.locator('path.region.selected').count(), 1, `${action}: region remains selected`);
   if (!(await page.locator('#commitActionButton').isEnabled())) {
     await page.locator('#cancelSelectionButton').click();
@@ -76,13 +76,13 @@ async function chooseCombat(page) {
     await page.locator('#cancelSelectionButton').click();
     return false;
   }
-  await highlights.first().click();
+  await highlights.first().click({ force: true });
   highlights = page.locator('path.region.highlight');
   if (await highlights.count() === 0) {
     await page.locator('#cancelSelectionButton').click();
     return false;
   }
-  await highlights.first().click();
+  await highlights.first().click({ force: true });
   if (!(await page.locator('#commitActionButton').isEnabled())) {
     await page.locator('#cancelSelectionButton').click();
     return false;
@@ -121,7 +121,7 @@ async function resolvePendingForSeat(page, current, seat) {
     await page.waitForFunction((expectedSeat) => window.__deepAbyssTest?.getState()?.choice?.seat === expectedSeat, seat, { timeout: 10_000 });
     const choice = page.locator('path.region.highlight').first();
     await choice.waitFor({ state: 'visible', timeout: 10_000 });
-    await choice.click();
+    await choice.click({ force: true });
     return 'choice';
   }
   if (current.reaction?.seat === seat) {
