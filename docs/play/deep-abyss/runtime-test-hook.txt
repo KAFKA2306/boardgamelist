@@ -1,3 +1,20 @@
+  const commitSelectionWithLegacyMetric = commitSelection;
+  commitSelection = function normalizedCommitSelection() {
+    const before = experience.humanActions;
+    commitSelectionWithLegacyMetric();
+    if (experience.humanActions > before) experience.humanActions = before;
+  };
+
+  const handleActionWithExperienceMetric = handleAction;
+  handleAction = function countedHumanAction(player, payload) {
+    const result = handleActionWithExperienceMetric(player, payload);
+    if (!player?.isCpu) {
+      experience.humanActions += 1;
+      if (!experience.firstActionAt) experience.firstActionAt = Date.now();
+    }
+    return result;
+  };
+
   if (new URL(location.href).searchParams.has('test')) {
     window.__deepAbyssTest = {
       createCpuGame,
