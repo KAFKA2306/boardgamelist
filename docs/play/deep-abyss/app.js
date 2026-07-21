@@ -6,9 +6,13 @@
     const failed = responses.find((response) => !response.ok);
     if (failed) throw new Error(`engine chunk ${failed.status}`);
     let source = (await Promise.all(responses.map((response) => response.text()))).join('');
-    const patchResponse = await fetch('./runtime-patch.txt', {cache:'no-cache'});
-    if (!patchResponse.ok) throw new Error(`runtime patch ${patchResponse.status}`);
-    const runtimePatch = await patchResponse.text();
+    const patchResponses = await Promise.all([
+      fetch('./runtime-patch.txt', {cache:'no-cache'}),
+      fetch('./runtime-test-hook.txt', {cache:'no-cache'}),
+    ]);
+    const failedPatch = patchResponses.find((response) => !response.ok);
+    if (failedPatch) throw new Error(`runtime patch ${failedPatch.status}`);
+    const runtimePatch = (await Promise.all(patchResponses.map((response) => response.text()))).join('\n');
 
     source = source
       .replace("el.createRoomButton.addEventListener('click', createRoom);", "el.createRoomButton.addEventListener('click', createRoomResilient);")
