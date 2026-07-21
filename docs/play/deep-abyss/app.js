@@ -5,7 +5,26 @@
     const responses = await Promise.all(parts.map((path) => fetch(path, {cache:'no-cache'})));
     const failed = responses.find((response) => !response.ok);
     if (failed) throw new Error(`engine chunk ${failed.status}`);
-    const source = (await Promise.all(responses.map((response) => response.text()))).join('');
+    let source = (await Promise.all(responses.map((response) => response.text()))).join('');
+    const patchResponse = await fetch('./runtime-patch.txt', {cache:'no-cache'});
+    if (!patchResponse.ok) throw new Error(`runtime patch ${patchResponse.status}`);
+    const runtimePatch = await patchResponse.text();
+
+    source = source
+      .replace("el.createRoomButton.addEventListener('click', createRoom);", "el.createRoomButton.addEventListener('click', createRoomResilient);")
+      .replace("el.joinRoomButton.addEventListener('click', joinRoom);", "el.joinRoomButton.addEventListener('click', joinRoomResilient);")
+      .replace(
+        /  el\.copyRoomButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);\n  el\.actionButtons/,
+        `  el.copyRoomButton.addEventListener('click', async () => {\n    const copied = await copyText(state?.roomCode || local.roomCode);\n    toast(copied ? \`参加コード \${state?.roomCode || local.roomCode} をコピーしました\` : '参加コードを表示しました');\n  });\n  document.querySelector('#copyInviteButton')?.addEventListener('click', async () => {\n    const code = state?.roomCode || local.roomCode;\n    const url = \`\${location.origin}\${location.pathname}?room=\${code}\`;\n    const copied = await copyText(url);\n    toast(copied ? '招待URLをコピーしました' : '招待URLを表示しました');\n  });\n  document.querySelector('#cpuModeButton')?.addEventListener('click', createCpuGame);\n  el.actionButtons`
+      )
+      .replace(
+        /  el\.copyLogButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);/,
+        `  el.copyLogButton.addEventListener('click', async () => {\n    const copied = await copyText(state.logs.slice().reverse().join('\\n'));\n    toast(copied ? '侵蝕記録をコピーしました' : '侵蝕記録を表示しました');\n  });`
+      );
+
+    const closing = source.lastIndexOf('})();');
+    if (closing < 0) throw new Error('engine closure marker not found');
+    source = `${source.slice(0, closing)}\n${runtimePatch}\n${source.slice(closing)}`;
     new Function(source)();
   } catch (error) {
     console.error(error);
