@@ -6,6 +6,7 @@ on:
       - 'docs/play/deep-abyss/**'
       - 'scripts/test-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss.mjs'
+      - 'scripts/e2e-deep-abyss-two-player.mjs'
       - '.github/workflows/deep-abyss-test.yml'
   push:
     branches: [ main ]
@@ -13,6 +14,7 @@ on:
       - 'docs/play/deep-abyss/**'
       - 'scripts/test-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss.mjs'
+      - 'scripts/e2e-deep-abyss-two-player.mjs'
       - '.github/workflows/deep-abyss-test.yml'
   workflow_dispatch:
 
@@ -59,10 +61,16 @@ jobs:
           done
           set +e
           node scripts/e2e-deep-abyss.mjs > e2e-output.log 2>&1
-          status=$?
+          standard_status=$?
+          node scripts/e2e-deep-abyss-two-player.mjs > two-player-e2e-output.log 2>&1
+          two_player_status=$?
           cat e2e-output.log
-          printf '%s\n' "$status" > e2e-exit-code.txt
-          exit "$status"
+          cat two-player-e2e-output.log
+          printf 'standard=%s\ntwo-player=%s\n' "$standard_status" "$two_player_status" > e2e-exit-code.txt
+          if [ "$standard_status" -ne 0 ]; then
+            exit "$standard_status"
+          fi
+          exit "$two_player_status"
       - name: Upload E2E diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -70,6 +78,7 @@ jobs:
           name: deep-abyss-e2e-diagnostics
           path: |
             e2e-output.log
+            two-player-e2e-output.log
             e2e-exit-code.txt
             deep-abyss-server.log
           if-no-files-found: error
