@@ -5,60 +5,50 @@ const baseUrl = process.env.DEEP_ABYSS_URL || 'http://127.0.0.1:8000/docs/play/d
 const browser = await chromium.launch({ headless: true });
 const failures = [];
 
-function testUrl() {
+const testUrl = () => {
   const url = new URL(baseUrl);
   url.searchParams.set('test', '1');
   return url.toString();
-}
+};
 
 function watch(page, label) {
-  page.on('pageerror', (error) => {
-    const message = `${label} pageerror: ${error.message}`;
-    failures.push(message);
-    console.log(message);
-  });
+  page.on('pageerror', (error) => failures.push(`${label} pageerror: ${error.message}`));
   page.on('console', (message) => {
-    if (message.type() === 'error') {
-      const text = `${label} console: ${message.text()}`;
-      failures.push(text);
-      console.log(text);
-    }
+    if (message.type() === 'error') failures.push(`${label} console: ${message.text()}`);
   });
 }
 
-async function state(page) {
-  return page.evaluate(() => window.__deepAbyssTest?.getState());
+const state = (page) => page.evaluate(() => window.__deepAbyssTest?.getState());
+const report = (page) => page.evaluate(() => window.__deepAbyssTest?.getExperienceReport());
+
+async function dispatchFirst(page, selector) {
+  const element = page.locator(selector).first();
+  await element.waitFor({ state: 'attached', timeout: 10_000 });
+  await element.evaluate((node) => node.dispatchEvent(new MouseEvent('click', {
+    bubbles: true,
+    cancelable: true,
+    view: window,
+  })));
 }
 
-async function report(page) {
-  return page.evaluate(() => window.__deepAbyssTest?.getExperienceReport());
-}
-
-async function waitForTestApi(page) {
-  await page.waitForFunction(() => Boolean(window.__deepAbyssTest), null, { timeout: 45_000 });
-}
-
-async function pickDraft(page, expectedRound) {
-  await page.waitForFunction((round) => {
+async function pickDraft(page, round) {
+  await page.waitForFunction((expected) => {
     const current = window.__deepAbyssTest?.getState();
-    return current?.phase === 'draft' && current.draft?.round === round;
-  }, expectedRound, { timeout: 10_000 });
-  const choice = page.locator('.draft-choice:not([disabled])').first();
-  await choice.waitFor({ state: 'visible', timeout: 10_000 });
-  await choice.click();
+    return current?.phase === 'draft' && current.draft?.round === expected;
+  }, round, { timeout: 10_000 });
+  await page.locator('.draft-choice:not([disabled])').first().click();
 }
 
-async function chooseOneRegionAction(page, action) {
+async function chooseSingle(page, action) {
   const button = page.locator(`.action-button[data-action="${action}"]`);
   if (!(await button.isEnabled())) return false;
   await button.click();
-  const highlights = page.locator('path.region.highlight');
-  if (await highlights.count() === 0) {
+  if (await page.locator('path.region.highlight').count() === 0) {
     await page.locator('#cancelSelectionButton').click();
     return false;
   }
-  await highlights.first().click({ force: true });
-  assert.equal(await page.locator('path.region.selected').count(), 1, `${action}: region remains selected`);
+  await dispatchFirst(page, 'path.region.highlight');
+  await page.waitForFunction(() => document.querySelectorAll('path.region.selected').length === 1, null, { timeout: 3_000 });
   if (!(await page.locator('#commitActionButton').isEnabled())) {
     await page.locator('#cancelSelectionButton').click();
     return false;
@@ -71,18 +61,16 @@ async function chooseCombat(page) {
   const button = page.locator('.action-button[data-action="combat"]');
   if (!(await button.isEnabled())) return false;
   await button.click();
-  let highlights = page.locator('path.region.highlight');
-  if (await highlights.count() === 0) {
+  if (await page.locator('path.region.highlight').count() === 0) {
     await page.locator('#cancelSelectionButton').click();
     return false;
   }
-  await highlights.first().click({ force: true });
-  highlights = page.locator('path.region.highlight');
-  if (await highlights.count() === 0) {
+  await dispatchFirst(page, 'path.region.highlight');
+  if (await page.locator('path.region.highlight').count() === 0) {
     await page.locator('#cancelSelectionButton').click();
     return false;
   }
-  await highlights.first().click({ force: true });
+  await dispatchFirst(page, 'path.region.highlight');
   if (!(await page.locator('#commitActionButton').isEnabled())) {
     await page.locator('#cancelSelectionButton').click();
     return false;
@@ -91,59 +79,45 @@ async function chooseCombat(page) {
   return true;
 }
 
-async function performHumanTurn(page, seat) {
-  await page.waitForFunction((expectedSeat) => {
+async function performTurn(page, seat) {
+  await page.waitForFunction((expected) => {
     const current = window.__deepAbyssTest?.getState();
     return current?.phase === 'playing'
-      && current.currentSeat === expectedSeat
+      && current.currentSeat === expected
       && !current.combat
       && !current.choice
       && !current.reaction;
   }, seat, { timeout: 10_000 });
 
-  let action = null;
-  for (const candidate of ['expand', 'hide']) {
-    if (await chooseOneRegionAction(page, candidate)) {
-      action = candidate;
-      break;
-    }
+  for (const action of ['expand', 'hide']) {
+    if (await chooseSingle(page, action)) return action;
   }
-  if (!action && await chooseCombat(page)) action = 'combat';
-  if (!action) {
-    await page.locator('#passTurnButton').click();
-    action = 'pass';
-  }
-  return action;
+  if (await chooseCombat(page)) return 'combat';
+  await page.locator('#passTurnButton').click();
+  return 'pass';
 }
 
-async function resolvePendingForSeat(page, current, seat) {
+async function resolvePending(page, current, seat) {
   if (current.choice?.seat === seat) {
-    await page.waitForFunction((expectedSeat) => window.__deepAbyssTest?.getState()?.choice?.seat === expectedSeat, seat, { timeout: 10_000 });
-    const choice = page.locator('path.region.highlight').first();
-    await choice.waitFor({ state: 'visible', timeout: 10_000 });
-    await choice.click({ force: true });
+    await page.waitForFunction((expected) => window.__deepAbyssTest?.getState()?.choice?.seat === expected, seat, { timeout: 10_000 });
+    await dispatchFirst(page, 'path.region.highlight');
     return 'choice';
   }
   if (current.reaction?.seat === seat) {
-    await page.waitForFunction((expectedSeat) => window.__deepAbyssTest?.getState()?.reaction?.seat === expectedSeat, seat, { timeout: 10_000 });
-    const pass = page.locator('#defensePassButton');
-    await pass.waitFor({ state: 'visible', timeout: 10_000 });
-    await pass.click();
+    await page.waitForFunction((expected) => window.__deepAbyssTest?.getState()?.reaction?.seat === expected, seat, { timeout: 10_000 });
+    await page.locator('#defensePassButton').click();
     return 'reaction';
   }
   if (current.combat?.status === 'awaiting-defense') {
     const combat = current.combat.queue[current.combat.index];
-    const defenderSeat = current.board[combat.target];
-    if (defenderSeat === seat) {
-      await page.waitForFunction((expectedSeat) => {
+    if (current.board[combat.target] === seat) {
+      await page.waitForFunction((expected) => {
         const state = window.__deepAbyssTest?.getState();
         if (state?.combat?.status !== 'awaiting-defense') return false;
         const combat = state.combat.queue[state.combat.index];
-        return state.board[combat.target] === expectedSeat;
+        return state.board[combat.target] === expected;
       }, seat, { timeout: 10_000 });
-      const pass = page.locator('#defensePassButton');
-      await pass.waitFor({ state: 'visible', timeout: 10_000 });
-      await pass.click();
+      await page.locator('#defensePassButton').click();
       return 'defense';
     }
   }
@@ -151,15 +125,17 @@ async function resolvePendingForSeat(page, current, seat) {
 }
 
 try {
-  const hostContext = await browser.newContext({ viewport: { width: 1360, height: 900 } });
-  const guestContext = await browser.newContext({ viewport: { width: 1360, height: 900 } });
-  const host = await hostContext.newPage();
-  const guest = await guestContext.newPage();
+  const contexts = [
+    await browser.newContext({ viewport: { width: 1360, height: 900 } }),
+    await browser.newContext({ viewport: { width: 1360, height: 900 } }),
+  ];
+  const pages = [await contexts[0].newPage(), await contexts[1].newPage()];
+  const [host, guest] = pages;
   watch(host, 'two-player-host');
   watch(guest, 'two-player-guest');
 
   await host.goto(testUrl(), { waitUntil: 'networkidle', timeout: 45_000 });
-  await waitForTestApi(host);
+  await host.waitForFunction(() => Boolean(window.__deepAbyssTest));
   await host.locator('#nameInput').fill('Two Player Host');
   await host.locator('#createRoomButton').click();
   await host.locator('#networkBadge').filter({ hasText: 'ホスト接続済み' }).waitFor({ timeout: 45_000 });
@@ -167,7 +143,7 @@ try {
   assert.match(roomCode, /^[A-Z2-9]{6}$/);
 
   await guest.goto(testUrl(), { waitUntil: 'networkidle', timeout: 45_000 });
-  await waitForTestApi(guest);
+  await guest.waitForFunction(() => Boolean(window.__deepAbyssTest));
   await guest.locator('#nameInput').fill('Two Player Guest');
   await guest.locator('#roomInput').fill(roomCode);
   await guest.locator('#joinRoomButton').click();
@@ -177,11 +153,10 @@ try {
   const fillButton = host.locator('#fillCpuButton');
   await fillButton.waitFor({ state: 'visible', timeout: 10_000 });
   assert.match((await fillButton.textContent()) || '', /2人＋CPU2人で開始/);
-  assert.equal(await guest.locator('#fillCpuButton').isHidden(), true, 'only the host can add CPU seats');
+  assert.equal(await guest.locator('#fillCpuButton').isHidden(), true);
   await fillButton.click();
 
-  await host.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'draft', null, { timeout: 10_000 });
-  await guest.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'draft', null, { timeout: 10_000 });
+  await Promise.all(pages.map((page) => page.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'draft', null, { timeout: 10_000 })));
   let current = await state(host);
   assert.equal(current.players.length, 4);
   assert.equal(current.players.filter((player) => player.isCpu).length, 2);
@@ -193,19 +168,17 @@ try {
     const second = round % 2 === 0 ? guest : host;
     await pickDraft(first, round);
     await pickDraft(second, round);
-    await host.waitForFunction((previousRound) => {
+    await host.waitForFunction((previous) => {
       const state = window.__deepAbyssTest.getState();
-      return state.phase !== 'draft' || state.draft.round > previousRound;
+      return state.phase !== 'draft' || state.draft.round > previous;
     }, round, { timeout: 10_000 });
   }
 
-  await host.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'playing', null, { timeout: 10_000 });
-  await guest.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'playing', null, { timeout: 10_000 });
+  await Promise.all(pages.map((page) => page.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'playing', null, { timeout: 10_000 })));
   current = await state(host);
-  assert.ok(current.players.every((player) => player.cards.length === 4), 'all four seats finish the draft');
+  assert.ok(current.players.every((player) => player.cards.length === 4));
   assert.equal(current.board.filter((owner) => owner !== null).length, 4);
 
-  const pages = [host, guest];
   const humanTurns = [0, 0];
   const actions = { expand: 0, hide: 0, combat: 0, pass: 0 };
   const resolved = { defense: 0, reaction: 0, choice: 0 };
@@ -217,7 +190,7 @@ try {
 
     let pending = null;
     for (let seat = 0; seat < 2; seat += 1) {
-      pending = await resolvePendingForSeat(pages[seat], current, seat);
+      pending = await resolvePending(pages[seat], current, seat);
       if (pending) {
         resolved[pending] += 1;
         break;
@@ -230,7 +203,7 @@ try {
 
     if ([0, 1].includes(current.currentSeat) && !current.combat && !current.choice && !current.reaction) {
       const seat = current.currentSeat;
-      const action = await performHumanTurn(pages[seat], seat);
+      const action = await performTurn(pages[seat], seat);
       humanTurns[seat] += 1;
       actions[action] += 1;
       await host.waitForFunction((previousSeat) => {
@@ -241,18 +214,16 @@ try {
       }, seat, { timeout: 10_000 });
       continue;
     }
-
     await host.waitForTimeout(100);
   }
 
   const finalState = await state(host);
   assert.equal(finalState.phase, 'ended', `two-player game completes: ${JSON.stringify({ phase: finalState.phase, round: finalState.round, seat: finalState.currentSeat, combat: finalState.combat?.status, choice: finalState.choice, reaction: finalState.reaction })}`);
-  assert.ok(humanTurns[0] >= 1, 'host completes a turn');
-  assert.ok(humanTurns[1] >= 1, 'guest completes a turn');
+  assert.ok(humanTurns[0] >= 1);
+  assert.ok(humanTurns[1] >= 1);
   assert.match(finalState.endedReason, /第7ラウンド|全40区域/);
   await guest.waitForFunction(() => window.__deepAbyssTest.getState().phase === 'ended', null, { timeout: 10_000 });
-  await host.locator('#resultDialog').waitFor({ state: 'visible', timeout: 10_000 });
-  await guest.locator('#resultDialog').waitFor({ state: 'visible', timeout: 10_000 });
+  await Promise.all(pages.map((page) => page.locator('#resultDialog').waitFor({ state: 'visible', timeout: 10_000 })));
 
   const finalReport = await report(host);
   assert.equal(finalReport.appVersion, '0.5.0');
@@ -271,8 +242,7 @@ try {
     report: finalReport,
   }, null, 2));
 
-  await hostContext.close();
-  await guestContext.close();
+  await Promise.all(contexts.map((context) => context.close()));
 } finally {
   await browser.close();
 }
