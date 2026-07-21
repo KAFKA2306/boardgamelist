@@ -1,3 +1,34 @@
+  let lastHumanActionMetricKey = null;
+
+  function recordHumanActionMetric(payload = local.selection) {
+    if (!payload) return;
+    const key = `${state?.round}:${state?.currentSeat}:${JSON.stringify(payload)}`;
+    if (key === lastHumanActionMetricKey) return;
+    lastHumanActionMetricKey = key;
+    experience.humanActions += 1;
+    if (!experience.firstActionAt) experience.firstActionAt = Date.now();
+  }
+
+  const commitSelectionWithLegacyMetric = commitSelection;
+  commitSelection = function normalizedCommitSelection() {
+    const payload = local.selection && selectionComplete() ? deepClone(local.selection) : null;
+    if (payload) recordHumanActionMetric(payload);
+    const countedBeforeLegacyCall = experience.humanActions;
+    commitSelectionWithLegacyMetric();
+    if (experience.humanActions > countedBeforeLegacyCall) experience.humanActions = countedBeforeLegacyCall;
+  };
+
+  el.commitActionButton?.addEventListener('click', () => {
+    if (local.selection && selectionComplete()) recordHumanActionMetric(deepClone(local.selection));
+  }, true);
+
+  const experienceReportWithNormalizedTotal = experienceReport;
+  experienceReport = function normalizedExperienceReport() {
+    const report = experienceReportWithNormalizedTotal();
+    report.totalActions = Math.max(report.totalActions, report.humanActions);
+    return report;
+  };
+
   if (new URL(location.href).searchParams.has('test')) {
     window.__deepAbyssTest = {
       createCpuGame,
@@ -10,6 +41,7 @@
         handleDraftPick(player, first);
       },
       getState: () => deepClone(state),
+      getExperienceReport: () => deepClone(experienceReport()),
       setCurrentSeat: (seat) => { state.currentSeat = Number(seat); render(); },
       setBoard: (owners) => {
         if (!Array.isArray(owners) || owners.length !== 40) throw new Error('board must contain 40 regions');
