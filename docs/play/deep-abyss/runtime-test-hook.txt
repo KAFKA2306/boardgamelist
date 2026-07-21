@@ -10,6 +10,7 @@
         handleDraftPick(player, first);
       },
       getState: () => deepClone(state),
+      getExperienceReport: () => deepClone(experienceReport()),
       setCurrentSeat: (seat) => { state.currentSeat = Number(seat); render(); },
       setBoard: (owners) => {
         if (!Array.isArray(owners) || owners.length !== 40) throw new Error('board must contain 40 regions');
