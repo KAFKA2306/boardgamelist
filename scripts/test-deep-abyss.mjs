@@ -34,7 +34,7 @@ source = source
   );
 
 assert.ok(source.includes(singleRegionBinding), 'single path-only region binding is retained');
-assert.ok(!source.includes("$('path.region[data-region]').forEach"), 'querySelectorAll helper is not collapsed to querySelector');
+assert.doesNotMatch(source, /(^|[^$])\$\('path\.region\[data-region\]'\)\.forEach/m, 'querySelectorAll helper is not collapsed to querySelector');
 
 const closing = source.lastIndexOf('})();');
 assert.ok(closing >= 0, 'engine closure marker');
