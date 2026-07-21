@@ -9,7 +9,25 @@
         handleDraftPick(player, first);
       },
       getState: () => deepClone(state),
-      setCurrentSeat: (seat) => { state.currentSeat = Number(seat); },
+      setCurrentSeat: (seat) => { state.currentSeat = Number(seat); render(); },
+      setBoard: (owners) => {
+        if (!Array.isArray(owners) || owners.length !== 40) throw new Error('board must contain 40 regions');
+        state.board = [...owners];
+        state.combat = null;
+        state.choice = null;
+        state.reaction = null;
+        local.selection = null;
+        render();
+      },
+      forceHumanTurn: () => {
+        state.currentSeat = myPlayer().seat;
+        state.combat = null;
+        state.choice = null;
+        state.reaction = null;
+        local.selection = null;
+        render();
+      },
+      passTurn: () => passCurrentTurn(),
       runCpuStep,
       copyText,
       peerOptions,
