@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090b16">
-  <meta name="description" content="4人専用・短時間・ドラフト型領域支配ゲーム『深淵侵蝕』オンライン試遊版">
+  <meta name="description" content="2人から遊べる・短時間・ドラフト型領域支配ゲーム『深淵侵蝕』オンライン試遊版">
   <title>深淵侵蝕 — オンライン試遊版</title>
   <link rel="stylesheet" href="./style.css?v=0.4.0">
 </head>
@@ -12,7 +12,7 @@
   <div id="app">
     <header class="topbar">
       <div>
-        <p class="eyebrow">PROTOTYPE v0.4 · GUIDED PLAYTEST</p>
+        <p class="eyebrow">PROTOTYPE v0.5 · 2P + CPU DEMO</p>
         <h1>深淵侵蝕</h1>
       </div>
       <div class="top-actions">
@@ -27,7 +27,7 @@
           <div class="sigil" aria-hidden="true">◉</div>
           <p class="kicker">四つの教団による、世界の版図をめぐる抗争</p>
           <h2>15分で世界を侵蝕せよ</h2>
-          <p class="lead">行動、選択可能な区域、実行までを画面が順番に案内します。オンラインではホストが部屋を作り、参加者は6文字の参加コードから接続します。</p>
+          <p class="lead">2人以上がオンライン部屋へ接続すれば、不足席をCPUで補充して4教団戦を開始できます。行動、選択可能な区域、実行までを画面が順番に案内します。</p>
 
           <label class="field">
             <span>表示名</span>
@@ -42,7 +42,7 @@
             </div>
             <button id="cpuModeButton" class="ghost wide" style="grid-column:1/-1">CPU 3人とすぐ遊ぶ</button>
           </div>
-          <p class="fineprint">試遊時間・行動数・迷いクリックなどの体験指標はブラウザ内だけで記録され、終了時にコピーできます。オンライン通信はPeerJS Cloudで接続を仲介します。</p>
+          <p class="fineprint">2〜3人のオンライン試遊ではホストが不足席をCPUで補充します。試遊指標はブラウザ内だけで記録され、終了時にコピーできます。</p>
         </div>
 
         <aside id="roomPanel" class="room-panel hidden">
@@ -54,6 +54,7 @@
           </div>
           <div id="lobbyPlayers" class="lobby-players"></div>
           <button id="startGameButton" class="primary wide hidden">4人でドラフト開始</button>
+          <button id="fillCpuButton" class="ghost wide hidden">不足席をCPUで補充</button>
           <p id="lobbyStatus" class="status-text">接続待ち</p>
         </aside>
       </section>
@@ -154,10 +155,11 @@
         <article><h3>遠隔潜伏</h3><p>自領に隣接しない未支配区域を1つ獲得。次の自分の手番から起点にできる。</p></article>
         <article><h3>教団抗争</h3><p>隣接敵領を対象に双方1D6。攻撃側だけが大きければ奪取。同値は防御成功。</p></article>
         <article><h3>能力</h3><p>公開情報。各カードは1ゲームに1回。同じプレイヤーは1手番中に最大1枚。</p></article>
+        <article><h3>2人デモ</h3><p>2人が接続後、ホストが不足2席をCPUで補充する。ルール、ドラフト、勝敗判定は通常の4教団戦と同じ。</p></article>
         <article><h3>操作ガイド</h3><p>右側のガイドに沿って「行動→区域→実行」。PCでは1・2・3キーとEnter、スマートフォンでは下部ドックも使える。</p></article>
         <article><h3>同点</h3><p>最大の連結領域群を比較。それも同じなら共同勝利。</p></article>
       </div>
-      <p class="fineprint">オンライン版ではホストが状態を判定しPeerJS経由で同期します。CPUモードは完全にローカルで動作します。</p>
+      <p class="fineprint">オンライン版ではホストが状態を判定しPeerJS経由で同期します。CPUの手番もホスト側で処理します。</p>
     </form>
   </dialog>
 
@@ -174,6 +176,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
   <script src="./cards.js"></script>
-  <script src="./app.js?v=0.4.0"></script>
+  <script src="./app.js?v=0.5.0"></script>
 </body>
 </html>

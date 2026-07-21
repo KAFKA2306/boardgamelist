@@ -9,6 +9,7 @@
     const patchResponses = await Promise.all([
       fetch('./runtime-patch.txt', {cache:'no-cache'}),
       fetch('./runtime-flow-patch.txt', {cache:'no-cache'}),
+      fetch('./runtime-hybrid-patch.txt', {cache:'no-cache'}),
       fetch('./runtime-test-hook.txt', {cache:'no-cache'}),
     ]);
     const failedPatch = patchResponses.find((response) => !response.ok);
