@@ -11,7 +11,7 @@ const read = (name) => fs.readFileSync(path.join(gameDir, name), 'utf8');
 
 const parts = Array.from({ length: 8 }, (_, index) => `app-${String(index + 1).padStart(2, '0')}.txt`);
 let source = parts.map(read).join('');
-const runtimePatch = `${read('runtime-patch.txt')}\n${read('runtime-flow-patch.txt')}\n${read('runtime-test-hook.txt')}`;
+const runtimePatch = `${read('runtime-patch.txt')}\n${read('runtime-flow-patch.txt')}\n${read('runtime-hybrid-patch.txt')}\n${read('runtime-test-hook.txt')}`;
 const duplicateRegionBinding = "$$('[data-region]').forEach((node) => node.addEventListener('click', () => onRegionClick(Number(node.dataset.region))));";
 const singleRegionBinding = "$$('path.region[data-region]').forEach((node) => node.addEventListener('click', (event) => { event.stopPropagation(); onRegionClick(Number(node.dataset.region)); }));";
 
@@ -19,6 +19,7 @@ assert.match(source, /el\.createRoomButton\.addEventListener\('click', createRoo
 assert.match(source, /el\.joinRoomButton\.addEventListener\('click', joinRoom\)/);
 assert.ok(source.includes(duplicateRegionBinding), 'original duplicate region binding exists');
 assert.match(source, /navigator\.clipboard\.writeText\(`\$\{location\.origin\}/);
+assert.match(runtimePatch, /function startHybridCpuDemo\(\)/, 'two-player CPU fill patch is loaded');
 
 source = source
   .replace("el.createRoomButton.addEventListener('click', createRoom);", "el.createRoomButton.addEventListener('click', createRoomResilient);")
@@ -73,7 +74,7 @@ class StubElement {
 
 const ids = [
   'lobbyView','gameView','roomPanel','nameInput','roomInput','createRoomButton','joinRoomButton','roomCode','gameRoomCode',
-  'copyRoomButton','copyInviteButton','cpuModeButton','lobbyPlayers','startGameButton','lobbyStatus','networkBadge','scoreboard',
+  'copyRoomButton','copyInviteButton','cpuModeButton','fillCpuButton','lobbyPlayers','startGameButton','lobbyStatus','networkBadge','scoreboard',
   'roundLabel','turnLabel','unclaimedLabel','board','boardHint','selectionSummary','cancelSelectionButton','commitActionButton',
   'cardHand','gameLog','copyLogButton','draftDialog','draftCards','draftStatus','combatDialog','combatTitle','combatBody',
   'defenseCards','defensePassButton','rulesDialog','rulesButton','resultDialog','resultBody','toast',
@@ -176,6 +177,10 @@ state = api.getState();
 assert.equal(state.currentSeat, 1, 'pass advances to the next seat');
 const report = api.getExperienceReport();
 assert.equal(report.version, '0.4.0');
+assert.equal(report.appVersion, '0.5.0');
+assert.equal(report.mode, 'cpu-solo');
+assert.equal(report.humanPlayers, 1);
+assert.equal(report.cpuPlayers, 3);
 assert.equal(report.passes, 1, 'playtest report records passes');
 assert.ok(Array.isArray(report.finalScores) && report.finalScores.length === 4, 'playtest report contains final scores');
 
@@ -187,8 +192,10 @@ assert.equal(clipboardValue, 'ABC123', 'copy helper copies participant code');
 const html = read('index.html');
 assert.match(html, /id="copyRoomButton"[^>]*>コードをコピー</);
 assert.match(html, /id="copyInviteButton"/);
+assert.match(html, /id="fillCpuButton"/);
+assert.match(html, /2人デモ/);
 assert.match(html, /CPU 3人とすぐ遊ぶ/);
-assert.match(html, /app\.js\?v=0\.4\.0/);
+assert.match(html, /app\.js\?v=0\.5\.0/);
 assert.match(html, /style\.css\?v=0\.4\.0/);
 
 console.log(JSON.stringify({
