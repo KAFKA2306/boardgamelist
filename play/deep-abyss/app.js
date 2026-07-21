@@ -8,15 +8,21 @@
     let source = (await Promise.all(responses.map((response) => response.text()))).join('');
     const patchResponses = await Promise.all([
       fetch('./runtime-patch.txt', {cache:'no-cache'}),
+      fetch('./runtime-flow-patch.txt', {cache:'no-cache'}),
       fetch('./runtime-test-hook.txt', {cache:'no-cache'}),
     ]);
     const failedPatch = patchResponses.find((response) => !response.ok);
     if (failedPatch) throw new Error(`runtime patch ${failedPatch.status}`);
     const runtimePatch = (await Promise.all(patchResponses.map((response) => response.text()))).join('\n');
 
+    const duplicateRegionBinding = "$$('[data-region]').forEach((node) => node.addEventListener('click', () => onRegionClick(Number(node.dataset.region))));";
+    const singleRegionBinding = "$$('path.region[data-region]').forEach((node) => node.addEventListener('click', (event) => { event.stopPropagation(); onRegionClick(Number(node.dataset.region)); }));";
+    if (!source.includes(duplicateRegionBinding)) throw new Error('region binding marker not found');
+
     source = source
       .replace("el.createRoomButton.addEventListener('click', createRoom);", "el.createRoomButton.addEventListener('click', createRoomResilient);")
       .replace("el.joinRoomButton.addEventListener('click', joinRoom);", "el.joinRoomButton.addEventListener('click', joinRoomResilient);")
+      .replace(duplicateRegionBinding, () => singleRegionBinding)
       .replace(
         /  el\.copyRoomButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);\n  el\.actionButtons/,
         `  el.copyRoomButton.addEventListener('click', async () => {\n    const copied = await copyText(state?.roomCode || local.roomCode);\n    toast(copied ? \`参加コード \${state?.roomCode || local.roomCode} をコピーしました\` : '参加コードを表示しました');\n  });\n  document.querySelector('#copyInviteButton')?.addEventListener('click', async () => {\n    const code = state?.roomCode || local.roomCode;\n    const url = \`\${location.origin}\${location.pathname}?room=\${code}\`;\n    const copied = await copyText(url);\n    toast(copied ? '招待URLをコピーしました' : '招待URLを表示しました');\n  });\n  document.querySelector('#cpuModeButton')?.addEventListener('click', createCpuGame);\n  el.actionButtons`
