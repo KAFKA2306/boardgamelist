@@ -1,0 +1,152 @@
+      if (effective === 'H-05') local.selection.combats = [{source:null,target:region}];
+      else {
+        let current = local.selection.combats[local.selection.combats.length - 1];
+        if (!current || Number.isInteger(current.target)) {
+          current = {source:region,target:null};
+          local.selection.combats.push(current);
+        } else current.target = region;
+      }
+    }
+    renderGame();
+  }
+
+  function undoRegion(region) {
+    const s = local.selection;
+    if (s.followTarget === region) s.followTarget = null;
+    else if (s.picks[s.picks.length - 1] === region) s.picks.pop();
+    else {
+      const key = Object.keys(s.prelude).find((name) => s.prelude[name] === region);
+      if (key) {
+        s.prelude[key] = null;
+        if (key === 'sacrifice') s.prelude.remote = null;
+      } else {
+        const last = s.combats[s.combats.length - 1];
+        if (last?.target === region) last.target = null;
+        else if (last?.source === region) s.combats.pop();
+      }
+    }
+    renderGame();
+  }
+
+  function selectionComplete() {
+    const effective = selectionEffectiveId();
+    const prelude = local.selection.prelude;
+    if (['I-08','H-06','C-08'].includes(effective) && !Number.isInteger(prelude.sacrifice)) return false;
+    if (effective === 'H-06' && !Number.isInteger(prelude.remote)) return false;
+    if (effective === 'H-07' && !Number.isInteger(prelude.connector)) return false;
+    if (local.selection.action === 'expand') {
+      if (effective === 'H-03') return local.selection.picks.length === 2;
+      return local.selection.picks.length >= 1;
+    }
+    if (local.selection.action === 'hide') return local.selection.picks.length === (['H-01','H-02'].includes(effective) ? 2 : 1);
+    if (local.selection.action === 'combat') return local.selection.combats.length >= 1 && local.selection.combats.every((pair) => Number.isInteger(pair.target) && (effective === 'H-05' || Number.isInteger(pair.source)));
+    return false;
+  }
+
+  function selectionDescription() {
+    if (!local.selection) return isMyActiveTurn() ? '能力カードは任意です。行動を1つ選んでください。' : '他の教団の手番です。';
+    const names = selectionRegions().map((region) => DATA.nodes[region].label).join(' → ') || '未選択';
+    const ability = local.selection.cardId ? `${card(local.selection.cardId).name}${local.selection.cardId === 'R-08' ? `→${card(local.selection.copyCardId)?.name}` : ''}` : '能力なし';
+    return `${ability} / 選択: ${names}`;
+  }
+
+  function boardInstruction() {
+    if (state.phase === 'ended') return 'ゲームは終了しました';
+    if (!isMyActiveTurn()) return `${activePlayer()?.name || '—'}の手番です`;
+    if (!local.selection) return '能力を任意で選び、行動を選択してください';
+    const step = selectionStep();
+    return ({sacrifice:'未支配へ戻す自領を選択', 'remote-prelude':'移住先の遠隔区域を選択', connector:'2領域群をつなぐ区域を選択', expand:'侵蝕する未支配区域を選択', hide:'遠隔潜伏する区域を選択', combat:'侵攻元と敵領を順に選択'})[step] || '区域を選択';
+  }
+
+  function commitSelection() {
+    if (!selectionComplete()) return;
+    const payload = deepClone(local.selection);
+    local.selection = null;
+    local.selectedCard = null;
+    local.copyCardId = null;
+    sendIntent({type:'action', payload});
+  }
+
+  function renderDraft() {
+    if (state.phase !== 'draft') {
+      if (el.draftDialog.open) el.draftDialog.close();
+      return;
+    }
+    const me = myPlayer();
+    if (!me) return;
+    const chosen = state.draft.chosen[me.seat];
+    const pack = state.draft.packs[me.seat] || [];
+    el.draftStatus.textContent = chosen ? `選択済み。全員の選択を待っています（${Object.keys(state.draft.chosen).length}/4）` : `第${state.draft.round + 1}巡目。1枚を選び、残りを左へ渡します。`;
+    el.draftCards.innerHTML = pack.map((id) => {
+      const item = card(id);
+      return `<button class="draft-choice" data-draft-card="${id}" style="--category-color:${categoryColor(item.category)}" ${chosen ? 'disabled' : ''}><small>${DATA.categoryNames[item.category]} · ${item.timing}</small><h3>${item.id} ${item.name}</h3><p>${item.text}</p></button>`;
+    }).join('');
+    $$('[data-draft-card]').forEach((button) => button.addEventListener('click', (event) => {
+      event.preventDefault();
+      sendIntent({type:'draft-pick', cardId:button.dataset.draftCard});
+    }));
+    if (!el.draftDialog.open) el.draftDialog.showModal();
+  }
+
+  function renderCombat() {
+    if (!state.combat) {
+      if (el.combatDialog.open) el.combatDialog.close();
+      return;
+    }
+    const combat = currentCombat();
+    const attacker = state.players[state.combat.attackerSeat];
+    const defenderSeat = state.board[combat.target];
+    const defender = state.players[defenderSeat];
+    if (state.combat.status === 'awaiting-reaction') {
+      renderReaction();
+      return;
+    }
+    if (state.combat.status !== 'awaiting-defense') {
+      if (el.combatDialog.open) el.combatDialog.close();
+      return;
+    }
+    el.combatTitle.textContent = `${attacker.name} → ${defender.name}`;
+    el.combatBody.innerHTML = `<div class="combat-side"><strong>${escapeHtml(attacker.name)}</strong><div class="combat-die">⚔</div><small>${combat.source === null ? '遠隔侵攻' : DATA.nodes[combat.source].label}</small></div><div class="combat-vs">VS</div><div class="combat-side"><strong>${escapeHtml(defender.name)}</strong><div class="combat-die">⬟</div><small>${DATA.nodes[combat.target].label}</small></div>`;
+    const me = myPlayer();
+    const mine = me?.seat === defenderSeat;
+    const options = mine ? defenseOptions(me) : [];
+    el.defenseCards.innerHTML = mine ? options.map((id) => `<button type="button" class="ability-card" data-defense-card="${id}" style="--category-color:${categoryColor(card(id).category)}"><strong><span>${id} ${card(id).name}</span><em>${card(id).timing}</em></strong><p>${card(id).text}</p></button>`).join('') : `<p class="status-text">${escapeHtml(defender.name)}が防御能力を選択中です。</p>`;
+    el.defensePassButton.classList.toggle('hidden', !mine);
+    $$('[data-defense-card]').forEach((button) => button.addEventListener('click', () => sendIntent({type:'defense', cardId:button.dataset.defenseCard})));
+    if (!el.combatDialog.open) el.combatDialog.showModal();
+  }
+
+  function renderReaction() {
+    const reaction = state.reaction;
+    if (!reaction) return;
+    const me = myPlayer();
+    const mine = me?.seat === reaction.seat;
+    el.combatTitle.textContent = '領域喪失への反応';
+    el.combatBody.innerHTML = `<p>${escapeHtml(state.players[reaction.seat].name)}は${DATA.nodes[reaction.lostRegion].label}を失いました。</p>`;
+    el.defenseCards.innerHTML = mine ? reaction.options.map((id) => `<button type="button" class="ability-card" data-reaction-card="${id}" style="--category-color:${categoryColor(card(id).category)}"><strong><span>${id} ${card(id).name}</span><em>${card(id).timing}</em></strong><p>${card(id).text}</p></button>`).join('') : `<p class="status-text">反応能力を選択中です。</p>`;
+    el.defensePassButton.classList.toggle('hidden', !mine);
+    el.defensePassButton.textContent = '反応しない';
+    $$('[data-reaction-card]').forEach((button) => button.addEventListener('click', () => sendIntent({type:'reaction', cardId:button.dataset.reactionCard})));
+    if (!el.combatDialog.open) el.combatDialog.showModal();
+  }
+
+  function renderChoice() {
+    if (!state.choice) return;
+    if (el.combatDialog.open) el.combatDialog.close();
+  }
+
+  function renderResult() {
+    const ranking = state.players.map((player) => ({...player, points:score(player.seat), largest:largestComponent(player.seat)})).sort((a,b) => b.points - a.points || b.largest - a.largest);
+    const bestPoints = ranking[0].points;
+    const bestLargest = Math.max(...ranking.filter((r) => r.points === bestPoints).map((r) => r.largest));
+    const winners = ranking.filter((r) => r.points === bestPoints && r.largest === bestLargest);
+    el.resultBody.innerHTML = `<p>${escapeHtml(state.endedReason || '')}</p><h3>${winners.map((p) => escapeHtml(p.name)).join('・')}の勝利</h3><table class="result-table"><thead><tr><th>教団</th><th>区域</th><th>最大領域群</th></tr></thead><tbody>${ranking.map((p) => `<tr class="${winners.includes(p) ? 'winner-row' : ''}"><td>${escapeHtml(p.name)}</td><td>${p.points}</td><td>${p.largest}</td></tr>`).join('')}</tbody></table>`;
+    if (!el.resultDialog.open) el.resultDialog.showModal();
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>'"]/g, (char) => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+  }
+
+  el.createRoomButton.addEventListener('click', createRoom);
+  el.joinRoomButton.addEventListener('click', joinRoom);
