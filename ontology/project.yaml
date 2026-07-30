@@ -1,0 +1,78 @@
+project:
+  id: kafka:boardgamelist
+  name: BoardGameList
+  repository: https://github.com/KAFKA2306/boardgamelist
+  pages: https://kafka2306.github.io/boardgamelist/
+  version: 0.1.0
+  updated: 2026-07-30
+  core_ontology: https://raw.githubusercontent.com/KAFKA2306/know/main/ontology/causal-evidence-core.yaml
+  schema: https://raw.githubusercontent.com/KAFKA2306/know/main/ontology/project.schema.json
+
+purpose:
+  problem: Publish usable board-game rules and metadata while preserving edition, language, source, and interpretation boundaries.
+  intended_decisions: [publish, revise, mark_historical, mark_unofficial, verification_required]
+  success_conditions:
+    - Each rule claim identifies the game, edition, language, section, and source.
+    - Official rules, publisher clarifications, database metadata, and strategy commentary remain distinct.
+    - Conflicting or incomplete rules are visible rather than silently reconciled.
+  falsification_conditions:
+    - Rules from different editions or expansions are merged without qualification.
+    - Community interpretation is represented as official ruling.
+    - Player count, duration, or complexity values lack a named source.
+
+scope:
+  included: [games, editions, expansions, rules, components, setup, actions, scoring, metadata, sources, translations]
+  excluded: [unattributed rules, unauthorized full-text reproduction, unsupported completeness claims]
+  temporal: Publication date, edition date, retrieval time, and last verification time are explicit.
+  abstraction_level: Versioned board-game knowledge and rulebook publication.
+
+competency_questions:
+  - Which game edition, expansion set, and language does a rule apply to?
+  - Is a statement official, translated, database-derived, or interpretive?
+  - Which source section supports setup, action, scoring, or exception text?
+  - Are conflicting rulings or missing sections visible?
+  - Has the published page passed link, build, and source checks?
+
+domain_mapping:
+  System: VersionedBoardGameKnowledgeBase
+  State: [game edition state, rule verification state, translation state, publication state]
+  Action: [acquire source, transcribe, translate, summarize, classify, verify, publish, revise]
+  Process: [source collection, rule normalization, translation, documentation build, link audit]
+  Observation: [official rule text, publisher clarification, BGG metadata, build result, deployed page]
+  Model: [rule schema, translation procedure, category ontology]
+  Requirement: [edition separation, source attribution, translation labeling, rights compliance, publication integrity]
+  Claim: [rule claim, metadata claim, translation claim, completeness claim]
+  Evidence: [official PDF or page, section locator, database URL, translation record, build log]
+  Decision: [publish, revise, mark_historical, mark_unofficial, verification_required]
+
+claims_and_evidence:
+  assertion_types: [OfficialRule, PublisherClarification, TranslatedText, DatabaseObservation, CommunityInterpretation, CalculatedValue, DecisionAssertion]
+  required_evidence:
+    OfficialRule: [source URL, edition, section or page]
+    PublisherClarification: [publisher source, date, applicable edition]
+    TranslatedText: [source text identity, target language, translation status]
+    DatabaseObservation: [provider, retrieval time, field identity]
+  unknown_policy: Missing edition, source locator, or authority class produces verification_required and blocks an official label.
+
+decision_rules:
+  - id: official-rule-publication
+    when: Official source, edition, language, and section locator are present.
+    result: publish
+  - id: interpretation-label
+    when: A statement is analytical or community-authored rather than publisher-issued.
+    result: mark_unofficial
+  - id: edition-conflict
+    when: Sources apply to different editions or expansions without a valid mapping.
+    result: verification_required
+
+provenance:
+  sources: [publisher rulebooks, publisher support pages, BoardGameGeek, documented community references]
+  generated_artifacts: [MkDocs pages, normalized metadata, translations, indexes, audit reports]
+  agents: [researcher, writer, translation process, build scripts, GitHub Actions, human reviewer]
+  lineage: Every material rule or metadata claim links to source authority, edition, language, locator, and retrieval date.
+
+validation:
+  structural: Validate game IDs, edition identifiers, source records, internal links, and document structure.
+  semantic: Prevent edition mixing and distinguish official, translated, database, and interpretive content.
+  evidence: Verify source URLs, section locators, translation provenance, and conflict records.
+  publication: MkDocs strict build, link audit, and live Pages checks are required for published status.
