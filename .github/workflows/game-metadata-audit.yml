@@ -1,0 +1,48 @@
+name: Game metadata audit
+
+on:
+  pull_request:
+    paths:
+      - "docs/games/**"
+      - "scripts/audit_game_metadata.py"
+      - "tests/test_audit_game_metadata.py"
+      - ".github/workflows/game-metadata-audit.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/games/**"
+      - "scripts/audit_game_metadata.py"
+      - "tests/test_audit_game_metadata.py"
+      - ".github/workflows/game-metadata-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: game-metadata-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile audit code
+        run: python -m py_compile scripts/audit_game_metadata.py tests/test_audit_game_metadata.py
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p "test_audit_game_metadata.py" -v
+      - name: Audit published game metadata
+        run: python scripts/audit_game_metadata.py docs/games --report build/game-metadata-audit.json
+      - name: Upload deterministic audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-metadata-audit
+          path: build/game-metadata-audit.json
+          if-no-files-found: error
+          retention-days: 14
