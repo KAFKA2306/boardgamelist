@@ -5,6 +5,7 @@ on:
     paths:
       - "docs/games/**"
       - "docs/api.md"
+      - "data/official-metadata/**"
       - "scripts/audit_game_metadata.py"
       - "scripts/build_game_catalog.py"
       - "tests/test_audit_game_metadata.py"
@@ -16,6 +17,7 @@ on:
     paths:
       - "docs/games/**"
       - "docs/api.md"
+      - "data/official-metadata/**"
       - "scripts/audit_game_metadata.py"
       - "scripts/build_game_catalog.py"
       - "tests/test_audit_game_metadata.py"
@@ -59,7 +61,7 @@ jobs:
           assert manifest['game_count'] == catalog['count'] == len(catalog['games'])
           ids = [item['id'] for item in catalog['games']]
           assert len(ids) == len(set(ids))
-          bgg = [item['bgg']['id'] for item in catalog['games'] if item['bgg']['id'] is not None]
+          bgg = [item['references']['boardgamegeek']['id'] for item in catalog['games'] if item['references']['boardgamegeek']['id'] is not None]
           assert len(bgg) == len(set(bgg))
           with (root / 'games.csv').open(encoding='utf-8', newline='') as handle:
               assert len(list(csv.DictReader(handle))) == catalog['count']
