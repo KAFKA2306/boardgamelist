@@ -10,6 +10,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,12 +18,12 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: mkdocs-${{ hashFiles('**/requirements.txt') }}
@@ -31,6 +32,28 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Audit game metadata
+        run: python scripts/audit_game_metadata.py docs/games --report build/game-metadata-audit.json
+
+      - name: Build catalog API into MkDocs source
+        run: python scripts/build_game_catalog.py --games-dir docs/games --output-dir docs/api/v1
+
+      - name: Verify catalog API before deploy
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          root = Path('docs/api/v1')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          catalog = json.loads((root / 'games.json').read_text(encoding='utf-8'))
+          assert manifest['game_count'] == catalog['count'] == len(catalog['games'])
+          for name, meta in manifest['files'].items():
+              data = (root / name).read_bytes()
+              assert len(data) == meta['bytes']
+              assert hashlib.sha256(data).hexdigest() == meta['sha256']
+          print({'game_count': catalog['count']})
+          PY
 
       - name: Configure git
         run: |
