@@ -49,12 +49,9 @@ def _record(path: Path, games_dir: Path) -> dict[str, Any]:
     if (games_dir / "ja" / path.name).exists():
         locales.append("ja")
     bgg_id = metadata.get("bgg_id")
-    rating = metadata.get("bgg_rating")
     quality_flags: list[str] = []
-    if rating is not None:
-        quality_flags.append("bgg-rating-observation-date-missing")
     if bgg_id is None:
-        quality_flags.append("bgg-id-missing")
+        quality_flags.append("bgg-reference-missing")
 
     return {
         "id": f"game:{slug}",
@@ -64,11 +61,11 @@ def _record(path: Path, games_dir: Path) -> dict[str, Any]:
         "players": {"min": players_min, "max": players_max, "source": metadata.get("players")},
         "playtime_minutes": {"min": time_min, "max": time_max, "source": metadata.get("playtime")},
         "complexity": metadata.get("complexity"),
-        "bgg": {
-            "id": bgg_id,
-            "rating": rating,
-            "rating_observed_at": None,
-            "url": f"https://boardgamegeek.com/boardgame/{bgg_id}" if isinstance(bgg_id, int) else None,
+        "references": {
+            "boardgamegeek": {
+                "id": bgg_id,
+                "url": f"https://boardgamegeek.com/boardgame/{bgg_id}" if isinstance(bgg_id, int) else None,
+            }
         },
         "tags": _list(metadata.get("tags")),
         "mechanics": _list(metadata.get("mechanics")),
@@ -89,6 +86,7 @@ def _record(path: Path, games_dir: Path) -> dict[str, Any]:
             "source_markdown": path.as_posix(),
             "source_sha256": _sha256(raw),
             "metadata_kind": "repository-front-matter",
+            "excluded_external_fields": ["bgg_rating"],
         },
         "quality_flags": quality_flags,
     }
@@ -109,7 +107,7 @@ def build(games_dir: Path, output_dir: Path) -> dict[str, Any]:
     paths = sorted(path for path in games_dir.glob("*.md") if path.name != "index.md")
     records = [_record(path, games_dir) for path in paths]
     ids = [record["id"] for record in records]
-    bgg_ids = [record["bgg"]["id"] for record in records if record["bgg"]["id"] is not None]
+    bgg_ids = [record["references"]["boardgamegeek"]["id"] for record in records if record["references"]["boardgamegeek"]["id"] is not None]
     if len(ids) != len(set(ids)):
         raise ValueError("duplicate canonical game id")
     if len(bgg_ids) != len(set(bgg_ids)):
@@ -143,7 +141,7 @@ def build(games_dir: Path, output_dir: Path) -> dict[str, Any]:
     csv_buffer = io.StringIO(newline="")
     fieldnames = [
         "id", "slug", "title", "japanese_title", "players_min", "players_max",
-        "playtime_min", "playtime_max", "complexity", "bgg_id", "bgg_rating",
+        "playtime_min", "playtime_max", "complexity", "bgg_id",
         "tags", "mechanics", "themes", "locales", "guide_url", "source_sha256",
     ]
     writer = csv.DictWriter(csv_buffer, fieldnames=fieldnames, lineterminator="\n")
@@ -159,8 +157,7 @@ def build(games_dir: Path, output_dir: Path) -> dict[str, Any]:
             "playtime_min": record["playtime_minutes"]["min"],
             "playtime_max": record["playtime_minutes"]["max"],
             "complexity": record["complexity"],
-            "bgg_id": record["bgg"]["id"],
-            "bgg_rating": record["bgg"]["rating"],
+            "bgg_id": record["references"]["boardgamegeek"]["id"],
             "tags": "|".join(str(item) for item in record["tags"]),
             "mechanics": "|".join(str(item) for item in record["mechanics"]),
             "themes": "|".join(str(item) for item in record["themes"]),
@@ -185,7 +182,7 @@ def build(games_dir: Path, output_dir: Path) -> dict[str, Any]:
         "source": {
             "path": games_dir.as_posix(),
             "canonical_policy": "top-level Markdown is one game; docs/games/ja is a locale view of the same entity",
-            "external_metadata_note": "BGG ratings are carried from repository metadata; observation timestamps are unavailable and are flagged rather than guessed.",
+            "external_metadata_policy": "No BGG rating/rank payload is redistributed by this API. Existing BGG IDs are emitted only as reference identifiers and links from repository metadata.",
         },
         "files": {
             name: {"bytes": len(payload), "sha256": _sha256(payload)}
