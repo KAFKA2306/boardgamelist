@@ -52,6 +52,8 @@ def _record(path: Path, games_dir: Path) -> dict[str, Any]:
     quality_flags: list[str] = []
     if bgg_id is None:
         quality_flags.append("bgg-reference-missing")
+    if metadata.get("bgg_rating") is not None and not metadata.get("bgg_rating_observed_at"):
+        quality_flags.append("bgg-rating-observation-date-missing")
 
     return {
         "id": f"game:{slug}",
