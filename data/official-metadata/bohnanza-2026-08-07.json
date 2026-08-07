@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "game_id": "game:bohnanza",
+  "observed_at": "2026-08-07",
+  "source": {
+    "publisher": "AMIGO Games Inc.",
+    "url": "https://www.amigo.games/wp-content/uploads/2024/10/Bohnanza-25th-Front-Cover.pdf",
+    "source_kind": "official-rulebook",
+    "access_condition": "public-web"
+  },
+  "edition": {
+    "name": "Bohnanza 25th Anniversary Edition",
+    "designer": "Uwe Rosenberg",
+    "illustrator": "Bjorn Pertoft",
+    "players_min": 2,
+    "players_max": 7,
+    "age_min": 10,
+    "duration_minutes": 45,
+    "base_game_cards": 104,
+    "base_game_bean_types": 8,
+    "notes": "Official AMIGO rules state that this edition includes expansion beans for up to seven players and a two-player rules variant. This snapshot records metadata only; copyrighted rule text is not redistributed."
+  },
+  "license_note": "Source document copyright remains with its publisher. This repository stores factual metadata and provenance only."
+}
