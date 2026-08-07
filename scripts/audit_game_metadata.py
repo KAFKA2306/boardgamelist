@@ -11,7 +11,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
-PLAYER_RE = re.compile(r"^\s*(\d+)\s*(?:-|–|〜|~)\s*(\d+)\s*$")
+PLAYER_RE = re.compile(r"^\s*(\d+)(?:\s*(?:-|–|〜|~)\s*(\d+))?\s*$")
 TIME_RE = re.compile(r"^\s*(\d+)\s*(?:-|–|〜|~)?\s*(\d+)?\s*(?:min|mins|minutes|分)?\s*$", re.I)
 
 
@@ -66,6 +66,17 @@ def _positive_number(value: Any) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
 
 
+def _locale(path: Path) -> str:
+    return "ja" if "ja" in path.parts else "en"
+
+
+def _entity_path(path: Path) -> str:
+    parts = list(path.parts)
+    if "ja" in parts:
+        parts.remove("ja")
+    return "/".join(parts)
+
+
 def validate(path: Path, metadata: dict[str, Any]) -> list[Issue]:
     issues: list[Issue] = []
     rel = path.as_posix()
@@ -83,8 +94,13 @@ def validate(path: Path, metadata: dict[str, Any]) -> list[Issue]:
     players = metadata.get("players")
     if players is not None:
         match = PLAYER_RE.fullmatch(str(players))
-        if not match or int(match.group(1)) < 1 or int(match.group(1)) > int(match.group(2)):
-            issues.append(Issue("error", "invalid-players", rel, "players must use an ordered range such as '2-4'"))
+        if not match:
+            issues.append(Issue("error", "invalid-players", rel, "players must be a positive integer or ordered range such as '2-4'"))
+        else:
+            low = int(match.group(1))
+            high = int(match.group(2) or match.group(1))
+            if low < 1 or low > high:
+                issues.append(Issue("error", "invalid-players", rel, "players must be a positive integer or ordered range such as '2-4'"))
 
     playtime = metadata.get("playtime")
     if playtime is not None:
@@ -101,7 +117,7 @@ def validate(path: Path, metadata: dict[str, Any]) -> list[Issue]:
 def audit(paths: Iterable[Path]) -> dict[str, Any]:
     issues: list[Issue] = []
     records: list[dict[str, Any]] = []
-    ids: dict[int, list[str]] = {}
+    ids: dict[int, list[dict[str, str]]] = {}
     scanned = 0
 
     for path in sorted(paths, key=lambda item: item.as_posix()):
@@ -121,9 +137,11 @@ def audit(paths: Iterable[Path]) -> dict[str, Any]:
         issues.extend(validate(path, metadata))
         bgg_id = metadata.get("bgg_id")
         if isinstance(bgg_id, int) and not isinstance(bgg_id, bool):
-            ids.setdefault(bgg_id, []).append(path.as_posix())
+            ids.setdefault(bgg_id, []).append({"path": path.as_posix(), "entity_path": _entity_path(path)})
         records.append({
             "path": path.as_posix(),
+            "entity_path": _entity_path(path),
+            "locale": _locale(path),
             "sha256": digest,
             "title": metadata.get("title"),
             "bgg_id": bgg_id,
@@ -131,18 +149,20 @@ def audit(paths: Iterable[Path]) -> dict[str, Any]:
             "playtime": metadata.get("playtime"),
         })
 
-    for bgg_id, duplicates in sorted(ids.items()):
-        if len(duplicates) > 1:
-            joined = ", ".join(duplicates)
-            for duplicate in duplicates:
-                issues.append(Issue("error", "duplicate-bgg-id", duplicate, f"bgg_id {bgg_id} is shared by: {joined}"))
+    for bgg_id, entries in sorted(ids.items()):
+        entity_paths = {entry["entity_path"] for entry in entries}
+        if len(entity_paths) > 1:
+            joined = ", ".join(entry["path"] for entry in entries)
+            for entry in entries:
+                issues.append(Issue("error", "duplicate-bgg-id", entry["path"], f"bgg_id {bgg_id} is shared by distinct games: {joined}"))
 
     serialized = sorted((asdict(issue) for issue in issues), key=lambda item: (item["severity"], item["code"], item["path"]))
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "summary": {
             "files_scanned": scanned,
             "records_indexed": len(records),
+            "canonical_games": len({_entity_path(Path(record["path"])) for record in records}),
             "errors": sum(issue["severity"] == "error" for issue in serialized),
             "warnings": sum(issue["severity"] == "warning" for issue in serialized),
         },
