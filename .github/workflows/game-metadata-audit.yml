@@ -1,0 +1,83 @@
+name: Game metadata audit
+
+on:
+  pull_request:
+    paths:
+      - "docs/games/**"
+      - "docs/api.md"
+      - "data/official-metadata/**"
+      - "scripts/audit_game_metadata.py"
+      - "scripts/build_game_catalog.py"
+      - "tests/test_audit_game_metadata.py"
+      - "tests/test_build_game_catalog.py"
+      - ".github/workflows/game-metadata-audit.yml"
+      - ".github/workflows/gh-pages.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/games/**"
+      - "docs/api.md"
+      - "data/official-metadata/**"
+      - "scripts/audit_game_metadata.py"
+      - "scripts/build_game_catalog.py"
+      - "tests/test_audit_game_metadata.py"
+      - "tests/test_build_game_catalog.py"
+      - ".github/workflows/game-metadata-audit.yml"
+      - ".github/workflows/gh-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: game-metadata-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile metadata and API code
+        run: python -m py_compile scripts/audit_game_metadata.py scripts/build_game_catalog.py tests/test_audit_game_metadata.py tests/test_build_game_catalog.py
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p "test_*game_*.py" -v
+      - name: Audit published game metadata
+        run: python scripts/audit_game_metadata.py docs/games --report build/game-metadata-audit.json
+      - name: Build versioned catalog API
+        run: python scripts/build_game_catalog.py --games-dir docs/games --output-dir build/api/v1
+      - name: Smoke-test generated distributions
+        run: |
+          python - <<'PY'
+          import csv, hashlib, json
+          from pathlib import Path
+          root = Path('build/api/v1')
+          manifest = json.loads((root / 'manifest.json').read_text(encoding='utf-8'))
+          catalog = json.loads((root / 'games.json').read_text(encoding='utf-8'))
+          assert manifest['game_count'] == catalog['count'] == len(catalog['games'])
+          ids = [item['id'] for item in catalog['games']]
+          assert len(ids) == len(set(ids))
+          bgg = [item['references']['boardgamegeek']['id'] for item in catalog['games'] if item['references']['boardgamegeek']['id'] is not None]
+          assert len(bgg) == len(set(bgg))
+          with (root / 'games.csv').open(encoding='utf-8', newline='') as handle:
+              assert len(list(csv.DictReader(handle))) == catalog['count']
+          for name, meta in manifest['files'].items():
+              data = (root / name).read_bytes()
+              assert len(data) == meta['bytes']
+              assert hashlib.sha256(data).hexdigest() == meta['sha256']
+          print({'game_count': catalog['count'], 'files': manifest['files']})
+          PY
+      - name: Upload deterministic audit and API evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boardgame-data-evidence
+          path: |
+            build/game-metadata-audit.json
+            build/api/v1/
+          if-no-files-found: error
+          retention-days: 30
