@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "record_kind": "user-provided-play-plan",
+  "updated_at": "2026-08-14",
+  "timezone": "Asia/Tokyo",
+  "source_note": "Dates and participant aliases are user-provided planning information, not claims from the BOOTH product pages.",
+  "sessions": [
+    {
+      "game_id": "game:apollo-no-shinpan",
+      "title": "アポロンの審判",
+      "start_at": "2026-10-08T21:00:00+09:00",
+      "status": "planned",
+      "known_participants": ["すやさん", "NAOさん"],
+      "official_product_url": "https://booth.pm/ja/items/6508051"
+    },
+    {
+      "game_id": "game:cassandra-no-kyogen",
+      "title": "カサンドラの虚言",
+      "start_at": "2026-10-15T21:00:00+09:00",
+      "status": "planned",
+      "known_participants": ["すやさん", "NAOさん"],
+      "official_product_url": "https://booth.pm/ja/items/7515075"
+    },
+    {
+      "game_id": "game:arcadia-no-shuen",
+      "title": "アルカディアの終焉",
+      "start_at": "2026-10-30T21:00:00+09:00",
+      "status": "planned",
+      "known_participants": ["すやさん", "NAOさん"],
+      "official_product_url": "https://booth.pm/ja/items/7873962"
+    }
+  ]
+}
