@@ -135,9 +135,6 @@ extra:
   version:
     provider: mike
     default: latest
-  analytics:
-    provider: google
-    property: G-XXXXXXXXXX
 
 copyright: Copyright &copy; 2024-2025 BoardGameList - ボードゲーム完全ガイド
 
