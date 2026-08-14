@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "game_id": "game:cassandra-no-kyogen",
+  "observed_at": "2026-08-14",
+  "source": {
+    "publisher": "BlueBirdStore / yasu",
+    "url": "https://booth.pm/ja/items/7515075",
+    "source_kind": "creator-official-marketplace",
+    "access_condition": "public-web"
+  },
+  "edition": {
+    "name": "カサンドラの虚言",
+    "format": "人狼×マーダーミステリー×物語体験",
+    "base_game": "パンドラの人狼",
+    "players": 9,
+    "gm_required": true,
+    "gm_count": 1,
+    "duration_minutes_min": 180,
+    "duration_minutes_max": 210,
+    "play_environment": ["Discord", "ココフォリア"],
+    "pc_recommended": true,
+    "price_jpy_observed": 1200,
+    "notes": "BOOTH公式商品ページで確認した公開メタデータのみを記録。ネタバレ本文は保存しない。"
+  },
+  "license_note": "作品・商品ページ等の権利は制作者および権利者に帰属する。"
+}

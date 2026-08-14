@@ -1,7 +1,7 @@
 ---
 title: "北原千夜のすべて"
 players: "6"
-playtime: "390 min / 6-7 hours"
+playtime: "390 min"
 game_type: "murder_mystery"
 mechanics: ["cooperative_deduction", "information_sharing", "logical_reasoning"]
 player_interaction: "high"
