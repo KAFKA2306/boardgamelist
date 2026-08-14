@@ -1,16 +1,50 @@
 # BoardGameList — 出典付きボードゲームルールガイド
 
-**ボードゲームのルールを集めるほど、「同じゲームのルール」を一つにまとめてはいけなくなる。**
+**ルールを集めるほど、「同じゲームだから一つにまとめる」が危険になる。**
 
-版、拡張、言語、出版社FAQ、翻訳、コミュニティ解釈では、同じ名前のゲームでも適用範囲が違います。BoardGameListは、その違いを消さずに出典と適用範囲を保持して公開するMkDocsベースのドキュメントシステムです。
+版、拡張、言語、出版社FAQ、翻訳、コミュニティ解釈では、同じ名前のゲームでも適用範囲が違います。BoardGameList は、その差を消さずに **「いま確認したい版のルールへ、出典付きで短く到達する」** ための非公式ルールガイドです。
 
-**公開サイト:** https://kafka2306.github.io/boardgamelist/
+- 公開サイト: https://kafka2306.github.io/boardgamelist/
 
-公式ルール、出版社FAQ、翻訳、コミュニティ解釈、データベース観測を区別し、異なる版・拡張・言語の情報を無条件に混ぜません。
+## Vision
 
-## 主な内容
+プレイ前・プレイ中のルール確認を、**検索結果を何ページも読み比べる作業から、「この版ではどうするか」を根拠付きで判断できる体験**へ変えます。
 
-### ルールガイド
+利用者が知りたいのは情報量ではありません。
+
+- 今遊んでいる版・拡張に適用できるか
+- 公式ruleか出版社clarificationか
+- 翻訳・community解釈なら、元資料は何か
+- 人数・時間等の数値をどこで確認したか
+- online trialなら、実装ruleと文書ruleが一致しているか
+
+## Design philosophy
+
+- **Version before convenience.** 同名gameでも版・拡張・言語を無条件に統合しない。
+- **Official and interpretation stay separate.** 公式rule、publisher FAQ、translation、community explanationを別情報種別として保持する。
+- **Every useful shortcut keeps a path back.** 要約や索引から元source・page/sectionへ戻れるようにする。
+- **Unknown is not filled with confidence.** 公式性・適用版・出典が不明なら`verification_required`として残す。
+- **Playable demos need their own evidence.** 文書が正しいこととbrowser gameが最後まで動くことを別gateで検証する。
+- **Collection is not the KPI.** game数を増やすために出典境界を弱めない。
+
+## Why / 差別化
+
+一般的なruleまとめでは、読みやすさのために複数sourceを一つの説明へ溶かしがちです。BoardGameList は逆に、**読みやすいガイドを提供しながら「どの種類の情報を、どの版に対して使っているか」を失わないこと**を中心にします。
+
+MkDocs、ontology、browser gameは価値そのものではありません。これらは、速く調べても古い版や非公式解釈を現行裁定へ誤昇格させないための手段です。
+
+## Rule discovery journey
+
+```text
+ゲームを選ぶ
+  → 版 / 拡張 / 言語を確認
+  → ルールガイドを読む
+  → official / clarification / translation / community を識別
+  → 必要ならsourceへ戻る
+  → プレイ再開
+```
+
+## ルールガイド
 
 | ゲーム | 人数 | 時間 | 状態 |
 | --- | ---: | ---: | --- |
@@ -21,54 +55,55 @@
 | [フィクサー](docs/games/fixer.md) | 3〜4人 | 約30分 | 公開済み |
 | [ナショナルエコノミー・メセナ](docs/games/national-economy-mesena.md) | 1〜4人 | 約45分 | 公開済み |
 
-人数、時間、複雑度なども、出版社、公式資料、BoardGameGeekなどの情報源と取得時点を保持して管理します。
+人数・時間・複雑度等も、sourceと取得時点を保持して扱います。
 
-### 深淵侵蝕 — オンライン試遊版
-
-`docs/play/deep-abyss/`には、短時間のドラフト型領域支配ゲーム「深淵侵蝕」のブラウザ試遊版があります。
-
-現在の主な機能:
-
-- 4教団による領域支配ゲーム
-- 1人＋CPU3人のローカル試遊
-- 2〜3人のオンライン参加後、不足席をCPUで補充
-- 4人オンライン対戦
-- PeerJS / WebRTCによる部屋接続
-- 6文字の参加コード
-- 行動候補と操作手順の画面ガイド
-- PCキーボードとモバイル操作
-- 試遊時間、行動数、迷いクリックなどのブラウザ内記録
-- 1人CPU戦、2人＋CPU戦、通常オンライン戦のE2E検証
-
-2人デモでもルール、ドラフト、勝敗判定は通常の4教団戦と同じで、不足席のCPU処理はホスト側が担当します。
-
-## 情報の流れ
+## Evidence model
 
 ```text
-公式ルール・出版社FAQ・外部データ
-  → ゲーム・版・拡張・言語を同定
-  → ルール事実を正規化
-  → 翻訳・要約・解説を分離
-  → 競合・欠落・適用範囲を監査
-  → MkDocs・試遊ページへ公開
+OfficialRule
+PublisherClarification
+TranslatedText
+DatabaseObservation
+CommunityInterpretation
 ```
 
-次の情報種別を分離します。
-
-- `OfficialRule` — 公式ルール本文
-- `PublisherClarification` — 出版社FAQや訂正
-- `TranslatedText` — 元文書に結び付いた翻訳
-- `DatabaseObservation` — 人数・時間などの外部観測値
-- `CommunityInterpretation` — 非公式の解説・解釈
-
-公式性、版、言語、ページまたは節が不明な記述は`verification_required`として扱います。
+これらを一つの「rule text」へ潰しません。
 
 機械可読な定義:
 
-- [プロジェクト・オントロジー](ontology/project.yaml)
-- [共通因果・証拠オントロジー](https://github.com/KAFKA2306/know/blob/main/ontology/causal-evidence-core.yaml)
+- [ontology/project.yaml](ontology/project.yaml)
+- [causal evidence core](https://github.com/KAFKA2306/know/blob/main/ontology/causal-evidence-core.yaml)
 
-## ローカル実行
+## 深淵侵蝕 — オンライン試遊版
+
+`docs/play/deep-abyss/` には短時間のドラフト型領域支配ゲーム「深淵侵蝕」のbrowser trialがあります。
+
+現在の主なsurface:
+
+- 4教団の領域支配
+- 1人 + CPU3人
+- 2〜3人online + 不足席CPU
+- 4人online
+- PeerJS / WebRTC room connection
+- 6文字参加code
+- action guide
+- PC / mobile input
+- browser-local play metrics
+
+browser trialは「文書ruleが存在する」こととは別に、完走・CPU・multi-browser接続をE2Eで検証します。
+
+## Information flow
+
+```text
+official rules / publisher FAQ / external observations
+  → game / edition / expansion / language identity
+  → normalized rule facts
+  → translation / summary / explanation as separate layers
+  → conflict / scope audit
+  → MkDocs / playable surface
+```
+
+## Local run
 
 ```bash
 git clone https://github.com/KAFKA2306/boardgamelist.git
@@ -77,37 +112,40 @@ pip install -r requirements.txt
 mkdocs serve
 ```
 
-深淵侵蝕の実行・検証には、リポジトリ内のNode.jsテストとE2Eスクリプトを使用します。
+深淵侵蝕はrepository内のNode.js test / E2E scriptも使用します。
 
-## 主な構成
+## Repository map
 
 ```text
-boardgamelist/
-├── docs/
-│   ├── games/                  # 各ゲームのルールガイド
-│   ├── play/deep-abyss/        # 深淵侵蝕のブラウザ試遊版
-│   ├── categories/
-│   ├── resources/
-│   ├── javascripts/
-│   └── stylesheets/
-├── scripts/                    # ロジック・E2E検証
-├── ontology/project.yaml
-├── .github/workflows/
-├── mkdocs.yml
-└── requirements.txt
+docs/
+  games/                  rule guides
+  play/deep-abyss/        browser trial
+  categories/
+  resources/
+  javascripts/
+  stylesheets/
+scripts/                  logic / E2E validation
+ontology/project.yaml     evidence semantics
+.github/workflows/        CI / Pages
+mkdocs.yml
+requirements.txt
 ```
 
-## 検証方針
+## Quality gate
 
-- ゲーム版、拡張、言語の混同を検出する
-- 公式ルールと非公式解説を区別する
-- 翻訳を元文書と適用版へ結び付ける
-- MkDocsビルド、リンク、ブラウザゲームを検証する
-- 深淵侵蝕はゲーム完走、CPU戦、複数ブラウザ接続をE2Eで確認する
-- 根拠のない完成度や正確性を自己宣言しない
+- edition / expansion / language混同を検出
+- official ruleとunofficial explanationを分離
+- translationをsource documentと適用版へ結びつける
+- MkDocs build / linkを検証
+- browser gameはgame completion / CPU / multi-browser pathをE2E検証
+- 根拠のない正確性・完成度を自己宣言しない
 
-## ライセンス・権利
+## Done
 
-コードのライセンスは`LICENSE`を参照してください。ゲーム名称、ルール、画像などの権利は各権利者に帰属します。
+成功指標は収録game数ではありません。
 
-**README最終監査:** 2026-08-01
+**プレイ中の利用者が、今の版に使えるruleへ短く到達し、その説明が公式・clarification・translation・community interpretationのどれで、どのsourceへ戻ればよいか判断できること**をDoneとします。
+
+## License / rights
+
+code licenseは`LICENSE`を参照してください。game名称、rule、画像等の権利は各権利者に帰属します。
