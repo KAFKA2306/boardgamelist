@@ -136,7 +136,7 @@ learning_curve: "中程度"
 
 ### From 中量級 → 重量級
 - 複雑度3.0-3.5で中量級をマスター
-- [⚒️ 重量級ゲーム](complexity-heavy.md)への準備
+- 重量級ゲームへ進む準備を整える
 
 ## 🎲 メカニクス別おすすめ
 
@@ -158,9 +158,7 @@ learning_curve: "中程度"
 ## 📚 関連カテゴリー
 
 - [🪶 軽量級ゲーム](complexity-light.md) - 前のステップ
-- [⚒️ 重量級ゲーム](complexity-heavy.md) - 次のステップ
 - [🏗️ 戦略ゲーム](strategy.md) - 戦略重視のゲーム
-- [👥 プレイヤー数別](player-count.md) - 人数で選ぶ
 
 ---
 
