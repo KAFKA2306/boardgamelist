@@ -97,7 +97,6 @@ learning_curve: "簡単"
 - [🏠 ファミリーゲーム](family.md) - 家族向けゲーム
 - [🃏 カードゲーム](card-games.md) - カード中心のゲーム
 - [⚖️ 中量級ゲーム](complexity-medium.md) - 次のステップ
-- [🎉 パーティーゲーム](party.md) - 大人数で楽しむゲーム
 
 ---
 
