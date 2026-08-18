@@ -240,4 +240,8 @@
          <loc>https://kafka2306.github.io/boardgamelist/resources/quick-reference/</loc>
          <lastmod>2026-08-18</lastmod>
     </url>
+    <url>
+         <loc>https://kafka2306.github.io/boardgamelist/services/playtest-package/</loc>
+         <lastmod>2026-08-18</lastmod>
+    </url>
 </urlset>
