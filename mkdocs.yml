@@ -78,6 +78,8 @@ nav:
     - 協力ゲーム: categories/cooperative.md
     - エリア制圧: categories/area-control.md
     - 特殊メカニクス: categories/special-mechanics.md
+  - 試遊支援:
+    - オンライン試遊・分析支援: services/playtest-package.md
   - 参考資料・リソース:
     - ゲーム用語集: resources/glossary.md
     - BGG統合機能: resources/bgg-integration.md
