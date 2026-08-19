@@ -1,15 +1,15 @@
-:root {
-  --md-primary-fg-color: #ad1457;
-  --md-primary-fg-color--light: #c2185b;
-  --md-primary-fg-color--dark: #880e4f;
-  --md-accent-fg-color: #ad1457;
+:root > * {
+  --md-primary-fg-color: #880e4f;
+  --md-primary-fg-color--light: #ad1457;
+  --md-primary-fg-color--dark: #600036;
+  --md-accent-fg-color: #880e4f;
 }
 
 .game-title-header,
 .game-title,
 .progress-checklist h4,
 .progress-checklist li:hover {
-  color: #ad1457;
+  color: #880e4f;
 }
 
 .difficulty-beginner {
