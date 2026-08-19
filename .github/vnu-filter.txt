@@ -1,0 +1,8 @@
+# Material for MkDocs 9.x currently emits these patterns in shared theme chrome.
+# Keep these filters narrow and remove them when upstream output validates cleanly.
+Attribute .*autocomplete.* is only allowed when the input type is
+Bad value .* for attribute .*tabindex.* on element .*label.*: The empty string is not a valid integer
+
+# Existing authored heading-order debt. These paths are grandfathered only;
+# heading-order errors on any new page still fail CI. Remove paths as pages are repaired.
+file:/data/(index\.html|categories/(deck-building|family|strategy)/index\.html|resources/quick-reference/index\.html|games/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html|games/ja/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html).*The heading
