@@ -37,7 +37,7 @@
           <div class="lobby-actions">
             <button id="createRoomButton" class="primary">オンライン部屋を作る</button>
             <div class="join-row">
-              <input id="roomInput" maxlength="6" inputmode="latin" placeholder="6文字の参加コード">
+              <input id="roomInput" maxlength="6" inputmode="text" placeholder="6文字の参加コード">
               <button id="joinRoomButton">参加する</button>
             </div>
             <button id="cpuModeButton" class="ghost wide" style="grid-column:1/-1">CPU 3人とすぐ遊ぶ</button>
@@ -123,59 +123,7 @@
     </main>
   </div>
 
-  <dialog id="draftDialog" class="modal draft-modal">
-    <form method="dialog">
-      <p class="eyebrow">STANDARD DRAFT</p>
-      <h2>能力を1枚選ぶ</h2>
-      <p id="draftStatus">残りのカードは左隣へ渡されます。</p>
-      <div id="draftCards" class="draft-cards"></div>
-    </form>
-  </dialog>
-
-  <dialog id="combatDialog" class="modal combat-modal">
-    <form method="dialog">
-      <p class="eyebrow">CONFLICT</p>
-      <h2 id="combatTitle">教団抗争</h2>
-      <div id="combatBody" class="combat-body"></div>
-      <div id="defenseCards" class="defense-cards"></div>
-      <div class="modal-actions">
-        <button id="defensePassButton" value="cancel">能力を使わない</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="rulesDialog" class="modal rules-modal">
-    <form method="dialog">
-      <button class="dialog-close" value="cancel" aria-label="閉じる">×</button>
-      <p class="eyebrow">QUICK REFERENCE</p>
-      <h2>1ページ早見表</h2>
-      <div class="rules-grid">
-        <article><h3>目的</h3><p>第7ラウンド終了時、または全区域が埋まったラウンド終了時に、最も多くの区域を支配する。</p></article>
-        <article><h3>隣接侵蝕</h3><p>自領に隣接する未支配区域を最大2つ獲得。1つ目から2つ目へ連鎖できる。</p></article>
-        <article><h3>遠隔潜伏</h3><p>自領に隣接しない未支配区域を1つ獲得。次の自分の手番から起点にできる。</p></article>
-        <article><h3>教団抗争</h3><p>隣接敵領を対象に双方1D6。攻撃側だけが大きければ奪取。同値は防御成功。</p></article>
-        <article><h3>能力</h3><p>公開情報。各カードは1ゲームに1回。同じプレイヤーは1手番中に最大1枚。</p></article>
-        <article><h3>2人デモ</h3><p>2人が接続後、ホストが不足2席をCPUで補充する。ルール、ドラフト、勝敗判定は通常の4教団戦と同じ。</p></article>
-        <article><h3>操作ガイド</h3><p>右側のガイドに沿って「行動→区域→実行」。PCでは1・2・3キーとEnter、スマートフォンでは下部ドックも使える。</p></article>
-        <article><h3>同点</h3><p>最大の連結領域群を比較。それも同じなら共同勝利。</p></article>
-      </div>
-      <p class="fineprint">オンライン版ではホストが状態を判定しPeerJS経由で同期します。CPUの手番もホスト側で処理します。</p>
-    </form>
-  </dialog>
-
-  <dialog id="resultDialog" class="modal result-modal">
-    <form method="dialog">
-      <p class="eyebrow">THE ABYSS AWAKENS</p>
-      <h2>ゲーム終了</h2>
-      <div id="resultBody"></div>
-      <button value="cancel" class="primary wide">盤面へ戻る</button>
-    </form>
-  </dialog>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js"></script>
-  <script src="./cards.js"></script>
-  <script src="./app.js?v=0.5.0"></script>
+  <script src="./cards.js?v=0.4.0"></script>
+  <script src="./app.js?v=0.4.0"></script>
 </body>
 </html>
