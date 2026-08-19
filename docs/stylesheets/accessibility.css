@@ -1,0 +1,38 @@
+:root {
+  --md-primary-fg-color: #ad1457;
+  --md-primary-fg-color--light: #c2185b;
+  --md-primary-fg-color--dark: #880e4f;
+  --md-accent-fg-color: #ad1457;
+}
+
+.game-title-header,
+.game-title,
+.progress-checklist h4,
+.progress-checklist li:hover {
+  color: #ad1457;
+}
+
+.difficulty-beginner {
+  background: #2e7d32;
+}
+
+.difficulty-intermediate {
+  background: #a04700;
+}
+
+.difficulty-advanced {
+  background: #c62828;
+}
+
+.playtime-estimate {
+  background: #1565c0;
+}
+
+.bgg-rating,
+.bgg-link {
+  background: #b34700;
+}
+
+.bgg-link:hover {
+  background: #8f3900;
+}
