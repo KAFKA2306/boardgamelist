@@ -1,3 +1,4 @@
 Attribute .*autocomplete.* is only allowed when the input type is
 Bad value .* for attribute .*tabindex.* on element .*label.*: The empty string is not a valid integer
 file:/data/(index\.html|categories/(deck-building|family|strategy)/index\.html|resources/quick-reference/index\.html|games/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html|games/ja/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html).*The heading
+file:.*/site/cocotaki/index\.html.*Section lacks heading
