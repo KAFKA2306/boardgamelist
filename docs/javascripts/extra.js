@@ -24,6 +24,11 @@ function improveSearch() {
     if (searchInput) {
         searchInput.setAttribute('placeholder', 'ゲームを検索...');
     }
+    document.querySelectorAll('[data-md-component="search"] [role="dialog"], [data-md-component="search"][role="dialog"]').forEach(function(dialog) {
+        if (!dialog.hasAttribute('aria-label') && !dialog.hasAttribute('aria-labelledby')) {
+            dialog.setAttribute('aria-label', 'サイト内検索');
+        }
+    });
 }
 function addTargetBlankToExternalLinks() {
     const links = document.querySelectorAll('a[href^="http"]:not([href*="' + window.location.hostname + '"])');
