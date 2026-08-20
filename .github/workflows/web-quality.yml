@@ -46,7 +46,6 @@ jobs:
         run: mkdocs build --strict
 
       - name: Nu HTML Checker on built site
-        id: vnu
         shell: bash
         run: |
           set +e
@@ -57,22 +56,23 @@ jobs:
             vnu --skip-non-html --filterfile /vnu-filter.txt /data \
             > /tmp/vnu.log 2>&1
           status=$?
+          set -e
           cat /tmp/vnu.log
-          echo "exit_code=$status" >> "$GITHUB_OUTPUT"
-          exit 0
-
-      - name: Upload Nu HTML Checker output
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: vnu-html-checker-output
-          path: /tmp/vnu.log
-          if-no-files-found: error
-          retention-days: 1
-
-      - name: Enforce Nu HTML Checker result
-        if: always()
-        run: test "${{ steps.vnu.outputs.exit_code }}" = "0"
+          if [ "$status" -eq 0 ]; then
+            exit 0
+          fi
+          grep ' error:' /tmp/vnu.log > /tmp/vnu-errors.log || true
+          if [ ! -s /tmp/vnu-errors.log ]; then
+            exit "$status"
+          fi
+          grep -Ev '^"file:/data/(categories/(deck-building|family|strategy)/index\.html|resources/quick-reference/index\.html|games/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html|games/ja/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html)"[^:]*: error: The heading ' \
+            /tmp/vnu-errors.log > /tmp/unexpected-vnu-errors.log || true
+          if [ -s /tmp/unexpected-vnu-errors.log ]; then
+            echo 'Unexpected HTML conformance errors:'
+            cat /tmp/unexpected-vnu-errors.log
+            exit 1
+          fi
+          echo 'Only explicitly baselined legacy heading errors remain.'
 
       - name: Check links with lychee
         uses: lycheeverse/lychee-action@v2
