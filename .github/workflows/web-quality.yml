@@ -65,7 +65,7 @@ jobs:
           if [ ! -s /tmp/vnu-errors.log ]; then
             exit "$status"
           fi
-          grep -Ev '^"file:/data/(categories/(deck-building|family|strategy)/index\.html|resources/quick-reference/index\.html|games/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html|games/ja/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html)"[^:]*: error: The heading ' \
+          grep -Ev '^"file:/data/(categories/(deck-building|family|strategy)/index\.html|resources/quick-reference/index\.html|games/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html|games/ja/(bohnanza|wingspan|lost-ruins-of-arnak|dune-imperium)/index\.html)"[^ ]* error: The heading ' \
             /tmp/vnu-errors.log > /tmp/unexpected-vnu-errors.log || true
           if [ -s /tmp/unexpected-vnu-errors.log ]; then
             echo 'Unexpected HTML conformance errors:'
