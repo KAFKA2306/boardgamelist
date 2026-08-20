@@ -149,4 +149,20 @@ jobs:
           }
           EOF
           npx lhci collect --url=http://127.0.0.1:4173/ --numberOfRuns=1
+          node <<'NODE'
+          const fs = require('fs')
+          const path = require('path')
+          const dir = '.lighthouseci'
+          const reports = fs.readdirSync(dir).filter((name) => /^lhr-.*\.json$/.test(name)).sort()
+          const report = JSON.parse(fs.readFileSync(path.join(dir, reports.at(-1)), 'utf8'))
+          console.log(`Lighthouse SEO score: ${report.categories.seo.score}`)
+          for (const ref of report.categories.seo.auditRefs) {
+            const audit = report.audits[ref.id]
+            if (typeof audit.score === 'number' && audit.score < 1) {
+              console.log(`SEO audit failed: ${ref.id} score=${audit.score} title=${audit.title}`)
+              if (audit.displayValue) console.log(`  ${audit.displayValue}`)
+              if (audit.explanation) console.log(`  ${audit.explanation}`)
+            }
+          }
+          NODE
           npx lhci assert --config=.web-quality/lighthouserc.json
