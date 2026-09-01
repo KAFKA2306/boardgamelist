@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
 from statistics import mean
 from typing import Any
@@ -11,15 +12,23 @@ from typing import Any
 RATING_FIELDS = ("ruleUnderstanding", "fun", "tempo", "replayIntent")
 
 
-def _iso_ms(start: str | None, end: str | None) -> float | None:
+def _parse_iso(value: str | None, field: str) -> datetime | None:
+    if value is None:
+        return None
+    if not isinstance(value, str) or not value:
+        raise ValueError(f"{field} must be null or an ISO timestamp")
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(f"invalid ISO timestamp for {field}: {exc}") from exc
+
+
+def _duration_minutes(start: str | None, end: str | None) -> float | None:
     if not start or not end:
         return None
-    from datetime import datetime
-    try:
-        start_dt = datetime.fromisoformat(start.replace("Z", "+00:00"))
-        end_dt = datetime.fromisoformat(end.replace("Z", "+00:00"))
-    except ValueError as exc:
-        raise ValueError(f"invalid ISO timestamp: {exc}") from exc
+    start_dt = _parse_iso(start, "gameStartedAt")
+    end_dt = _parse_iso(end, "endedAt")
+    assert start_dt is not None and end_dt is not None
     delta = (end_dt - start_dt).total_seconds() / 60
     if delta < 0:
         raise ValueError("endedAt must not be earlier than gameStartedAt")
@@ -29,26 +38,32 @@ def _iso_ms(start: str | None, end: str | None) -> float | None:
 def validate_report(report: Any, source: str) -> dict[str, Any]:
     if not isinstance(report, dict):
         raise ValueError(f"{source}: report must be a JSON object")
-    for key in ("sessionId", "completed", "sessionStartedAt", "survey"):
+    for key in ("version", "sessionId", "completed", "sessionStartedAt", "survey"):
         if key not in report:
             raise ValueError(f"{source}: missing required field {key}")
+    if not isinstance(report["version"], str) or not report["version"].strip():
+        raise ValueError(f"{source}: version must be a non-empty string")
     if not isinstance(report["sessionId"], str) or not report["sessionId"].strip():
         raise ValueError(f"{source}: sessionId must be a non-empty string")
     if not isinstance(report["completed"], bool):
         raise ValueError(f"{source}: completed must be boolean")
+    _parse_iso(report["sessionStartedAt"], "sessionStartedAt")
+    _parse_iso(report.get("gameStartedAt"), "gameStartedAt")
+    _parse_iso(report.get("endedAt"), "endedAt")
     if not isinstance(report["survey"], dict):
         raise ValueError(f"{source}: survey must be an object")
     for field in RATING_FIELDS:
         value = report["survey"].get(field)
         if value is not None and (not isinstance(value, (int, float)) or isinstance(value, bool) or not 1 <= value <= 5):
             raise ValueError(f"{source}: survey.{field} must be null or within 1..5")
-    _iso_ms(report.get("gameStartedAt"), report.get("endedAt"))
+    _duration_minutes(report.get("gameStartedAt"), report.get("endedAt"))
     return report
 
 
 def load_reports(paths: list[Path]) -> list[dict[str, Any]]:
     reports: list[dict[str, Any]] = []
     session_ids: set[str] = set()
+    versions: set[str] = set()
     for path in paths:
         payload = json.loads(path.read_text(encoding="utf-8"))
         candidates = payload if isinstance(payload, list) else [payload]
@@ -58,18 +73,24 @@ def load_reports(paths: list[Path]) -> list[dict[str, Any]]:
             if session_id in session_ids:
                 raise ValueError(f"duplicate sessionId: {session_id}")
             session_ids.add(session_id)
+            versions.add(report["version"])
             reports.append(report)
     if not reports:
         raise ValueError("no playtest reports found")
+    if len(versions) != 1:
+        raise ValueError(f"mixed report versions are not allowed: {sorted(versions)}")
     return reports
 
 
 def aggregate(reports: list[dict[str, Any]]) -> dict[str, Any]:
+    versions = {report["version"] for report in reports}
+    if len(versions) != 1:
+        raise ValueError(f"mixed report versions are not allowed: {sorted(versions)}")
     completed = [report for report in reports if report["completed"]]
     durations = [
         duration
         for report in completed
-        if (duration := _iso_ms(report.get("gameStartedAt"), report.get("endedAt"))) is not None
+        if (duration := _duration_minutes(report.get("gameStartedAt"), report.get("endedAt"))) is not None
     ]
     survey_submitted = [report for report in reports if report["survey"].get("submittedAt")]
     ratings: dict[str, dict[str, Any]] = {}
@@ -86,6 +107,7 @@ def aggregate(reports: list[dict[str, Any]]) -> dict[str, Any]:
     ]
     return {
         "schema_version": 1,
+        "report_version": next(iter(versions)),
         "sessions": len(reports),
         "completed": len(completed),
         "completion_rate": round(len(completed) / len(reports), 4),
@@ -105,6 +127,7 @@ def render_markdown(summary: dict[str, Any]) -> str:
     lines = [
         "# 試遊分析レポート",
         "",
+        f"- 試遊レポート版: {summary['report_version']}",
         f"- セッション数: {summary['sessions']}",
         f"- 完走数: {summary['completed']}",
         f"- 完走率: {summary['completion_rate']:.1%}",
