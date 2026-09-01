@@ -20,9 +20,12 @@ const unknownTime = {
   playtime_minutes: { min: null, max: null },
 };
 
+assert.equal(matchesGame(verified, { players: null, maxMinutes: null }), true);
 assert.equal(matchesGame(verified, { players: 3, maxMinutes: 45 }), true);
 assert.equal(matchesGame(verified, { players: 5, maxMinutes: 45 }), false);
 assert.equal(matchesGame(verified, { players: 3, maxMinutes: 30 }), false);
+assert.equal(matchesGame(unknownPlayers, { players: null, maxMinutes: null }), false);
+assert.equal(matchesGame(unknownTime, { players: null, maxMinutes: null }), false);
 assert.equal(matchesGame(unknownPlayers, { players: 3, maxMinutes: null }), false);
 assert.equal(matchesGame(unknownTime, { players: null, maxMinutes: 45 }), false);
 assert.deepEqual(readFilters('?players=2&maxMinutes=45'), { players: 2, maxMinutes: 45 });
