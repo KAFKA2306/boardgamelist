@@ -1,5 +1,5 @@
-site_name: BoardGameList - ボードゲーム完全ガイド
-site_description: ボードゲームルールブック・攻略法の完全ドキュメントシステム
+site_name: BoardGameList — 出典付きボードゲームルールガイド
+site_description: 版・拡張・言語の違いを分け、出典を確認しながらルールを調べられる非公式ガイドとブラウザ試遊
 site_author: BoardGameList Contributors
 site_url: https://kafka2306.github.io/boardgamelist
 
@@ -138,7 +138,7 @@ extra:
     provider: mike
     default: latest
 
-copyright: Copyright &copy; 2024-2025 BoardGameList - ボードゲーム完全ガイド
+copyright: Copyright &copy; 2024-2025 BoardGameList
 
 repo_url: https://github.com/KAFKA2306/boardgamelist
 repo_name: boardgamelist
