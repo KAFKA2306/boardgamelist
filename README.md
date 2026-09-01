@@ -1,3 +1,5 @@
+https://kafka2306.github.io/boardgamelist/
+
 # BoardGameList — 出典付きボードゲームルールガイド
 
 [![Deploy MkDocs to GitHub Pages](https://github.com/KAFKA2306/boardgamelist/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/KAFKA2306/boardgamelist/actions/workflows/gh-pages.yml)
@@ -7,8 +9,6 @@
 **ルールを集めるほど、「同じゲームだから一つにまとめる」が危険になる。**
 
 版、拡張、言語、出版社FAQ、翻訳、コミュニティ解釈では、同じ名前のゲームでも適用範囲が違います。BoardGameList は、その差を消さずに **「いま確認したい版のルールへ、出典付きで短く到達する」** ための非公式ルールガイドです。
-
-- 公開サイト: https://kafka2306.github.io/boardgamelist/
 
 ## Vision
 
