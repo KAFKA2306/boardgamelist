@@ -6,6 +6,19 @@
     serviceCtaClickedAt: null,
   };
 
+  const playtestServiceLink = document.querySelector('#playtestServiceLink');
+  if (!playtestServiceLink) throw new Error('試遊支援の問い合わせリンクがありません');
+  const inquiryUrl = new URL('https://github.com/KAFKA2306/boardgamelist/issues/new');
+  inquiryUrl.searchParams.set('title', '試遊支援の導入相談');
+  inquiryUrl.searchParams.set('body', [
+    '対象ゲーム: ',
+    '用途: ',
+    '希望時期: ',
+    'source: deep-abyss-result',
+    `sessionId: ${playtestSurvey.sessionId}`,
+  ].join('\n'));
+  playtestServiceLink.href = inquiryUrl.toString();
+
   const experienceReportWithStructuredSurvey = experienceReport;
   experienceReport = function structuredExperienceReport() {
     const report = experienceReportWithStructuredSurvey();
@@ -69,6 +82,6 @@
     });
   };
 
-  document.querySelector('#playtestServiceLink')?.addEventListener('click', () => {
+  playtestServiceLink.addEventListener('click', () => {
     playtestSurvey.serviceCtaClickedAt = Date.now();
   });
