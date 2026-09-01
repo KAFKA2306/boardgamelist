@@ -1,0 +1,74 @@
+  const playtestSurvey = {
+    sessionId: crypto.randomUUID(),
+    replayIntent: null,
+    comment: '',
+    submittedAt: null,
+    serviceCtaClickedAt: null,
+  };
+
+  const experienceReportWithStructuredSurvey = experienceReport;
+  experienceReport = function structuredExperienceReport() {
+    const report = experienceReportWithStructuredSurvey();
+    return {
+      ...report,
+      sessionId: playtestSurvey.sessionId,
+      sessionStartedAt: new Date(experience.sessionStartedAt).toISOString(),
+      gameStartedAt: experience.gameStartedAt ? new Date(experience.gameStartedAt).toISOString() : null,
+      endedAt: experience.endedAt ? new Date(experience.endedAt).toISOString() : null,
+      completed: state?.phase === 'ended',
+      survey: {
+        ruleUnderstanding: experience.ratings.understanding ?? null,
+        fun: experience.ratings.fun ?? null,
+        tempo: experience.ratings.tempo ?? null,
+        replayIntent: playtestSurvey.replayIntent,
+        comment: playtestSurvey.comment,
+        submittedAt: playtestSurvey.submittedAt ? new Date(playtestSurvey.submittedAt).toISOString() : null,
+      },
+      events: {
+        playStartedAt: experience.gameStartedAt ? new Date(experience.gameStartedAt).toISOString() : null,
+        playCompletedAt: experience.endedAt ? new Date(experience.endedAt).toISOString() : null,
+        surveySubmittedAt: playtestSurvey.submittedAt ? new Date(playtestSurvey.submittedAt).toISOString() : null,
+        serviceCtaClickedAt: playtestSurvey.serviceCtaClickedAt ? new Date(playtestSurvey.serviceCtaClickedAt).toISOString() : null,
+      },
+    };
+  };
+
+  const attachResultExperienceWithStructuredSurvey = attachResultExperience;
+  attachResultExperience = function structuredSurveyResult() {
+    attachResultExperienceWithStructuredSurvey();
+    const summary = document.querySelector('#experienceSummary');
+    if (!summary || document.querySelector('#structuredPlaytestSurvey')) return;
+    summary.insertAdjacentHTML('beforeend', `
+      <section id="structuredPlaytestSurvey">
+        <h3>試遊後アンケート</h3>
+        <p class="fineprint">個人情報は不要です。ゲーム体験だけを記録してください。</p>
+        <div class="rating-grid">
+          <div class="rating-row"><span>ルール理解度</span>${[1,2,3,4,5].map((value) => `<button type="button" data-understanding="${value}" aria-label="ルール理解度 ${value}">${value}</button>`).join('')}</div>
+          <div class="rating-row"><span>もう一度遊びたい</span>${[1,2,3,4,5].map((value) => `<button type="button" data-replay-intent="${value}" aria-label="再プレイ意向 ${value}">${value}</button>`).join('')}</div>
+        </div>
+        <label class="field"><span>自由記述（任意）</span><textarea id="playtestComment" maxlength="1000" rows="4" placeholder="迷った点、良かった点、改善してほしい点"></textarea></label>
+        <button type="button" id="submitPlaytestSurvey">アンケートをレポートへ反映</button>
+      </section>`);
+
+    document.querySelectorAll('[data-understanding]').forEach((button) => button.addEventListener('click', () => {
+      experience.ratings.understanding = Number(button.dataset.understanding);
+      document.querySelectorAll('[data-understanding]').forEach((item) => item.classList.toggle('selected', item === button));
+    }));
+    document.querySelectorAll('[data-replay-intent]').forEach((button) => button.addEventListener('click', () => {
+      playtestSurvey.replayIntent = Number(button.dataset.replayIntent);
+      document.querySelectorAll('[data-replay-intent]').forEach((item) => item.classList.toggle('selected', item === button));
+    }));
+    document.querySelector('#submitPlaytestSurvey')?.addEventListener('click', () => {
+      playtestSurvey.comment = document.querySelector('#playtestComment')?.value.trim() || '';
+      if (!experience.ratings.understanding || !playtestSurvey.replayIntent) {
+        toast('ルール理解度と再プレイ意向を選んでください');
+        return;
+      }
+      playtestSurvey.submittedAt = Date.now();
+      toast('アンケートを試遊レポートへ反映しました');
+    });
+  };
+
+  document.querySelector('#playtestServiceLink')?.addEventListener('click', () => {
+    playtestSurvey.serviceCtaClickedAt = Date.now();
+  });
