@@ -4,16 +4,14 @@
   const isKnownNumber = (value) => Number.isFinite(value);
 
   function matchesGame(game, filters) {
-    if (filters.players !== null) {
-      const min = game?.players?.min;
-      const max = game?.players?.max;
-      if (!isKnownNumber(min) || !isKnownNumber(max)) return false;
-      if (filters.players < min || filters.players > max) return false;
-    }
-    if (filters.maxMinutes !== null) {
-      const max = game?.playtime_minutes?.max;
-      if (!isKnownNumber(max) || max > filters.maxMinutes) return false;
-    }
+    const playersMin = game?.players?.min;
+    const playersMax = game?.players?.max;
+    const timeMin = game?.playtime_minutes?.min;
+    const timeMax = game?.playtime_minutes?.max;
+    if (![playersMin, playersMax, timeMin, timeMax].every(isKnownNumber)) return false;
+
+    if (filters.players !== null && (filters.players < playersMin || filters.players > playersMax)) return false;
+    if (filters.maxMinutes !== null && timeMax > filters.maxMinutes) return false;
     return true;
   }
 
