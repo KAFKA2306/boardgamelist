@@ -1,0 +1,51 @@
+name: Update Deep Abyss canonical test
+
+on:
+  push:
+    branches:
+      - simplify-deep-abyss-runtime
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Make app.js the test authority
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('scripts/test-deep-abyss.mjs')
+          text = path.read_text()
+          start = text.index("const parts = Array.from")
+          end_marker = "new Function(source);"
+          end = text.index(end_marker, start) + len(end_marker)
+          replacement = r'''const source = read('app.js');
+          const singleRegionBinding = "$$('path.region[data-region]').forEach((node) => node.addEventListener('click', (event) => { event.stopPropagation(); onRegionClick(Number(node.dataset.region)); }));";
+
+          assert.match(source, /el\.createRoomButton\.addEventListener\('click', createRoomResilient\)/);
+          assert.match(source, /el\.joinRoomButton\.addEventListener\('click', joinRoomResilient\)/);
+          assert.ok(source.includes(singleRegionBinding), 'single path-only region binding is retained');
+          assert.doesNotMatch(source, /new Function/);
+          assert.doesNotMatch(source, /app-01\.txt|runtime-patch\.txt/);
+          assert.match(source, /function startHybridCpuDemo\(\)/, 'two-player CPU fill is part of canonical runtime');'''
+          path.write_text(text[:start] + replacement + text[end:])
+          PY
+          git rm .github/workflows/update-deep-abyss-test.yml
+          git add scripts/test-deep-abyss.mjs
+      - name: Verify test and runtime
+        run: |
+          node --check docs/play/deep-abyss/app.js
+          node scripts/test-deep-abyss.mjs
+      - name: Commit test authority change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "深淵侵蝕testをapp.jsへ統合する"
+          git push origin HEAD:simplify-deep-abyss-runtime
