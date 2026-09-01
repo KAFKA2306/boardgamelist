@@ -3,7 +3,6 @@ https://kafka2306.github.io/boardgamelist/
 # BoardGameList — 出典付きボードゲームルールガイド
 
 [![Deploy MkDocs to GitHub Pages](https://github.com/KAFKA2306/boardgamelist/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/KAFKA2306/boardgamelist/actions/workflows/gh-pages.yml)
-[![Web quality](https://github.com/KAFKA2306/boardgamelist/actions/workflows/web-quality.yml/badge.svg)](https://github.com/KAFKA2306/boardgamelist/actions/workflows/web-quality.yml)
 [![Game metadata audit](https://github.com/KAFKA2306/boardgamelist/actions/workflows/game-metadata-audit.yml/badge.svg)](https://github.com/KAFKA2306/boardgamelist/actions/workflows/game-metadata-audit.yml)
 
 **ルールを集めるほど、「同じゲームだから一つにまとめる」が危険になる。**
