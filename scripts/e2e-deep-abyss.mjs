@@ -127,7 +127,6 @@ async function resolveHumanPendingDecision(page, current) {
 }
 
 try {
-  // Two-browser connection path.
   const hostContext = await browser.newContext();
   const guestContext = await browser.newContext();
   await hostContext.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseUrl).origin });
@@ -152,7 +151,6 @@ try {
   await hostContext.close();
   await guestContext.close();
 
-  // Desktop guided flow and keyboard path.
   const scenarioContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
   const scenario = await scenarioContext.newPage();
   watch(scenario, 'scenario');
@@ -197,7 +195,6 @@ try {
   assert.ok(scenarioReport.humanActions >= 3, 'guided scenario records actions');
   await scenarioContext.close();
 
-  // Mobile viewport: no horizontal overflow and fixed action dock completes a turn.
   const mobileContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const mobile = await mobileContext.newPage();
   watch(mobile, 'mobile');
@@ -217,7 +214,6 @@ try {
   await mobile.waitForFunction(() => window.__deepAbyssTest.getState().currentSeat !== 0, null, { timeout: 10_000 });
   await mobileContext.close();
 
-  // Full game: finish, show result, collect ratings, and export the report.
   const gameContext = await browser.newContext();
   await gameContext.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: new URL(baseUrl).origin });
   const game = await gameContext.newPage();
@@ -270,10 +266,26 @@ try {
   assert.deepEqual(copiedReport.ratings, { fun: 5, clarity: 4, tempo: 5 });
   assert.ok(copiedReport.totalActions >= humanTurns, 'report records total actions');
   assert.ok(Number.isInteger(copiedReport.durationSeconds), 'report records game duration');
+  assert.match(copiedReport.sessionId, /^[0-9a-f-]{36}$/i, 'report has a session ID');
+
+  const inquiryHref = await game.locator('#playtestServiceLink').getAttribute('href');
+  const inquiryUrl = new URL(inquiryHref);
+  assert.equal(inquiryUrl.origin, 'https://github.com');
+  assert.equal(inquiryUrl.pathname, '/KAFKA2306/boardgamelist/issues/new');
+  const inquiryBody = inquiryUrl.searchParams.get('body') || '';
+  assert.match(inquiryBody, /source: deep-abyss-result/);
+  assert.match(inquiryBody, new RegExp(`sessionId: ${copiedReport.sessionId}`));
+  await game.evaluate(() => {
+    const link = document.querySelector('#playtestServiceLink');
+    link.addEventListener('click', (event) => event.preventDefault(), { once: true });
+    link.click();
+  });
+  const clickedReport = await report(game);
+  assert.ok(clickedReport.events.serviceCtaClickedAt, 'CTA click is recorded in the same session report');
   await gameContext.close();
 
   assert.equal(failures.length, 0, failures.join('\n'));
-  console.log(JSON.stringify({ roomCode: code, humanTurns, passes, resolved, endedReason: finalState.endedReason, scenarioReport, copiedReport }, null, 2));
+  console.log(JSON.stringify({ roomCode: code, humanTurns, passes, resolved, endedReason: finalState.endedReason, scenarioReport, copiedReport, clickedReport }, null, 2));
 } finally {
   await browser.close();
 }
