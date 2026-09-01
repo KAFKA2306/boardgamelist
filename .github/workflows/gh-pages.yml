@@ -65,6 +65,19 @@ jobs:
           print({'game_count': catalog['count']})
           PY
 
+      - name: Verify games index uses canonical catalog
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('docs/games/ja/index.md').read_text(encoding='utf-8')
+          forbidden = ['total_games:', 'planned_games:', '追加予定ゲーム', '現在のゲーム (']
+          found = [value for value in forbidden if value in text]
+          if found:
+              raise SystemExit(f'games index must not duplicate catalog data: {found}')
+          if 'api/v1/games.json' not in text:
+              raise SystemExit('games index must identify api/v1/games.json as its catalog source')
+          PY
+
       - name: Test game chooser
         run: node scripts/test-game-filter.mjs
 
