@@ -9,6 +9,7 @@ on:
       - 'requirements.txt'
       - 'scripts/audit_game_metadata.py'
       - 'scripts/build_game_catalog.py'
+      - 'scripts/test-game-filter.mjs'
       - '.github/workflows/gh-pages.yml'
   push:
     branches: [ main ]
@@ -63,6 +64,9 @@ jobs:
               assert hashlib.sha256(data).hexdigest() == meta['sha256']
           print({'game_count': catalog['count']})
           PY
+
+      - name: Test game chooser
+        run: node scripts/test-game-filter.mjs
 
       - name: Build MkDocs site
         run: mkdocs build
