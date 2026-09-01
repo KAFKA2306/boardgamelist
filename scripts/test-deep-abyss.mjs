@@ -9,38 +9,15 @@ const repo = path.resolve(here, '..');
 const gameDir = path.join(repo, 'docs/play/deep-abyss');
 const read = (name) => fs.readFileSync(path.join(gameDir, name), 'utf8');
 
-const parts = Array.from({ length: 8 }, (_, index) => `app-${String(index + 1).padStart(2, '0')}.txt`);
-let source = parts.map(read).join('');
-const runtimePatch = `${read('runtime-patch.txt')}\n${read('runtime-flow-patch.txt')}\n${read('runtime-hybrid-patch.txt')}\n${read('runtime-test-hook.txt')}`;
-const duplicateRegionBinding = "$$('[data-region]').forEach((node) => node.addEventListener('click', () => onRegionClick(Number(node.dataset.region))));";
+const source = read('app.js');
 const singleRegionBinding = "$$('path.region[data-region]').forEach((node) => node.addEventListener('click', (event) => { event.stopPropagation(); onRegionClick(Number(node.dataset.region)); }));";
 
-assert.match(source, /el\.createRoomButton\.addEventListener\('click', createRoom\)/);
-assert.match(source, /el\.joinRoomButton\.addEventListener\('click', joinRoom\)/);
-assert.ok(source.includes(duplicateRegionBinding), 'original duplicate region binding exists');
-assert.match(source, /navigator\.clipboard\.writeText\(`\$\{location\.origin\}/);
-assert.match(runtimePatch, /function startHybridCpuDemo\(\)/, 'two-player CPU fill patch is loaded');
-
-source = source
-  .replace("el.createRoomButton.addEventListener('click', createRoom);", "el.createRoomButton.addEventListener('click', createRoomResilient);")
-  .replace("el.joinRoomButton.addEventListener('click', joinRoom);", "el.joinRoomButton.addEventListener('click', joinRoomResilient);")
-  .replace(duplicateRegionBinding, () => singleRegionBinding)
-  .replace(
-    /  el\.copyRoomButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);\n  el\.actionButtons/,
-    `  el.copyRoomButton.addEventListener('click', async () => {\n    const copied = await copyText(state?.roomCode || local.roomCode);\n    toast(copied ? \`参加コード \${state?.roomCode || local.roomCode} をコピーしました\` : '参加コードを表示しました');\n  });\n  document.querySelector('#copyInviteButton')?.addEventListener('click', async () => {\n    const code = state?.roomCode || local.roomCode;\n    const url = \`\${location.origin}\${location.pathname}?room=\${code}\`;\n    const copied = await copyText(url);\n    toast(copied ? '招待URLをコピーしました' : '招待URLを表示しました');\n  });\n  document.querySelector('#cpuModeButton')?.addEventListener('click', createCpuGame);\n  el.actionButtons`
-  )
-  .replace(
-    /  el\.copyLogButton\.addEventListener\('click', async \(\) => \{[\s\S]*?  \}\);/,
-    `  el.copyLogButton.addEventListener('click', async () => {\n    const copied = await copyText(state.logs.slice().reverse().join('\\n'));\n    toast(copied ? '侵蝕記録をコピーしました' : '侵蝕記録を表示しました');\n  });`
-  );
-
+assert.match(source, /el\.createRoomButton\.addEventListener\('click', createRoomResilient\)/);
+assert.match(source, /el\.joinRoomButton\.addEventListener\('click', joinRoomResilient\)/);
 assert.ok(source.includes(singleRegionBinding), 'single path-only region binding is retained');
-assert.doesNotMatch(source, /(^|[^$])\$\('path\.region\[data-region\]'\)\.forEach/m, 'querySelectorAll helper is not collapsed to querySelector');
-
-const closing = source.lastIndexOf('})();');
-assert.ok(closing >= 0, 'engine closure marker');
-source = `${source.slice(0, closing)}\n${runtimePatch}\n${source.slice(closing)}`;
-new Function(source);
+assert.doesNotMatch(source, /new Function/);
+assert.doesNotMatch(source, /app-01\.txt|runtime-patch\.txt/);
+assert.match(source, /function startHybridCpuDemo\(\)/, 'two-player CPU fill is part of canonical runtime');
 
 class StubElement {
   constructor(id = '') {
@@ -77,7 +54,7 @@ const ids = [
   'copyRoomButton','copyInviteButton','cpuModeButton','fillCpuButton','lobbyPlayers','startGameButton','lobbyStatus','networkBadge','scoreboard',
   'roundLabel','turnLabel','unclaimedLabel','board','boardHint','selectionSummary','cancelSelectionButton','commitActionButton',
   'cardHand','gameLog','copyLogButton','draftDialog','draftCards','draftStatus','combatDialog','combatTitle','combatBody',
-  'defenseCards','defensePassButton','rulesDialog','rulesButton','resultDialog','resultBody','toast',
+  'defenseCards','defensePassButton','rulesDialog','rulesButton','resultDialog','resultBody','toast','playtestServiceLink',
 ];
 const elements = Object.fromEntries(ids.map((id) => [id, new StubElement(id)]));
 const actionButtons = ['expand','hide','combat'].map((action) => {
