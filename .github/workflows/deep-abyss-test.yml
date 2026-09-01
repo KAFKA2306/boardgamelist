@@ -7,6 +7,8 @@ on:
       - 'scripts/test-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss-two-player.mjs'
+      - 'scripts/summarize_playtest_reports.py'
+      - 'tests/test_summarize_playtest_reports.py'
       - '.github/workflows/deep-abyss-test.yml'
   push:
     branches: [ main ]
@@ -15,6 +17,8 @@ on:
       - 'scripts/test-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss-two-player.mjs'
+      - 'scripts/summarize_playtest_reports.py'
+      - 'tests/test_summarize_playtest_reports.py'
       - '.github/workflows/deep-abyss-test.yml'
   workflow_dispatch:
 
@@ -33,6 +37,18 @@ jobs:
           node-version: '24'
       - name: Run engine regression test
         run: node scripts/test-deep-abyss.mjs
+
+  playtest-report-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run playtest report tests
+        run: python -m unittest tests.test_summarize_playtest_reports -v
 
   online-e2e:
     runs-on: ubuntu-latest
