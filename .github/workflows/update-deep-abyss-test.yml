@@ -19,7 +19,6 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
 
           path = Path('scripts/test-deep-abyss.mjs')
           text = path.read_text()
@@ -35,7 +34,9 @@ jobs:
           assert.doesNotMatch(source, /new Function/);
           assert.doesNotMatch(source, /app-01\.txt|runtime-patch\.txt/);
           assert.match(source, /function startHybridCpuDemo\(\)/, 'two-player CPU fill is part of canonical runtime');'''
-          path.write_text(text[:start] + replacement + text[end:])
+          text = text[:start] + replacement + text[end:]
+          text = text.replace("'defenseCards','defensePassButton','rulesDialog','rulesButton','resultDialog','resultBody','toast',", "'defenseCards','defensePassButton','rulesDialog','rulesButton','resultDialog','resultBody','toast','playtestServiceLink',")
+          path.write_text(text)
           PY
           git rm .github/workflows/update-deep-abyss-test.yml
           git add scripts/test-deep-abyss.mjs
