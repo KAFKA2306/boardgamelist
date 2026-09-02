@@ -2211,9 +2211,9 @@
 </ul>
 <p>実装していない機能や取得できていない指標を、納品可能なものとして扱いません。</p>
 <h2 id="_6">導入相談<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>GitHubのissue作成画面を使って、相談内容を送れます。GitHub issueは公開されるため、秘密情報、未公開ルール、個人情報は書かないでください。</p>
-<p><a href="https://github.com/KAFKA2306/boardgamelist/issues/new?title=%E8%A9%A6%E9%81%8A%E6%94%AF%E6%8F%B4%E3%81%AE%E5%B0%8E%E5%85%A5%E7%9B%B8%E8%AB%87&amp;body=%E5%AF%BE%E8%B1%A1%E3%82%B2%E3%83%BC%E3%83%A0%3A%20%0A%E7%94%A8%E9%80%94%3A%20%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%20%0Asource%3A%20playtest-service">導入相談を始める</a></p>
-<p>GitHubはissue作成URLの<code>title</code>と<code>body</code> query parameterによる事前入力を公式にサポートしています。この導線では本文に<code>source: playtest-service</code>を残し、どこから相談が始まったかを確認できるようにしています。</p>
+<p>GitHub Issue Formで相談内容を送れます。対象ゲーム、用途、希望時期は必須です。GitHub Issueは公開されるため、秘密情報、未公開ルール、個人情報は書かないでください。</p>
+<p><a href="https://github.com/KAFKA2306/boardgamelist/issues/new?template=playtest-inquiry.yml">導入相談を始める</a></p>
+<p>GitHub Issue Formsは、必須入力を含む構造化された問い合わせフォームをrepository内の<code>.github/ISSUE_TEMPLATE</code>で定義するGitHub標準機能です。このrepositoryでは、初回判断に必要な対象ゲーム、用途、希望時期を必須にし、深淵侵蝕を試遊済みの場合だけ試遊セッションIDを任意で記録できます。</p>
 <h2 id="_7">現在の範囲<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <p>現時点でrepositoryに存在する実装は「深淵侵蝕」の試遊版と、その試遊レポートJSONを集計する処理です。他タイトルへの適用、顧客への納品、受託実績は、実際に完了するまで実績として表示しません。</p>
 
@@ -2236,7 +2236,7 @@
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2026年9月1日 14:28:54 JST">2026年9月1日</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="2026年9月2日 12:27:38 JST">2026年9月2日</span>
   </span>
 
     
