@@ -46,11 +46,11 @@ python scripts/summarize_playtest_reports.py \
 
 ## 導入相談
 
-GitHubのissue作成画面を使って、相談内容を送れます。GitHub issueは公開されるため、秘密情報、未公開ルール、個人情報は書かないでください。
+GitHub Issue Formで相談内容を送れます。対象ゲーム、用途、希望時期は必須です。GitHub Issueは公開されるため、秘密情報、未公開ルール、個人情報は書かないでください。
 
-[導入相談を始める](https://github.com/KAFKA2306/boardgamelist/issues/new?title=%E8%A9%A6%E9%81%8A%E6%94%AF%E6%8F%B4%E3%81%AE%E5%B0%8E%E5%85%A5%E7%9B%B8%E8%AB%87&body=%E5%AF%BE%E8%B1%A1%E3%82%B2%E3%83%BC%E3%83%A0%3A%20%0A%E7%94%A8%E9%80%94%3A%20%0A%E5%B8%8C%E6%9C%9B%E6%99%82%E6%9C%9F%3A%20%0Asource%3A%20playtest-service)
+[導入相談を始める](https://github.com/KAFKA2306/boardgamelist/issues/new?template=playtest-inquiry.yml)
 
-GitHubはissue作成URLの`title`と`body` query parameterによる事前入力を公式にサポートしています。この導線では本文に`source: playtest-service`を残し、どこから相談が始まったかを確認できるようにしています。
+GitHub Issue Formsは、必須入力を含む構造化された問い合わせフォームをrepository内の`.github/ISSUE_TEMPLATE`で定義するGitHub標準機能です。このrepositoryでは、初回判断に必要な対象ゲーム、用途、希望時期を必須にし、深淵侵蝕を試遊済みの場合だけ試遊セッションIDを任意で記録できます。
 
 ## 現在の範囲
 

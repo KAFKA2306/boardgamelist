@@ -1,0 +1,62 @@
+name: 試遊支援の導入相談
+description: ブラウザ試遊版の制作・試遊分析・イベント運用について相談する
+title: "試遊支援の導入相談: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        このIssueは公開されます。秘密情報、未公開ルール、個人情報は書かないでください。
+        初回判断に必要な項目だけを入力してください。実績や納期を自動的に約束するものではありません。
+
+  - type: input
+    id: game
+    attributes:
+      label: 対象ゲーム
+      description: 試遊・分析の対象となるゲーム名を書いてください。
+      placeholder: 例: 自作カードゲーム（開発中）
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 用途
+      description: 何を検証したいか、どの場面で使いたいかを書いてください。
+      placeholder: 例: ゲームマーケット前に4人対戦のルール理解度と完走率を確認したい
+    validations:
+      required: true
+
+  - type: input
+    id: timing
+    attributes:
+      label: 希望時期
+      description: 希望する試遊・イベント・納品の時期を書いてください。
+      placeholder: 例: 2026年11月上旬
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: 希望する支援範囲
+      description: 必要なものが決まっていれば書いてください。未定でも構いません。
+      placeholder: 例: ブラウザ試遊版、試遊ログ集計、当日の動作確認
+    validations:
+      required: false
+
+  - type: input
+    id: session
+    attributes:
+      label: 深淵侵蝕の試遊セッションID
+      description: 深淵侵蝕を試遊済みの場合だけ入力してください。
+      placeholder: 未試遊なら空欄
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: public
+    attributes:
+      label: 公開情報の確認
+      options:
+        - label: このIssueが公開されることを理解し、秘密情報・未公開ルール・個人情報を書いていません。
+          required: true
