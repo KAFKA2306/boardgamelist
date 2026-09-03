@@ -90,6 +90,13 @@ jobs:
       - name: Build MkDocs site
         run: mkdocs build
 
+      - name: Verify search discovery files
+        run: |
+          test -f site/robots.txt
+          test -f site/sitemap.xml
+          grep -Fx 'Sitemap: https://kafka2306.github.io/boardgamelist/sitemap.xml' site/robots.txt
+          grep -F '<loc>https://kafka2306.github.io/boardgamelist/</loc>' site/sitemap.xml
+
       - name: Test Game Chooser in Chromium
         run: |
           npm install --no-save playwright
