@@ -9,7 +9,7 @@ function assert(condition, message) {
 const browser = await chromium.launch({ headless: true });
 try {
   const desktop = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-  await desktop.goto(`${baseUrl}?players=2&maxMinutes=60`, { waitUntil: 'networkidle' });
+  await desktop.goto(`${baseUrl}?players=2&maxMinutes=60&maxComplexity=3`, { waitUntil: 'networkidle' });
 
   const chooser = desktop.locator('.game-chooser');
   await chooser.waitFor();
@@ -18,21 +18,28 @@ try {
   assert(await desktop.locator('#game-chooser-results').getAttribute('aria-live') === 'polite', '結果領域がaria-liveになっていません');
   assert(await desktop.locator('#game-chooser-players').inputValue() === '2', '人数をURLから復元できません');
   assert(await desktop.locator('#game-chooser-time').inputValue() === '60', '最大時間をURLから復元できません');
+  assert(await desktop.locator('#game-chooser-complexity').inputValue() === '3', '最大複雑度をURLから復元できません');
 
   const rows = desktop.locator('#game-chooser-results tbody tr');
   const rowCount = await rows.count();
   assert(rowCount >= 1 && rowCount <= 5, `比較候補数が1〜5件ではありません: ${rowCount}`);
-  assert(await desktop.locator('#game-chooser-results thead th').count() === 4, '比較表の見出しが不足しています');
+  assert(await desktop.locator('#game-chooser-results thead th').count() === 5, '比較表の見出しが不足しています');
+  const reasons = await desktop.locator('#game-chooser-results tbody td:last-child').allTextContents();
+  assert(reasons.every((value) => value.includes('2人で遊べる') && value.includes('最大') && value.includes('複雑度')),
+    `候補理由が条件を説明していません: ${JSON.stringify(reasons)}`);
 
   await desktop.locator('#game-chooser-players').focus();
   await desktop.keyboard.press('Tab');
   assert(await desktop.locator('#game-chooser-time').evaluate((el) => el === document.activeElement), 'Tabで最大時間へ移動できません');
+  await desktop.keyboard.press('Tab');
+  assert(await desktop.locator('#game-chooser-complexity').evaluate((el) => el === document.activeElement), 'Tabで最大複雑度へ移動できません');
   await desktop.keyboard.press('Tab');
   assert(await desktop.locator('#game-chooser-clear').evaluate((el) => el === document.activeElement), 'Tabで条件解除へ移動できません');
   await desktop.keyboard.press('Enter');
   assert(await desktop.locator('#game-chooser-players').evaluate((el) => el === document.activeElement), '条件解除後に人数へフォーカスが戻りません');
   assert(!new URL(desktop.url()).searchParams.has('players'), '条件解除後もplayersがURLに残っています');
   assert(!new URL(desktop.url()).searchParams.has('maxMinutes'), '条件解除後もmaxMinutesがURLに残っています');
+  assert(!new URL(desktop.url()).searchParams.has('maxComplexity'), '条件解除後もmaxComplexityがURLに残っています');
 
   const mobile = await browser.newPage({ viewport: { width: 360, height: 800 } });
   await mobile.goto(baseUrl, { waitUntil: 'networkidle' });
@@ -49,13 +56,14 @@ try {
   const boxes = await Promise.all([
     mobile.locator('#game-chooser-players').boundingBox(),
     mobile.locator('#game-chooser-time').boundingBox(),
+    mobile.locator('#game-chooser-complexity').boundingBox(),
     mobile.locator('#game-chooser-clear').boundingBox(),
   ]);
   assert(boxes.every((box) => box && box.width >= 300 && box.height >= 44), `スマホ操作領域が不足しています: ${JSON.stringify(boxes)}`);
   assert(await controls.evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length) === 1,
     'スマホ幅で操作欄が1列になっていません');
 
-  console.log(JSON.stringify({ desktopRows: rowCount, mobileOverflow: overflow, mobileControls: boxes }));
+  console.log(JSON.stringify({ desktopRows: rowCount, decisionReasons: reasons, mobileOverflow: overflow, mobileControls: boxes }));
 } finally {
   await browser.close();
 }
