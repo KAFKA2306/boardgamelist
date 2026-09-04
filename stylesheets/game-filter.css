@@ -4,7 +4,7 @@
 
 .game-chooser-controls {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
     gap: 0.75rem;
     align-items: end;
     margin: 1rem 0;
@@ -47,7 +47,7 @@
 }
 
 .game-chooser-table-wrap table {
-    min-width: 32rem;
+    min-width: 42rem;
 }
 
 .game-chooser-note,
@@ -56,12 +56,18 @@
     margin: 0.75rem 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
     .game-chooser-controls {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .game-chooser-controls button {
         width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .game-chooser-controls {
+        grid-template-columns: 1fr;
     }
 }
