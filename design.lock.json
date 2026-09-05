@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "designSha": "0a7a3720c37d908721bc29cc42bbc9b7d353df8f",
+  "designSha": "e5163339966b6c89f62580d917634ed80b2acb25",
   "preset": "base",
-  "configHash": "d4d1f4fe6e320f986e87a46f14dbdf77d8698b18e5479b5bcc96778f453b6f37",
-  "manifestHash": "7a3f7fdde4c3cf720db33ba9bba58d777f3f2aff1680a1c2b4d434fa5cba40b4",
+  "configHash": "071c1cf01ff4ec1486878d696fa8dadb0549e116d2f365b2c0bbcb8b09695aad",
+  "manifestHash": "b73b192753684523866aa0eadba34802fe53cf4c63b866c6b7b5b4f27e0b0eef",
   "logoHash": null,
   "installedRegistryItems": [],
   "managedFiles": [
@@ -25,7 +25,7 @@
     },
     {
       "path": "docs/design-managed/conformance-policy.mjs",
-      "sha256": "660f3dcc5e91f5d639eeea078c523ac693b94d25a6489c345addc522cf5bdec1"
+      "sha256": "93c2f7a8f694bbe2092237e73444f050062a5ad40dedf4b298e5211743144d21"
     }
   ],
   "integration": {
