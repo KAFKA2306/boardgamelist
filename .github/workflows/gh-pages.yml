@@ -90,6 +90,15 @@ jobs:
       - name: Build MkDocs site
         run: mkdocs build
 
+      - name: Verify canonical typography authority
+        run: |
+          if grep -R -E 'fonts\.googleapis\.com|fonts\.gstatic\.com' site; then
+            echo 'MkDocs output must not load a second webfont authority' >&2
+            exit 1
+          fi
+          grep -F 'kafka-tokens.css' site/stylesheets/extra.css
+          grep -F 'var(--k-font-family-sans)' site/stylesheets/extra.css
+
       - name: Verify search discovery files
         run: |
           test -f site/robots.txt
