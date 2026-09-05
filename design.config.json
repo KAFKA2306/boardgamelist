@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "designSha": "0a7a3720c37d908721bc29cc42bbc9b7d353df8f",
+  "preset": "base",
+  "cssEntry": "docs/stylesheets/extra.css",
+  "managedDir": "docs/design-managed"
+}
