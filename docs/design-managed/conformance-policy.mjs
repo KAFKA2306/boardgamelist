@@ -64,8 +64,12 @@ function scanCss(errors, consumerRoot, relativePath) {
     if (pattern.test(source)) push(errors, 'forbidden-visual-effect', relativePath, `${name} effect is consumer-owned; use canonical design styles instead`)
   }
 
-  const chartOverride = /(?:^|[;{])\s*(?:stroke|fill)\s*:\s*(?!var\(--k-|none\b|currentColor\b)[^;}]+/gim
-  if (chartOverride.test(source)) push(errors, 'chart-override', relativePath, 'chart stroke/fill styling is outside canonical chart grammar')
+  const chartDeclaration = /(?:^|[;{])\s*(?:stroke|fill)\s*:\s*([^;}]+)/gim
+  for (const match of source.matchAll(chartDeclaration)) {
+    const value = match[1].trim()
+    if (/^(?:var\(--k-[\w-]+\)|none|currentColor)$/i.test(value)) continue
+    push(errors, 'chart-override', relativePath, 'chart stroke/fill styling is outside canonical chart grammar')
+  }
 }
 
 function scanCode(errors, consumerRoot, relativePath) {
