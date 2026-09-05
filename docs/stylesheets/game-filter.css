@@ -1,73 +1,70 @@
 .game-chooser {
-    margin: 1rem 0 2rem;
+  margin: var(--k-dimension-space3) 0 calc(var(--k-dimension-space4) * 2);
 }
 
 .game-chooser-controls {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
-    gap: 0.75rem;
-    align-items: end;
-    margin: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: var(--k-dimension-space3);
+  align-items: end;
+  margin: var(--k-dimension-space3) 0;
 }
 
 .game-chooser-controls label {
-    display: grid;
-    gap: 0.35rem;
-    font-weight: 600;
+  display: grid;
+  gap: var(--k-dimension-space1);
+  color: var(--k-color-foreground);
+  font-weight: 600;
 }
 
 .game-chooser-controls select,
 .game-chooser-controls button {
-    min-height: 44px;
-    width: 100%;
-    padding: 0.55rem 0.7rem;
-    border: 1px solid var(--md-default-fg-color--lighter);
-    border-radius: 0.25rem;
-    background: var(--md-default-bg-color);
-    color: var(--md-default-fg-color);
-    font: inherit;
+  width: 100%;
+  min-height: var(--k-dimension-touch-target);
+  border: 1px solid var(--k-color-border);
+  border-radius: var(--k-dimension-radius);
+  background: var(--k-color-surface);
+  color: var(--k-color-foreground);
+  padding-inline: var(--k-dimension-space2);
+  font: inherit;
 }
 
 .game-chooser-controls button {
-    width: auto;
-    cursor: pointer;
-}
-
-.game-chooser-controls select:focus-visible,
-.game-chooser-controls button:focus-visible,
-.game-chooser-results a:focus-visible {
-    outline: 3px solid var(--md-accent-fg-color);
-    outline-offset: 2px;
+  width: auto;
+  cursor: pointer;
 }
 
 .game-chooser-table-wrap {
-    max-width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .game-chooser-table-wrap table {
-    min-width: 42rem;
+  min-width: 42rem;
 }
 
 .game-chooser-note,
 .game-chooser-empty,
 .game-chooser-error {
-    margin: 0.75rem 0;
+  margin: var(--k-dimension-space2) 0;
 }
 
-@media (max-width: 800px) {
-    .game-chooser-controls {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .game-chooser-controls button {
-        width: 100%;
-    }
+.game-chooser-error {
+  color: var(--k-color-danger);
 }
 
-@media (max-width: 600px) {
-    .game-chooser-controls {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 50rem) {
+  .game-chooser-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .game-chooser-controls button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 37.5rem) {
+  .game-chooser-controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
