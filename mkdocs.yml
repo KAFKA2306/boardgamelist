@@ -19,22 +19,6 @@ theme:
     - search.suggest
     - content.code.copy
     - content.tabs.link
-  palette:
-    - scheme: default
-      primary: pink
-      accent: pink
-      toggle:
-        icon: material/brightness-7
-        name: ダークモードに切り替え
-    - scheme: slate
-      primary: pink
-      accent: pink
-      toggle:
-        icon: material/brightness-4
-        name: ライトモードに切り替え
-  font:
-    text: 'Noto Sans JP'
-    code: 'Roboto Mono'
   icon:
     repo: fontawesome/brands/github
     logo: material/dice-multiple

@@ -1,0 +1,28 @@
+name: Design conformance
+
+on:
+  pull_request:
+    paths:
+      - "design.config.json"
+      - "design.lock.json"
+      - "docs/stylesheets/**"
+      - "docs/design-managed/**"
+      - "mkdocs.yml"
+      - ".github/workflows/design-conformance.yml"
+  push:
+    branches: [main]
+    paths:
+      - "design.config.json"
+      - "design.lock.json"
+      - "docs/stylesheets/**"
+      - "docs/design-managed/**"
+      - "mkdocs.yml"
+      - ".github/workflows/design-conformance.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  design-conformance:
+    uses: KAFKA2306/design/.github/workflows/conformance.yml@e5163339966b6c89f62580d917634ed80b2acb25
