@@ -9,6 +9,7 @@ repo_url: https://github.com/KAFKA2306/boardgamelist
 theme:
   name: material
   language: ja
+  font: false
   features:
     - navigation.tabs
     - navigation.sections
