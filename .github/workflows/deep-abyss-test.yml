@@ -5,6 +5,7 @@ on:
     paths:
       - 'docs/play/deep-abyss/**'
       - 'scripts/test-deep-abyss.mjs'
+      - 'scripts/test-deep-abyss-inquiry.mjs'
       - 'scripts/e2e-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss-two-player.mjs'
       - 'scripts/summarize_playtest_reports.py'
@@ -15,6 +16,7 @@ on:
     paths:
       - 'docs/play/deep-abyss/**'
       - 'scripts/test-deep-abyss.mjs'
+      - 'scripts/test-deep-abyss-inquiry.mjs'
       - 'scripts/e2e-deep-abyss.mjs'
       - 'scripts/e2e-deep-abyss-two-player.mjs'
       - 'scripts/summarize_playtest_reports.py'
@@ -36,7 +38,9 @@ jobs:
         with:
           node-version: '24'
       - name: Run engine regression test
-        run: node scripts/test-deep-abyss.mjs
+        run: |
+          node scripts/test-deep-abyss.mjs
+          node scripts/test-deep-abyss-inquiry.mjs
 
   playtest-report-test:
     runs-on: ubuntu-latest
