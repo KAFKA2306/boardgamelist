@@ -9,7 +9,6 @@
     const timeMin = game?.playtime_minutes?.min;
     const timeMax = game?.playtime_minutes?.max;
     if (![playersMin, playersMax, timeMin, timeMax].every(isKnownNumber)) return false;
-
     if (filters.players !== null && (filters.players < playersMin || filters.players > playersMax)) return false;
     if (filters.maxMinutes !== null && timeMax > filters.maxMinutes) return false;
     if (filters.maxComplexity !== null && (!isKnownNumber(game.complexity) || game.complexity > filters.maxComplexity)) return false;
@@ -43,12 +42,7 @@
   }
 
   function escapeHtml(value) {
-    return String(value ?? '')
-      .replaceAll('&', '&amp;')
-      .replaceAll('<', '&lt;')
-      .replaceAll('>', '&gt;')
-      .replaceAll('"', '&quot;')
-      .replaceAll("'", '&#039;');
+    return String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
   }
 
   function formatRange(range, suffix) {
@@ -88,21 +82,21 @@
         <td>${escapeHtml(matchReason(game, filters))}</td>
       </tr>`).join('');
     const note = totalMatched > games.length
-      ? `<p class="game-chooser-note">${totalMatched}件一致しています。短い最大プレイ時間を優先し、同じ場合は複雑度が低い順に5件表示しています。</p>`
-      : `<p class="game-chooser-note">${totalMatched}件一致しています。短い最大プレイ時間を優先して表示しています。</p>`;
-    container.innerHTML = `${note}
-      <div class="game-chooser-table-wrap">
-        <table>
-          <thead><tr><th>ゲーム</th><th>人数</th><th>時間</th><th>複雑度</th><th>候補の理由</th></tr></thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
+      ? `<p class="game-chooser-note">${totalMatched}件一致。短い最大プレイ時間を優先し、同じ場合は複雑度が低い順に5件表示します。</p>`
+      : `<p class="game-chooser-note">${totalMatched}件一致。短い最大プレイ時間を優先して表示します。</p>`;
+    container.innerHTML = `${note}<div class="game-chooser-table-wrap"><table><thead><tr><th>ゲーム</th><th>人数</th><th>時間</th><th>複雑度</th><th>候補の理由</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  }
+
+  function pageContext(pathname) {
+    const path = pathname.replace(/index\.html$/, '');
+    if (path.endsWith('/games/ja/')) return { catalogUrl: '../../api/v1/games.json', title: '今遊ぶゲームを決める' };
+    if (path.endsWith('/boardgamelist/')) return { catalogUrl: 'api/v1/games.json', title: '人数と時間から今遊ぶゲームを決める' };
+    return null;
   }
 
   async function init() {
-    const path = window.location.pathname.replace(/index\.html$/, '');
-    if (!path.endsWith('/games/ja/')) return;
-
+    const context = pageContext(window.location.pathname);
+    if (!context) return;
     const content = document.querySelector('.md-content__inner');
     if (!content) return;
 
@@ -110,33 +104,12 @@
     section.className = 'game-chooser';
     section.setAttribute('aria-labelledby', 'game-chooser-title');
     section.innerHTML = `
-      <h2 id="game-chooser-title">今遊ぶゲームを決める</h2>
-      <p>正準カタログで確認できた人数・時間・複雑度だけで候補を絞ります。不明な値は推測しません。</p>
+      <h2 id="game-chooser-title">${context.title}</h2>
+      <p>確認済みの人数・時間・複雑度だけで候補を絞ります。不明な値は推測しません。</p>
       <div class="game-chooser-controls">
-        <label>人数
-          <select id="game-chooser-players">
-            <option value="">指定しない</option>
-            ${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">${i + 1}人</option>`).join('')}
-          </select>
-        </label>
-        <label>最大時間
-          <select id="game-chooser-time">
-            <option value="">指定しない</option>
-            <option value="30">30分</option>
-            <option value="45">45分</option>
-            <option value="60">60分</option>
-            <option value="90">90分</option>
-            <option value="120">120分</option>
-          </select>
-        </label>
-        <label>最大複雑度
-          <select id="game-chooser-complexity">
-            <option value="">指定しない</option>
-            <option value="2">2以下</option>
-            <option value="3">3以下</option>
-            <option value="4">4以下</option>
-          </select>
-        </label>
+        <label>人数<select id="game-chooser-players"><option value="">指定しない</option>${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">${i + 1}人</option>`).join('')}</select></label>
+        <label>最大時間<select id="game-chooser-time"><option value="">指定しない</option><option value="30">30分</option><option value="45">45分</option><option value="60">60分</option><option value="90">90分</option><option value="120">120分</option></select></label>
+        <label>最大複雑度<select id="game-chooser-complexity"><option value="">指定しない</option><option value="2">2以下</option><option value="3">3以下</option><option value="4">4以下</option></select></label>
         <button type="button" id="game-chooser-clear">条件を解除</button>
       </div>
       <div id="game-chooser-results" aria-live="polite"><p>候補を読み込んでいます。</p></div>`;
@@ -145,7 +118,7 @@
     const results = section.querySelector('#game-chooser-results');
     let catalog;
     try {
-      const response = await fetch(new URL('../../api/v1/games.json', window.location.href), { cache: 'no-store' });
+      const response = await fetch(new URL(context.catalogUrl, window.location.href), { cache: 'no-store' });
       if (!response.ok) throw new Error(`catalog HTTP ${response.status}`);
       catalog = await response.json();
       if (!Array.isArray(catalog.games)) throw new Error('catalog games is not an array');
@@ -170,9 +143,7 @@
         maxComplexity: complexitySelect.value === '' ? null : Number(complexitySelect.value),
       };
       writeFilters(filters);
-      const matched = catalog.games
-        .filter((game) => matchesGame(game, filters))
-        .sort(compareGames);
+      const matched = catalog.games.filter((game) => matchesGame(game, filters)).sort(compareGames);
       renderGames(results, matched.slice(0, 5), matched.length, filters);
     };
 
@@ -189,7 +160,7 @@
     update();
   }
 
-  globalThis.GameChooserCore = { matchesGame, readFilters, matchReason, compareGames };
+  globalThis.GameChooserCore = { matchesGame, readFilters, matchReason, compareGames, pageContext };
   if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
     else init();
