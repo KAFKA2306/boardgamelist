@@ -94,6 +94,18 @@
     return null;
   }
 
+  function placeChooserAfterPageIntro(content, section) {
+    const pageTitle = content.querySelector('h1');
+    if (!pageTitle) {
+      console.error('Game Chooser requires a page h1 before the decision surface');
+      return false;
+    }
+    let anchor = pageTitle;
+    while (anchor.nextElementSibling?.tagName === 'P') anchor = anchor.nextElementSibling;
+    anchor.insertAdjacentElement('afterend', section);
+    return true;
+  }
+
   async function init() {
     const context = pageContext(window.location.pathname);
     if (!context) return;
@@ -113,7 +125,7 @@
         <button type="button" id="game-chooser-clear">条件を解除</button>
       </div>
       <div id="game-chooser-results" aria-live="polite"><p>候補を読み込んでいます。</p></div>`;
-    content.insertBefore(section, content.firstChild);
+    if (!placeChooserAfterPageIntro(content, section)) return;
 
     const results = section.querySelector('#game-chooser-results');
     let catalog;
@@ -160,7 +172,7 @@
     update();
   }
 
-  globalThis.GameChooserCore = { matchesGame, readFilters, matchReason, compareGames, pageContext };
+  globalThis.GameChooserCore = { matchesGame, readFilters, matchReason, compareGames, pageContext, placeChooserAfterPageIntro };
   if (typeof document !== 'undefined') {
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
     else init();
