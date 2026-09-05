@@ -16,6 +16,27 @@ try {
   assert(await desktop.locator('#game-chooser-title').count() === 1, '見出しがありません');
   assert(await chooser.getAttribute('aria-labelledby') === 'game-chooser-title', 'Game Chooserの見出し参照が不正です');
   assert(await desktop.locator('#game-chooser-results').getAttribute('aria-live') === 'polite', '結果領域がaria-liveになっていません');
+
+  const hierarchy = await desktop.locator('.md-content__inner').evaluate((content) => {
+    const h1 = content.querySelector('h1');
+    const chooserSection = content.querySelector('.game-chooser');
+    const introParagraphs = [];
+    let node = h1?.nextElementSibling;
+    while (node?.tagName === 'P') {
+      introParagraphs.push(node);
+      node = node.nextElementSibling;
+    }
+    return {
+      hasH1: Boolean(h1),
+      h1BeforeChooser: Boolean(h1 && chooserSection && (h1.compareDocumentPosition(chooserSection) & Node.DOCUMENT_POSITION_FOLLOWING)),
+      introBeforeChooser: introParagraphs.every((paragraph) => paragraph.compareDocumentPosition(chooserSection) & Node.DOCUMENT_POSITION_FOLLOWING),
+      introCount: introParagraphs.length,
+    };
+  });
+  assert(hierarchy.hasH1, 'ページのh1がありません');
+  assert(hierarchy.h1BeforeChooser, `ページ名より先にGame Chooserが表示されています: ${JSON.stringify(hierarchy)}`);
+  assert(hierarchy.introBeforeChooser, `ページ説明より先にGame Chooserが表示されています: ${JSON.stringify(hierarchy)}`);
+
   assert(await desktop.locator('#game-chooser-players').inputValue() === '2', '人数をURLから復元できません');
   assert(await desktop.locator('#game-chooser-time').inputValue() === '60', '最大時間をURLから復元できません');
   assert(await desktop.locator('#game-chooser-complexity').inputValue() === '3', '最大複雑度をURLから復元できません');
@@ -63,7 +84,7 @@ try {
   assert(await controls.evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length) === 1,
     'スマホ幅で操作欄が1列になっていません');
 
-  console.log(JSON.stringify({ desktopRows: rowCount, decisionReasons: reasons, mobileOverflow: overflow, mobileControls: boxes }));
+  console.log(JSON.stringify({ desktopRows: rowCount, decisionReasons: reasons, hierarchy, mobileOverflow: overflow, mobileControls: boxes }));
 } finally {
   await browser.close();
 }
