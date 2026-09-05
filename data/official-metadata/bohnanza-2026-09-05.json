@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "game_id": "game:bohnanza",
+  "observed_at": "2026-09-05",
+  "source": {
+    "publisher": "AMIGO Games",
+    "url": "https://www.amigo.games/product/bohnanza/",
+    "source_kind": "publisher-official-product-page",
+    "access_condition": "public-web"
+  },
+  "edition": {
+    "name": "Bohnanza",
+    "item_number": 21757,
+    "designer": "Uwe Rosenberg",
+    "players_min": 3,
+    "players_max": 7,
+    "age_min": 13,
+    "duration_minutes": 45,
+    "base_game_cards": 104,
+    "expansion_cards": 50,
+    "bean_mats": 7,
+    "notes": "Current AMIGO product page separates the 104-card base game from a 50-card expansion and lists 3-7 players. The linked rules are Rule Bohnanza [ZA RULES 8.21]. The 25th Anniversary Edition is treated as a distinct edition."
+  },
+  "license_note": "Product page and rulebook copyright remain with AMIGO Games. This repository stores factual metadata and provenance only."
+}

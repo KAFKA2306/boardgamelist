@@ -43,7 +43,7 @@ nav:
   - ホーム: index.md
   - ゲーム詳細:
     - カードゲーム:
-      - BOHNANZA (ボーナンザ): games/ja/bohnanza.md
+      - BOHNANZA (ボーナンザ): games/bohnanza.md
       - FIXER (フィクサー): games/ja/fixer.md
       - コンセプト (Concept): games/ja/concept.md
     - デッキ構築:
