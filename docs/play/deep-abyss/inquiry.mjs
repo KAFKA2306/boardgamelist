@@ -10,6 +10,8 @@ export function buildPlaytestInquiryUrl(href, summary) {
   const sessionId = sessionIdFromHref(href);
   const url = new URL('https://github.com/KAFKA2306/boardgamelist/issues/new');
   url.searchParams.set('template', 'playtest-inquiry.yml');
+  url.searchParams.set('game', '深淵侵蝕（試遊済み）');
+  url.searchParams.set('purpose', 'この試遊結果をもとに、自作品のブラウザ試遊化または試遊分析を相談したい。');
   url.searchParams.set('session', sessionId);
   if (summary) url.searchParams.set('scope', summary);
   return url.toString();
