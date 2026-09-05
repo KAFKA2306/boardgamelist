@@ -29,6 +29,8 @@ const inquiry = new URL(buildPlaytestInquiryUrl(original.toString(), summary));
 assert.equal(inquiry.origin, 'https://github.com');
 assert.equal(inquiry.pathname, '/KAFKA2306/boardgamelist/issues/new');
 assert.equal(inquiry.searchParams.get('template'), 'playtest-inquiry.yml');
+assert.equal(inquiry.searchParams.get('game'), '深淵侵蝕（試遊済み）');
+assert.equal(inquiry.searchParams.get('purpose'), 'この試遊結果をもとに、自作品のブラウザ試遊化または試遊分析を相談したい。');
 assert.equal(inquiry.searchParams.get('session'), sessionId);
 assert.equal(inquiry.searchParams.get('scope'), summary);
 assert.equal(inquiry.searchParams.has('body'), false, 'canonical Issue Form is used instead of a free-form issue body');
@@ -37,4 +39,10 @@ assert.doesNotMatch(inquiry.toString(), /comment=/, 'free-text survey comment is
 const html = fs.readFileSync(path.join(repo, 'docs/play/deep-abyss/index.html'), 'utf8');
 assert.match(html, /type="module" src="\.\/inquiry\.mjs\?v=1"/);
 
-console.log(JSON.stringify({ template: inquiry.searchParams.get('template'), sessionId, summary }, null, 2));
+console.log(JSON.stringify({
+  template: inquiry.searchParams.get('template'),
+  game: inquiry.searchParams.get('game'),
+  purpose: inquiry.searchParams.get('purpose'),
+  sessionId,
+  summary,
+}, null, 2));
