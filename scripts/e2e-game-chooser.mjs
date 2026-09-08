@@ -48,6 +48,11 @@ try {
   const reasons = await desktop.locator('#game-chooser-results tbody td:last-child').allTextContents();
   assert(reasons.every((value) => value.includes('2人で遊べる') && value.includes('最大') && value.includes('複雑度')),
     `候補理由が条件を説明していません: ${JSON.stringify(reasons)}`);
+  const primary = desktop.locator('.game-chooser-primary');
+  assert(await primary.count() === 1, '最優先候補が1件に決まりません');
+  assert((await primary.textContent()).includes('まず遊ぶ候補:'), '最優先候補の意味が表示されていません');
+  const firstRowHref = await rows.first().locator('th a').getAttribute('href');
+  assert(await primary.locator('a').getAttribute('href') === firstRowHref, '最優先候補が比較順位1位と一致しません');
 
   await desktop.locator('#game-chooser-players').focus();
   await desktop.keyboard.press('Tab');
