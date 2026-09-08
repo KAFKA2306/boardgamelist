@@ -73,6 +73,10 @@
       container.innerHTML = '<p class="game-chooser-empty" role="status">条件に合う、確認済みデータを持つゲームはありません。条件を広げてください。</p>';
       return;
     }
+    const [primary] = games;
+    const primaryTitle = escapeHtml(primary.japanese_title || primary.title);
+    const primaryReason = escapeHtml(matchReason(primary, filters));
+    const primaryAction = `<p class="game-chooser-primary"><strong>まず遊ぶ候補: ${primaryTitle}</strong><br>${primaryReason}<br><a href="${escapeHtml(primary.guide_url)}">${primaryTitle}のルールを確認する</a></p>`;
     const rows = games.map((game) => `
       <tr>
         <th scope="row"><a href="${escapeHtml(game.guide_url)}">${escapeHtml(game.japanese_title || game.title)}</a></th>
@@ -82,9 +86,9 @@
         <td>${escapeHtml(matchReason(game, filters))}</td>
       </tr>`).join('');
     const note = totalMatched > games.length
-      ? `<p class="game-chooser-note">${totalMatched}件一致。短い最大プレイ時間を優先し、同じ場合は複雑度が低い順に5件表示します。</p>`
-      : `<p class="game-chooser-note">${totalMatched}件一致。短い最大プレイ時間を優先して表示します。</p>`;
-    container.innerHTML = `${note}<div class="game-chooser-table-wrap"><table><thead><tr><th>ゲーム</th><th>人数</th><th>時間</th><th>複雑度</th><th>候補の理由</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+      ? `<p class="game-chooser-note">${totalMatched}件一致。最大プレイ時間が短い順、同じ場合は複雑度が低い順に候補を並べています。</p>`
+      : `<p class="game-chooser-note">${totalMatched}件一致。最大プレイ時間が短い順に候補を並べています。</p>`;
+    container.innerHTML = `${primaryAction}${note}<div class="game-chooser-table-wrap"><table><thead><tr><th>ゲーム</th><th>人数</th><th>時間</th><th>複雑度</th><th>候補の理由</th></tr></thead><tbody>${rows}</tbody></table></div>`;
   }
 
   function pageContext(pathname) {
