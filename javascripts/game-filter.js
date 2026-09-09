@@ -122,6 +122,11 @@
     section.innerHTML = `
       <h2 id="game-chooser-title">${context.title}</h2>
       <p>確認済みの人数・時間・複雑度だけで候補を絞ります。不明な値は推測しません。</p>
+      <div class="game-chooser-controls game-chooser-presets" aria-label="よくある条件">
+        <button type="button" data-preset-players="2" data-preset-time="30" data-preset-complexity="2">2人・30分・軽め</button>
+        <button type="button" data-preset-players="4" data-preset-time="60" data-preset-complexity="3">4人・60分</button>
+        <button type="button" data-preset-players="6" data-preset-time="90" data-preset-complexity="3">6人・90分</button>
+      </div>
       <div class="game-chooser-controls">
         <label>人数<select id="game-chooser-players"><option value="">指定しない</option>${Array.from({ length: 12 }, (_, i) => `<option value="${i + 1}">${i + 1}人</option>`).join('')}</select></label>
         <label>最大時間<select id="game-chooser-time"><option value="">指定しない</option><option value="30">30分</option><option value="45">45分</option><option value="60">60分</option><option value="90">90分</option><option value="120">120分</option></select></label>
@@ -166,6 +171,12 @@
     playersSelect.addEventListener('change', update);
     timeSelect.addEventListener('change', update);
     complexitySelect.addEventListener('change', update);
+    section.querySelectorAll('[data-preset-players]').forEach((button) => button.addEventListener('click', () => {
+      playersSelect.value = button.dataset.presetPlayers;
+      timeSelect.value = button.dataset.presetTime;
+      complexitySelect.value = button.dataset.presetComplexity;
+      update();
+    }));
     section.querySelector('#game-chooser-clear').addEventListener('click', () => {
       playersSelect.value = '';
       timeSelect.value = '';
