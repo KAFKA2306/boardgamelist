@@ -54,6 +54,18 @@ try {
   const firstRowHref = await rows.first().locator('th a').getAttribute('href');
   assert(await primary.locator('a').getAttribute('href') === firstRowHref, '最優先候補が比較順位1位と一致しません');
 
+  const preset = desktop.getByRole('button', { name: '4人・60分' });
+  assert(await preset.count() === 1, '4人・60分のワンクリック条件がありません');
+  await preset.click();
+  assert(await desktop.locator('#game-chooser-players').inputValue() === '4', 'プリセットが人数を反映していません');
+  assert(await desktop.locator('#game-chooser-time').inputValue() === '60', 'プリセットが最大時間を反映していません');
+  assert(await desktop.locator('#game-chooser-complexity').inputValue() === '3', 'プリセットが複雑度を反映していません');
+  const presetUrl = new URL(desktop.url());
+  assert(presetUrl.searchParams.get('players') === '4', 'プリセット条件がURLのplayersへ反映されていません');
+  assert(presetUrl.searchParams.get('maxMinutes') === '60', 'プリセット条件がURLのmaxMinutesへ反映されていません');
+  assert(presetUrl.searchParams.get('maxComplexity') === '3', 'プリセット条件がURLのmaxComplexityへ反映されていません');
+  assert((await primary.textContent()).includes('4人で遊べる'), 'プリセット後の最優先候補が4人条件を説明していません');
+
   await desktop.locator('#game-chooser-players').focus();
   await desktop.keyboard.press('Tab');
   assert(await desktop.locator('#game-chooser-time').evaluate((el) => el === document.activeElement), 'Tabで最大時間へ移動できません');
@@ -78,7 +90,7 @@ try {
   assert(overflow.body <= overflow.viewport && overflow.root <= overflow.viewport,
     `スマホ幅でページ全体が横にはみ出しています: ${JSON.stringify(overflow)}`);
 
-  const controls = mobile.locator('.game-chooser-controls');
+  const controls = mobile.locator('.game-chooser-controls').last();
   const boxes = await Promise.all([
     mobile.locator('#game-chooser-players').boundingBox(),
     mobile.locator('#game-chooser-time').boundingBox(),
@@ -88,8 +100,10 @@ try {
   assert(boxes.every((box) => box && box.width >= 300 && box.height >= 44), `スマホ操作領域が不足しています: ${JSON.stringify(boxes)}`);
   assert(await controls.evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length) === 1,
     'スマホ幅で操作欄が1列になっていません');
+  const presetBoxes = await mobile.locator('.game-chooser-presets button').evaluateAll((buttons) => buttons.map((button) => ({ width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height })));
+  assert(presetBoxes.length === 3 && presetBoxes.every((box) => box.width >= 300 && box.height >= 44), `スマホのワンクリック条件が操作しにくいです: ${JSON.stringify(presetBoxes)}`);
 
-  console.log(JSON.stringify({ desktopRows: rowCount, decisionReasons: reasons, hierarchy, mobileOverflow: overflow, mobileControls: boxes }));
+  console.log(JSON.stringify({ desktopRows: rowCount, decisionReasons: reasons, hierarchy, preset: { players: 4, maxMinutes: 60, maxComplexity: 3 }, mobileOverflow: overflow, mobileControls: boxes, mobilePresets: presetBoxes }));
 } finally {
   await browser.close();
 }
