@@ -36,6 +36,10 @@ https://kafka2306.github.io/boardgamelist/
 
 MkDocs、ontology、browser gameは価値そのものではありません。これらは、速く調べても古い版や非公式解釈を現行裁定へ誤昇格させないための手段です。
 
+## Compute-scaling boundary
+
+Use additional retrieval depth or interchangeable local OSS models only if edition-specific gold queries show gains in official-source precision, page/section citation accuracy and ambiguity handling. Evaluate the same game, edition, language and expansion with a frozen source snapshot; track unsupported rules, latency and memory. Do not infer official rulings from language-model confidence, merge incompatible editions or bypass reproducible playable-demo checks. Keep the cheaper retrieval baseline unless quality is demonstrably higher.
+
 ## Rule discovery journey
 
 ```text
