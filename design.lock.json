@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "designSha": "e5163339966b6c89f62580d917634ed80b2acb25",
+  "designSha": "a43543d5172caf35547b06e86e093cfcb8a9deaf",
   "preset": "base",
-  "configHash": "071c1cf01ff4ec1486878d696fa8dadb0549e116d2f365b2c0bbcb8b09695aad",
-  "manifestHash": "b73b192753684523866aa0eadba34802fe53cf4c63b866c6b7b5b4f27e0b0eef",
+  "configHash": "e003ca69d6cf21627b1cdc92738093d826b06d310def4266751f1ede5ae3c689",
+  "manifestHash": "ea5abc85e024ef5596297586fecbdafe5aad037fba55ea74cdd1f7c1e083844f",
   "logoHash": null,
   "installedRegistryItems": [],
   "managedFiles": [
@@ -17,7 +17,7 @@
     },
     {
       "path": "docs/design-managed/kafka-components.css",
-      "sha256": "6236943bda6adc5bbd82f6fee9f600b1cffd1d25bc515b64843b5b7f51fd0cde"
+      "sha256": "e1282d56bfb343c0422763dc24c95c6a1e45f828facb2a4f42738076bdccb7e7"
     },
     {
       "path": "docs/design-managed/portable-conformance.mjs",
