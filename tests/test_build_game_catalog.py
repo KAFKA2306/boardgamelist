@@ -47,6 +47,12 @@ class CatalogBuilderTests(unittest.TestCase):
             self.assertEqual(catalog["games"][0]["players"]["min"], 2)
             self.assertEqual(catalog["games"][0]["players"]["max"], 2)
             self.assertEqual(catalog["games"][0]["locales"], ["en", "ja"])
+            # Legacy front matter may describe the editor, not every visitor.
+            self.assertNotIn("ownership", catalog["games"][0])
+            # An undated BGA flag must not become a current availability claim.
+            self.assertNotIn("bga_available", catalog["games"][0])
+            self.assertEqual(manifest["source"]["excluded_personal_fields"], ["ownership"])
+            self.assertEqual(manifest["source"]["excluded_unverified_availability_fields"], ["bga_available"])
             self.assertIn("bgg-rating-observation-date-missing", catalog["games"][0]["quality_flags"])
 
             payload = (output / "games.json").read_bytes()
