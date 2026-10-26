@@ -13,3 +13,6 @@ tags: ["index", "games-list", "navigation"]
 人数・時間が確認できないゲームは推測して候補へ入れません。各ゲームの詳細ページでは、確認できた出典と版を分けて掲載します。
 
 一覧のゲーム件数、人数、時間、複雑度はこのページへ手入力せず、`api/v1/games.json` から取得します。
+
+<!-- Static machine-readable marker for post-deploy Game Chooser verification. -->
+<span id="game-chooser-contract" data-contract="canonical-catalog-v1" hidden></span>
