@@ -11,6 +11,8 @@ on:
       - 'scripts/build_game_catalog.py'
       - 'scripts/test-game-filter.mjs'
       - 'scripts/e2e-game-chooser.mjs'
+      - 'scripts/verify_deployed_game_chooser.py'
+      - 'tests/test_verify_deployed_game_chooser.py'
       - '.github/workflows/gh-pages.yml'
   push:
     branches: [ main ]
@@ -121,6 +123,9 @@ jobs:
           done
           node scripts/e2e-game-chooser.mjs
 
+      - name: Test production read-back contract
+        run: python -m unittest discover -s tests -p 'test_verify_deployed_game_chooser.py'
+
       - name: Configure git
         if: github.event_name == 'push'
         run: |
@@ -130,3 +135,7 @@ jobs:
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'
         run: mkdocs gh-deploy --force
+
+      - name: Verify deployed Game Chooser and catalog
+        if: github.event_name == 'push'
+        run: python scripts/verify_deployed_game_chooser.py --site site --attempts 8 --interval 10 --timeout 8
