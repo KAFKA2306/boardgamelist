@@ -9,6 +9,7 @@ on:
       - 'requirements.txt'
       - 'scripts/audit_game_metadata.py'
       - 'scripts/build_game_catalog.py'
+      - 'tests/test_build_game_catalog.py'
       - 'scripts/test-game-filter.mjs'
       - 'scripts/e2e-game-chooser.mjs'
       - 'scripts/verify_deployed_game_chooser.py'
@@ -56,6 +57,9 @@ jobs:
 
       - name: Build catalog API into MkDocs source
         run: python scripts/build_game_catalog.py --games-dir docs/games --output-dir docs/api/v1
+
+      - name: Test canonical catalog boundary
+        run: python -m unittest discover -s tests -p 'test_build_game_catalog.py'
 
       - name: Verify catalog API before deploy
         run: |

@@ -14,5 +14,7 @@ tags: ["index", "games-list", "navigation"]
 
 一覧のゲーム件数、人数、時間、複雑度はこのページへ手入力せず、`api/v1/games.json` から取得します。
 
+ゲームを所持しているかは利用者ごとの状態であり、共通カタログには含めません。BGAで現在遊べるかも、確認日時のない記録から推測せず「不明」として扱い、絞り込み条件には使用しません。
+
 <!-- Static machine-readable marker for post-deploy Game Chooser verification. -->
 <span id="game-chooser-contract" data-contract="canonical-catalog-v1" hidden></span>
