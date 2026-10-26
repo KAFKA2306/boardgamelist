@@ -80,8 +80,6 @@ def _record(path: Path, games_dir: Path) -> dict[str, Any]:
         "designer": _list(metadata.get("designer")),
         "publisher": _list(metadata.get("publisher")),
         "awards": _list(metadata.get("awards")),
-        "ownership": metadata.get("ownership"),
-        "bga_available": metadata.get("bga_available"),
         "locales": locales,
         "guide_url": f"https://kafka2306.github.io/boardgamelist/games/{slug}/",
         "provenance": {
@@ -185,6 +183,9 @@ def build(games_dir: Path, output_dir: Path) -> dict[str, Any]:
             "path": games_dir.as_posix(),
             "canonical_policy": "top-level Markdown is one game; docs/games/ja is a locale view of the same entity",
             "external_metadata_policy": "No BGG rating/rank payload is redistributed by this API. Existing BGG IDs are emitted only as reference identifiers and links from repository metadata.",
+            "excluded_personal_fields": ["ownership"],
+            "excluded_unverified_availability_fields": ["bga_available"],
+            "filter_state_owner": "browser URL query parameters; never shared canonical game data",
         },
         "files": {
             name: {"bytes": len(payload), "sha256": _sha256(payload)}
