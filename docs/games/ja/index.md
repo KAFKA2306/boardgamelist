@@ -23,5 +23,5 @@ tags: ["index", "games-list", "navigation"]
 ## 出版社の資料を確認できるルールガイド
 
 * [フォート](fort.md) - フォートのセットアップと手番を調べる日本語ガイド。
-* [Sky Team](sky-team.md) - Sky Teamのセットアップと着陸手順を調べる日本語ガイド。
+* [Sky Team](sky-team.md) - Sky Teamの日本語ガイド。ラウンド数の記述は公式資料との照合が必要です。
 * [ウイングスパン](wingspan.md) - ウイングスパンのセットアップと各アクションを調べる日本語ガイド。

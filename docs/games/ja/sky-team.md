@@ -1,6 +1,7 @@
 ---
 type: "Rule Guide"
-description: "Sky Teamのセットアップと着陸手順を調べる日本語ガイド。"
+status: "draft"
+description: "Sky Teamの日本語ガイド。ラウンド数の記述は公式資料との照合が必要です。"
 sources:
   - id: scorpion-masque-sky-team-rules
     resource: "https://www.scorpionmasque.com/sites/scorpionmasque.com/files/st_rules01_en_06jun2023.pdf"
