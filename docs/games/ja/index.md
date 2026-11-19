@@ -1,7 +1,8 @@
 ---
+okf_version: "0.3"
 title: "ゲーム一覧"
 japanese_title: "ボードゲーム一覧"
-description: "人数と時間から、出典付きの正準カタログに登録されたゲームを比較できます。"
+description: "人数と時間からゲームを比較し、出版社の資料を確認できる日本語ルールガイドを探せます。"
 layout: "games-index"
 tags: ["index", "games-list", "navigation"]
 ---
@@ -18,3 +19,9 @@ tags: ["index", "games-list", "navigation"]
 
 <!-- Static machine-readable marker for post-deploy Game Chooser verification. -->
 <span id="game-chooser-contract" data-contract="canonical-catalog-v1" hidden></span>
+
+## 出版社の資料を確認できるルールガイド
+
+* [フォート](fort.md) - フォートのセットアップと手番を調べる日本語ガイド。
+* [Sky Team](sky-team.md) - Sky Teamのセットアップと着陸手順を調べる日本語ガイド。
+* [ウイングスパン](wingspan.md) - ウイングスパンのセットアップと各アクションを調べる日本語ガイド。

@@ -1,4 +1,13 @@
 ---
+type: "Rule Guide"
+description: "フォートのセットアップと手番を調べる日本語ガイド。"
+sources:
+  - id: leder-fort-rules
+    resource: "https://cdn.shopify.com/s/files/1/0106/0162/7706/files/Fort_Final_Rulebook_web_Oct_15_2020.pdf?v=1603136739"
+    title: "Leder Games・Fort 公式ルール（英語）"
+generated:
+  by: "openai/chatgpt"
+  at: "2026-11-19T11:02:33Z"
 title: "FORT"
 japanese_title: "フォート"
 players: "2-4"
@@ -168,6 +177,7 @@ FORTは子ども時代の友情と秘密基地作りをテーマにした魅力�
 
 ## 外部リンク
 
+- 出版社の公式資料でルールを確認できます。[^leder-fort-rules]
 - **[BoardGameGeek](https://boardgamegeek.com/boardgame/296912/fort)** - レビュー、評価、コミュニティ討論  
 - **[Board Game Arena](https://en.boardgamearena.com/gamepanel?game=fort)** - オンラインでプレイ
 - **[プレイ方法動画](https://www.youtube.com/results?search_query=fort+board+game+how+to+play)** - ゲームを学ぶ
@@ -176,3 +186,5 @@ FORTは子ども時代の友情と秘密基地作りをテーマにした魅力�
 ---
 
 *FORTはGrant Rodiek氏によるゲームで、Leder Gamesから出版されています。このドキュメントは教育目的のためのものです。*
+
+[^leder-fort-rules]: [Leder Games・Fort 公式ルール（英語）](https://cdn.shopify.com/s/files/1/0106/0162/7706/files/Fort_Final_Rulebook_web_Oct_15_2020.pdf?v=1603136739)

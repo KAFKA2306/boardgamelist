@@ -1,4 +1,13 @@
 ---
+type: "Rule Guide"
+description: "Sky Teamのセットアップと着陸手順を調べる日本語ガイド。"
+sources:
+  - id: scorpion-masque-sky-team-rules
+    resource: "https://www.scorpionmasque.com/sites/scorpionmasque.com/files/st_rules01_en_06jun2023.pdf"
+    title: "Scorpion Masqué・Sky Team Landing Procedure（英語）"
+generated:
+  by: "openai/chatgpt"
+  at: "2026-11-19T11:02:33Z"
 title: "Sky Team"
 japanese_title: "スカイチーム"
 players: "2"
@@ -212,6 +221,8 @@ Sky Teamは、最終アプローチと着陸シーケンスを表す正確に**8
 
 ## 外部リンク
 
+- 出版社の公式資料でルールを確認できます。[^scorpion-masque-sky-team-rules]
+
 ### 公式リソース
 - [BoardGameGeekページ](https://boardgamegeek.com/boardgame/373106/sky-team) - レビュー、ルール議論、コミュニティコンテンツ
 - [Board Game Arena](https://en.boardgamearena.com/gamepanel?game=skyteam) - ルール強制でオンラインプレイ
@@ -231,3 +242,5 @@ Sky Teamは、最終アプローチと着陸シーケンスを表す正確に**8
 ---
 
 *Sky Teamドキュメント最終更新: 2025年8月 | BGGデータは48時間以内に検証済み*
+
+[^scorpion-masque-sky-team-rules]: [Scorpion Masqué・Sky Team Landing Procedure（英語）](https://www.scorpionmasque.com/sites/scorpionmasque.com/files/st_rules01_en_06jun2023.pdf)

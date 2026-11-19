@@ -1,4 +1,13 @@
 ---
+type: "Rule Guide"
+description: "ウイングスパンのセットアップと各アクションを調べる日本語ガイド。"
+sources:
+  - id: stonemaier-wingspan
+    resource: "https://store.stonemaiergames.com/collections/all/products/wingspan"
+    title: "Stonemaier Games・Wingspan 英語版とルール資料"
+generated:
+  by: "openai/chatgpt"
+  at: "2026-11-19T11:02:33Z"
 title: "Wingspan"
 japanese_title: "ウイングスパン"
 players: "1-5"
@@ -307,6 +316,7 @@ Wingspanには充実したソロモードが含まれています：
 
 ## 外部リンク
 
+- 出版社の公式資料でルールを確認できます。[^stonemaier-wingspan]
 - **[BoardGameGeek](https://boardgamegeek.com/boardgame/266192/wingspan)** - レビュー、評価、コミュニティ討論
 - **[Board Game Arena](https://en.boardgamearena.com/gamepanel?game=wingspan)** - オンラインでプレイ
 - **[プレイ方法動画](https://www.youtube.com/watch?v=lgDgcLI2B0U)** - Watch It Played チュートリアル
@@ -363,3 +373,5 @@ thematic_integration:
 </div>
 
 *Wingspanは、Elizabeth Hargrave氏によってデザインされ、Stonemaier Gamesから出版されているゲームです。このドキュメントは教育目的のためのものです。*
+
+[^stonemaier-wingspan]: [Stonemaier Games・Wingspan 英語版とルール資料](https://store.stonemaiergames.com/collections/all/products/wingspan)

@@ -121,7 +121,7 @@ def audit(paths: Iterable[Path]) -> dict[str, Any]:
     scanned = 0
 
     for path in sorted(paths, key=lambda item: item.as_posix()):
-        if path.name == "index.md":
+        if path.name in {"index.md", "log.md"}:
             continue
         scanned += 1
         text = path.read_text(encoding="utf-8")

@@ -9,6 +9,8 @@ https://kafka2306.github.io/boardgamelist/
 
 版、拡張、言語、出版社FAQ、翻訳、コミュニティ解釈では、同じ名前のゲームでも適用範囲が違います。BoardGameList は、その差を消さずに **「いま確認したい版のルールへ、出典付きで短く到達する」** ための非公式ルールガイドです。
 
+日本語ルールガイドの出典は[ゲーム一覧](docs/games/ja/index.md)から開けます。Obsidianでは `docs/games/ja` を保管庫として開き、`[type:"Rule Guide"]` や `tag:#deck-building` で検索できます。
+
 ## Vision
 
 プレイ前・プレイ中のルール確認を、**検索結果を何ページも読み比べる作業から、「この版ではどうするか」を根拠付きで判断できる体験**へ変えます。
