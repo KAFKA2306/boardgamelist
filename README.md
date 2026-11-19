@@ -149,10 +149,8 @@ requirements.txt
 
 ## Done
 
-成功指標は収録game数ではありません。
-
-**プレイ中の利用者が、今の版に使えるruleへ短く到達し、その説明が公式・clarification・translation・community interpretationのどれで、どのsourceへ戻ればよいか判断できること**をDoneとします。
+利用者がプレイ中に確認する項目は [Vision](#vision) にまとめています。
 
 ## License / rights
 
-code licenseは`LICENSE`を参照してください。game名称、rule、画像等の権利は各権利者に帰属します。
+ゲーム名、ルール、画像などの権利は各権利者に帰属します。
