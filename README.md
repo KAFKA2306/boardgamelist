@@ -121,6 +121,8 @@ pip install -r requirements.txt
 mkdocs serve
 ```
 
+`mkdocs build` で `docs/` から `site/` に出力します。生成した `site/` はGitの追跡対象から除外しています。
+
 深淵侵蝕はrepository内のNode.js test / E2E scriptも使用します。
 
 ## Repository map
